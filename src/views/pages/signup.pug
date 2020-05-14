@@ -1,0 +1,22 @@
+extends ../layout.pug
+
+block append content
+  main.signup
+    .register-form
+      h1 Crea una cuenta
+      form(action="/signup" method="POST")
+        .input-form
+          label(for="name") Name
+          input(type="text" id="name" name="firstName")
+        .input-form
+          label(for="email") Email
+          input(type="text" id="email" name="email")
+        .input-form
+          label(for="password") Password
+          input(type="text" id="password" name="password")
+        .input-form
+          label(for="repeatPassword") Repeat Password
+          input(type="text" id="repeatPassword" name="repeatPassword")
+        .input-submit
+          input(type="submit", value="Registrarme")
+          a(href="/signin") ¿Ya tienes cuenta?
