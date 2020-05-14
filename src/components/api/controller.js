@@ -49,9 +49,23 @@ const signin = async (req, res, next) => {
   }
 };
 
+
+const login = async (req, res, next) => {
+  const user = req.body;
+  try {
+    await service.logged(user);
+    res.render('pages/signin');
+  } catch (err) {
+    error(err.message);
+    next(err);
+  }
+};
+
+
 module.exports = {
   index,
   signup,
   register,
   signin,
+  login,
 };
