@@ -7,6 +7,9 @@ const API = (app) => {
   app.use('/', router);
 
   router.get('/', controller.index);
+  router.get('/signup', controller.signup);
+  router.post('/signup', controller.register);
+  router.get('/signin', controller.signin);
 };
 
 module.exports = API;
