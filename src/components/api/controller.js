@@ -2,13 +2,11 @@ const service = require('./service');
 const { error } = require('../../utils/debug');
 
 const index = async (req, res, next) => {
-  const { user } = req.query;
   try {
-    if (user) return res.render('pages/home');
-    return res.redirect('/signup');
+    res.render('pages/home');
   } catch (err) {
     error(err);
-    return next(err);
+    next(err);
   }
 };
 
@@ -53,8 +51,9 @@ const signin = async (req, res, next) => {
 const login = async (req, res, next) => {
   const user = req.body;
   try {
-    await service.logged(user);
-    res.render('pages/signin');
+    const token = await service.logged(user);
+    req.session.user = token;
+    res.redirect('/');
   } catch (err) {
     error(err.message);
     next(err);

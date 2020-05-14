@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../../models/user');
 const buildParams = require('../../utils/buildParams');
+const config = require('../../config');
 
 const validUserParams = (user) => {
   const validAndRequireParams = ['firstName', 'email', 'password', 'repeatPassword'];
@@ -57,7 +59,11 @@ const logged = async (user) => {
     firstName: existedUser.firstName,
   };
 
-  return payload;
+  const token = jwt.sign(payload, config.srv.secretJWT, {
+    expiresIn: '59min',
+  });
+
+  return token;
 };
 
 module.exports = {

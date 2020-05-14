@@ -6,6 +6,7 @@ const config = {
     port: process.env.PORT || 3000,
     logPrefix: process.env.LOG_PREFIX || 'app',
     secretSession: process.env.SECRET_SESSION,
+    secretJWT: process.env.SECRET_JTW,
   },
   db: {
     host: process.env.DB_HOST,
