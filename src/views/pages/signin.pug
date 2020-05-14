@@ -3,6 +3,9 @@ extends ../layout.pug
 block append content
   main.signin
     .register-form
+      if messages
+        each msg in messages
+          p= msg
       h1 Iniciar Sesion
       form(action="/signin" method="POST")
         .input-form

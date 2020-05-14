@@ -4,6 +4,10 @@ block append content
   main.signup
     .register-form
       h1 Crea una cuenta
+      if errors
+        .errors
+          for error in errors
+            p #{error}
       form(action="/signup" method="POST")
         .input-form
           label(for="name") Name

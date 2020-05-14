@@ -1,3 +1,5 @@
+const service = require('./service');
+
 const index = async (req, res, next) => {
   const { user } = req.query;
   try {
@@ -16,11 +18,21 @@ const signup = async (req, res, next) => {
   }
 };
 
-const register = (req, res, next) => {
+const register = async (req, res) => {
+  const user = req.body;
   try {
-    res.redirect('/?user=true');
+    await service.create(user);
+    res.render('pages/signin', {
+      messages: [
+        'user created successfully',
+      ],
+    });
   } catch (error) {
-    next(error);
+    res.render('pages/signup', {
+      errors: [
+        error.message,
+      ],
+    });
   }
 };
 
