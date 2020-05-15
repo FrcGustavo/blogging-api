@@ -1,8 +1,10 @@
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
-const config = require('./config');
+const logger = require('morgan');
 
+const { info } = require('./utils/debug');
+const config = require('./config');
 const ROUTER = require('./router');
 
 const app = express();
@@ -18,6 +20,7 @@ app.use(session({
 }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(logger('dev', { stream: { write: (msg) => info(msg) } }));
 
 ROUTER(app);
 
