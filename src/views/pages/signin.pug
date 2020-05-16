@@ -1,0 +1,19 @@
+extends ../layout.pug
+
+block append content
+  main.signin
+    .register-form
+      if messages
+        each msg in messages
+          p= msg
+      h1 Iniciar Sesion
+      form(action="/signin" method="POST")
+        .input-form
+          label(for="email") Email
+          input(type="text" id="email" name="email")
+        .input-form
+          label(for="password") Password
+          input(type="text" id="password" name="password")
+        .input-submit
+          input(type="submit", value="Entrar")
+          a(href="/signup") ¿Aun no tienes cuenta?
