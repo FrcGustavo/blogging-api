@@ -4,6 +4,10 @@ const User = require('../../models/user');
 const buildParams = require('../../utils/buildParams');
 const config = require('../../config');
 
+/**
+ * Valid the params of user
+ * @param {*} user
+ */
 const validUserParams = (user) => {
   const validAndRequireParams = ['firstName', 'email', 'password', 'repeatPassword'];
   const params = buildParams(validAndRequireParams, user);
@@ -15,8 +19,16 @@ const validUserParams = (user) => {
   return params;
 };
 
+/**
+ * Valid that password and repeat password are equal
+ * @param {*} user
+ */
 const isPasswordEqual = (user) => (user.password === user.repeatPassword);
 
+/**
+ * Create a new user
+ * @param {*} user
+ */
 const create = async (user) => {
   const validatedUser = validUserParams(user);
 
@@ -40,6 +52,10 @@ const create = async (user) => {
   return createdUser;
 };
 
+/**
+ * Make login to one user and return a jwt
+ * @param {*} user
+ */
 const logged = async (user) => {
   const { email, password } = user;
   const existedUser = await User.findOne({ email });

@@ -1,6 +1,12 @@
 const service = require('./service');
 const { error } = require('../../utils/debug');
 
+/**
+ * Render page home
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
 const index = async (req, res, next) => {
   try {
     res.render('pages/home');
@@ -10,6 +16,12 @@ const index = async (req, res, next) => {
   }
 };
 
+/**
+ * Render page to register
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
 const signup = async (req, res, next) => {
   try {
     res.render('pages/signup');
@@ -19,6 +31,12 @@ const signup = async (req, res, next) => {
   }
 };
 
+/**
+ * Register a new user and render login
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
 const register = async (req, res) => {
   const user = req.body;
   try {
@@ -47,7 +65,12 @@ const signin = async (req, res, next) => {
   }
 };
 
-
+/**
+ * Render page of login
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
 const login = async (req, res, next) => {
   const user = req.body;
   try {
