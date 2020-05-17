@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "DEBUG=app:* nodemon src/server",
     "test": "jest",
+    "cover": "jest --collectCoverage",
     "lint": "eslint --ext .js --ext .json ./"
   },
   "author": "Francisco Gustavo <hidalgofco520@gmail.com>",
