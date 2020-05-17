@@ -8,7 +8,7 @@ function controller(service) {
    * @param {import("express").NextFunction} next
    */
   const index = async (req, res, next) => {
-    const { limit, sort, page } = req.params;
+    const { limit, sort, page } = req.query;
     try {
       const posts = await service.findAll({ limit, sort, page });
       success(res, 'posts listed', posts, 200);
