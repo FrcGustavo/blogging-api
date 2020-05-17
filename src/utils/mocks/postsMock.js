@@ -36,6 +36,11 @@ const insert = async (post) => {
   return Promise.resolve(PostsMock[0]);
 };
 
+const update = async (id, post) => {
+  if (Object.keys(post).length === 0) throw false;
+  return Promise.resolve(PostsMock[0]);
+};
+
 
 module.exports = {
   PostsMock,
@@ -43,5 +48,6 @@ module.exports = {
     findAll,
     findBySlug,
     insert,
+    update,
   },
 };

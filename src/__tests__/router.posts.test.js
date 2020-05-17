@@ -115,4 +115,40 @@ describe('router - posts', () => {
         });
     });
   });
+
+  describe('PATCH /api/posts/', () => {
+    const { slug } = PostsMock[0];
+    const post = PostsMock[0];
+    test('should response with status code 20', (done) => {
+      request
+        .patch(`/api/posts/${slug}`)
+        .send(post)
+        .expect(200, done);
+    });
+
+    test('should response with a list of posts', (done) => {
+      request
+        .patch(`/api/posts/${slug}`)
+        .send(post)
+        .end((err, res) => {
+          expect(res.body).toEqual({
+            error: false,
+            message: 'post updated',
+            status: 200,
+            body: PostsMock[0],
+          });
+          done();
+        });
+    });
+
+    test('should response with a empty object', (done) => {
+      request
+        .patch(`/api/posts/${slug}`)
+        .send({})
+        .end((err, res) => {
+          expect(res.body).toEqual({});
+          done();
+        });
+    });
+  });
 });
