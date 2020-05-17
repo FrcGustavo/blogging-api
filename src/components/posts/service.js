@@ -9,6 +9,9 @@ function service(model) {
   const validFields = [
     ...requireFields,
     'slug',
+    'views',
+    'timeShared',
+    'likes',
   ];
 
   /**
@@ -94,10 +97,22 @@ function service(model) {
     return createdPost;
   };
 
+  const update = async (slug, post) => {
+    const validedPost = validParams(validFields, post);
+    const updatedPost = await model.updateOne({ slug }, validedPost);
+
+    if (updatedPost.nModified !== 1) {
+      throw new Error('error to update property');
+    }
+
+    return updatedPost;
+  };
+
   return {
     findAll,
     findBySlug,
     insert,
+    update,
   };
 }
 

@@ -49,10 +49,22 @@ function controller(service) {
     }
   };
 
+  const update = async (req, res, next) => {
+    const post = req.body;
+    const { slug } = req.params;
+    try {
+      const updatedPost = await service.update(slug, post);
+      success(res, 'post updated', updatedPost, 200);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   return {
     index,
     show,
     create,
+    update,
   };
 }
 

@@ -1,5 +1,5 @@
 const express = require('express');
-const model = require('../../models/model');
+const model = require('../../models/posts');
 const service = require('./service')(model);
 const controller = require('./controller')(service);
 
@@ -10,6 +10,7 @@ const POSTS = (app) => {
   router.get('/', controller.index);
   router.post('/', controller.create);
   router.get('/:slug', controller.show);
+  router.patch('/:slug', controller.update);
 };
 
 module.exports = POSTS;
