@@ -80,4 +80,39 @@ describe('router - posts', () => {
         });
     });
   });
+
+  describe('POST /api/posts/', () => {
+    const post = PostsMock[0];
+    test('should response with status code 201', (done) => {
+      request
+        .post('/api/posts')
+        .send(post)
+        .expect(201, done);
+    });
+
+    test('should response with a list of posts', (done) => {
+      request
+        .post('/api/posts')
+        .send(post)
+        .end((err, res) => {
+          expect(res.body).toEqual({
+            error: false,
+            message: 'post created',
+            status: 201,
+            body: PostsMock[0],
+          });
+          done();
+        });
+    });
+
+    test('should response with a empty object', (done) => {
+      request
+        .post('/api/posts')
+        .send({})
+        .end((err, res) => {
+          expect(res.body).toEqual({});
+          done();
+        });
+    });
+  });
 });

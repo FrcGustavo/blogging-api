@@ -31,11 +31,17 @@ const findBySlug = async (slug) => {
   return Promise.resolve(PostsMock[0]);
 };
 
+const insert = async (post) => {
+  if (Object.keys(post).length === 0) throw false;
+  return Promise.resolve(PostsMock[0]);
+};
+
 
 module.exports = {
   PostsMock,
   serviceMock: {
     findAll,
     findBySlug,
+    insert,
   },
 };
