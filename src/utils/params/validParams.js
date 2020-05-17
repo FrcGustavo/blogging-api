@@ -3,16 +3,16 @@
  * @param {Array} validParams
  * @param {Object} body
  */
-const buildParams = (validParams, body) => {
-  const params = {};
+const validParams = (params, body) => {
+  const newParams = {};
 
-  validParams.forEach((attr) => {
+  params.forEach((attr) => {
     if (Object.prototype.hasOwnProperty.call(body, attr)) {
-      params[attr] = body[attr];
+      newParams[attr] = body[attr];
     }
   });
 
-  return params;
+  return newParams;
 };
 
-module.exports = buildParams;
+module.exports = validParams;

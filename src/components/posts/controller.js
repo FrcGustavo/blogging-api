@@ -18,7 +18,7 @@ function controller(service) {
   };
 
   /**
-   * Response a posts
+   * Response with only a post
    * @param {import("express").Request} req
    * @param {import("express").Response} res
    * @param {import("express").NextFunction} next
@@ -33,9 +33,25 @@ function controller(service) {
     }
   };
 
+  /**
+   * Response with a new posts
+   * @param {import("express").Request} req
+   * @param {import("express").Response} res
+   * @param {import("express").NextFunction} next
+   */
+  const create = async (req, res, next) => {
+    const post = req.body;
+    try {
+      success(res, 'post created', post, 201);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   return {
     index,
     show,
+    create,
   };
 }
 

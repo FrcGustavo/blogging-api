@@ -8,6 +8,7 @@ const POSTS = (app) => {
   app.use('/api/posts', router);
 
   router.get('/', controller.index);
+  router.post('/', controller.create);
   router.get('/:slug', controller.show);
 };
 
