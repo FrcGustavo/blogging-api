@@ -1,5 +1,5 @@
 const express = require('express');
-const model = require('./model');
+const model = require('../../models/model');
 const service = require('./service')(model);
 const controller = require('./controller')(service);
 
