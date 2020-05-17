@@ -57,7 +57,7 @@ describe('router - posts', () => {
         .expect(200, done);
     });
 
-    test('should response with a list of posts', (done) => {
+    test('should response with a post', (done) => {
       request
         .get(`/api/posts/${slug}`)
         .end((err, res) => {
@@ -90,7 +90,7 @@ describe('router - posts', () => {
         .expect(201, done);
     });
 
-    test('should response with a list of posts', (done) => {
+    test('should response with a post created', (done) => {
       request
         .post('/api/posts')
         .send(post)
@@ -119,14 +119,14 @@ describe('router - posts', () => {
   describe('PATCH /api/posts/', () => {
     const { slug } = PostsMock[0];
     const post = PostsMock[0];
-    test('should response with status code 20', (done) => {
+    test('should response with status code 200', (done) => {
       request
         .patch(`/api/posts/${slug}`)
         .send(post)
         .expect(200, done);
     });
 
-    test('should response with a list of posts', (done) => {
+    test('should response with a post updated', (done) => {
       request
         .patch(`/api/posts/${slug}`)
         .send(post)
@@ -144,6 +144,42 @@ describe('router - posts', () => {
     test('should response with a empty object', (done) => {
       request
         .patch(`/api/posts/${slug}`)
+        .send({})
+        .end((err, res) => {
+          expect(res.body).toEqual({});
+          done();
+        });
+    });
+  });
+
+  describe('DELETE /api/posts/', () => {
+    const { slug } = PostsMock[0];
+    const post = PostsMock[0];
+    test('should response with status code 200', (done) => {
+      request
+        .delete(`/api/posts/${slug}`)
+        .send(post)
+        .expect(200, done);
+    });
+
+    test('should response with a post deleted', (done) => {
+      request
+        .delete(`/api/posts/${slug}`)
+        .send(post)
+        .end((err, res) => {
+          expect(res.body).toEqual({
+            error: false,
+            message: 'post deleted',
+            status: 200,
+            body: false,
+          });
+          done();
+        });
+    });
+
+    test('should response with a empty object', (done) => {
+      request
+        .delete('/api/posts/error')
         .send({})
         .end((err, res) => {
           expect(res.body).toEqual({});

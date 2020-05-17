@@ -41,6 +41,11 @@ const update = async (id, post) => {
   return Promise.resolve(PostsMock[0]);
 };
 
+const destroy = async (slug) => {
+  if (slug === 'error') throw false;
+  return Promise.resolve(false);
+};
+
 
 module.exports = {
   PostsMock,
@@ -49,5 +54,6 @@ module.exports = {
     findBySlug,
     insert,
     update,
+    destroy,
   },
 };
