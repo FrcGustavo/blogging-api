@@ -1,3 +1,5 @@
+const NotFound = require('../../utils/errors/NotFound');
+
 function service(model) {
   /**
    * find posts with next filters
@@ -25,7 +27,7 @@ function service(model) {
     const posts = await model.find(filters).limit(limit).sort(sort).skip(skip);
 
     if (posts.length === 0) {
-      throw new Error('list of posts not found', 404);
+      throw new NotFound('list of posts not found', 404);
     }
 
     const totalPosts = await model.countDocuments(filters);
@@ -46,7 +48,7 @@ function service(model) {
     const filters = { slug, isPublic: true, isActive: true };
     const post = await model.findOne(filters);
     if (!post) {
-      throw new Error(`the resource ${slug} not found`);
+      throw new NotFound(`the resource ${slug} not found`);
     }
     return post;
   };
