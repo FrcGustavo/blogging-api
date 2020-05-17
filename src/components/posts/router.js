@@ -11,6 +11,7 @@ const POSTS = (app) => {
   router.post('/', controller.create);
   router.get('/:slug', controller.show);
   router.patch('/:slug', controller.update);
+  router.delete('/:slug', controller.destroy);
 };
 
 module.exports = POSTS;

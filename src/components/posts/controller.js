@@ -49,6 +49,12 @@ function controller(service) {
     }
   };
 
+  /**
+   * Response with a updated posts
+   * @param {import("express").Request} req
+   * @param {import("express").Response} res
+   * @param {import("express").NextFunction} next
+   */
   const update = async (req, res, next) => {
     const post = req.body;
     const { slug } = req.params;
@@ -60,11 +66,28 @@ function controller(service) {
     }
   };
 
+  /**
+   * Response with a deleted posts
+   * @param {import("express").Request} req
+   * @param {import("express").Response} res
+   * @param {import("express").NextFunction} next
+   */
+  const destroy = async (req, res, next) => {
+    const { slug } = req.params;
+    try {
+      const deletedPost = await service.destroy(slug);
+      success(res, 'post deleted', deletedPost, 200);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   return {
     index,
     show,
     create,
     update,
+    destroy,
   };
 }
 

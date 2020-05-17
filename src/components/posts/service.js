@@ -102,10 +102,22 @@ function service(model) {
     const updatedPost = await model.updateOne({ slug }, validedPost);
 
     if (updatedPost.nModified !== 1) {
-      throw new Error('error to update property');
+      throw new Error('error to update post');
     }
 
     return updatedPost;
+  };
+
+  const destroy = async (slug) => {
+    if (!slug) throw new Error('field slug is required');
+
+    const deletedPost = await model.updateOne({ slug }, { isActive: false });
+
+    if (deletedPost.nModified !== 1) {
+      throw new Error('error to delete post');
+    }
+
+    return deletedPost;
   };
 
   return {
@@ -113,6 +125,7 @@ function service(model) {
     findBySlug,
     insert,
     update,
+    destroy,
   };
 }
 
