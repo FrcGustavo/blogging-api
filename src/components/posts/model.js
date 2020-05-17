@@ -44,11 +44,6 @@ const postSchema = new Schema({
     type: Number,
     default: 0,
   },
-  authorUid: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: 'admins',
-    required: true,
-  },
   isActive: {
     type: Boolean,
     default: true,

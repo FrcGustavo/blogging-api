@@ -1,9 +1,9 @@
 /**
- * filter an object only with valid parameters
+ * validate that necesary parameters existed
  * @param {Array} validParams
  * @param {Object} body
  */
-const requiredParams = (params, body) => {
+const requireParams = (params, body) => {
   params.forEach((field) => {
     if (body[field] === null || body[field] === undefined) {
       throw new Error(`Field ${field} is required`, 400);
@@ -13,4 +13,4 @@ const requiredParams = (params, body) => {
   return body;
 };
 
-module.exports = requiredParams;
+module.exports = requireParams;

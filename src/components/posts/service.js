@@ -1,6 +1,16 @@
+const validParams = require('../../utils/params/validParams');
+const requireParams = require('../../utils/params/requireParams');
 const NotFound = require('../../utils/errors/NotFound');
 
 function service(model) {
+  const requireFields = [
+    'title', 'description', 'cover', 'post', 'keywords',
+  ];
+  const validFields = [
+    ...requireFields,
+    'slug',
+  ];
+
   /**
    * find posts with next filters
    * isPublic: true
@@ -53,9 +63,41 @@ function service(model) {
     return post;
   };
 
+  /**
+   * Insert a new post in the database
+   * @param {*} post
+   */
+  const insert = async (post) => {
+    const validedPost = validParams(validFields, post);
+    const requiredPost = requireParams(requireFields, validedPost);
+
+    const isPublic = false;
+    const views = 0;
+    const timeShared = 0;
+    const likes = 0;
+
+    let { slug } = requiredPost;
+
+    if (!slug) {
+      slug = String(Math.random());
+    }
+
+    const createdPost = await model.create({
+      ...requiredPost,
+      slug,
+      isPublic,
+      views,
+      timeShared,
+      likes,
+    });
+
+    return createdPost;
+  };
+
   return {
     findAll,
     findBySlug,
+    insert,
   };
 }
 

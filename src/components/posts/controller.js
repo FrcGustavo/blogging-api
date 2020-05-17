@@ -42,7 +42,8 @@ function controller(service) {
   const create = async (req, res, next) => {
     const post = req.body;
     try {
-      success(res, 'post created', post, 201);
+      const createdPost = await service.insert(post);
+      success(res, 'post created', createdPost, 201);
     } catch (error) {
       next(error);
     }
