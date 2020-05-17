@@ -36,8 +36,24 @@ function service(model) {
     return { posts, pagination };
   };
 
+  /**
+   * find one post with next filters
+   * isPublic: true
+   * isActive: true
+   * @param {String} slug
+   */
+  const findBySlug = async (slug) => {
+    const filters = { slug, isPublic: true, isActive: true };
+    const post = await model.findOne(filters);
+    if (!post) {
+      throw new Error(`the resource ${slug} not found`);
+    }
+    return post;
+  };
+
   return {
     findAll,
+    findBySlug,
   };
 }
 
