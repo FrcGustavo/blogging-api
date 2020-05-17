@@ -1,3 +1,5 @@
+const success = require('../../router/success');
+
 function controller(service) {
   /**
    * Response a list of posts
@@ -9,7 +11,7 @@ function controller(service) {
     const { limit, sort, page } = req.params;
     try {
       const posts = await service.findAll({ limit, sort, page });
-      res.json(posts);
+      success(res, 'posts listed', posts, 200);
     } catch (error) {
       next(error);
     }
@@ -25,7 +27,7 @@ function controller(service) {
     const { slug } = req.params;
     try {
       const post = await service.findBySlug(slug);
-      res.json(post);
+      success(res, 'post retrieved', post, 200);
     } catch (error) {
       next(error);
     }
