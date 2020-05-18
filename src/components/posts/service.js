@@ -4,7 +4,7 @@ const NotFound = require('../../utils/errors/NotFound');
 
 function service(model) {
   const requireFields = [
-    'title', 'description', 'cover', 'post', 'keywords',
+    'title', 'description', 'cover', 'body', 'keywords',
   ];
   const validFields = [
     ...requireFields,
