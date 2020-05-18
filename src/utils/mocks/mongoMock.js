@@ -11,6 +11,7 @@ const skipStub = sinon.stub();
 const countDocumentsStub = sinon.stub();
 const createStub = sinon.stub();
 const updateOneStub = sinon.stub();
+const findOneStub = sinon.stub();
 
 /**
  * stubs by posts
@@ -53,22 +54,35 @@ updateOneStub.withArgs(
   { slug: 'error' },
   { title: 'this is a new title' },
 ).resolves({ nModified: 0 });
+findOneStub.withArgs({
+  slug: PostsMock[0].slug,
+  isPublic: true,
+  isActive: true,
+}).resolves(PostsMock[0]);
+findOneStub.withArgs({
+  slug: 'error',
+  isPublic: true,
+  isActive: true,
+}).resolves(false);
 
 
 const find = (query) => findStub(query);
 const countDocuments = (query) => countDocumentsStub(query);
 const create = (query) => createStub(query);
 const updateOne = (query, data) => updateOneStub(query, data);
+const findOne = (query) => findOneStub(query);
 
 module.exports = {
   findStub,
   countDocumentsStub,
   createStub,
   updateOneStub,
+  findOneStub,
   mongoMock: {
     find,
     countDocuments,
     create,
     updateOne,
+    findOne,
   },
 };

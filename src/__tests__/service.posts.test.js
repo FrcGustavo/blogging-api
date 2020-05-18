@@ -4,6 +4,7 @@ const {
   countDocumentsStub,
   createStub,
   updateOneStub,
+  findOneStub,
 } = require('../utils/mocks/mongoMock');
 const { PostsMock } = require('../utils/mocks/postsMock');
 const service = require('../components/posts/service')(mongoMock);
@@ -48,6 +49,27 @@ describe('service - posts', () => {
       const result = await service.insert(PostsMock[0]);
       const fakeResult = PostsMock[0];
       expect(result).toEqual(fakeResult);
+    });
+  });
+
+  describe('when findBySlug method is called', () => {
+    test('should call the updateOne MongoMock Method', async () => {
+      await service.findBySlug(PostsMock[0].slug);
+      expect(findOneStub.called).toBeTruthy();
+    });
+
+    test('should return a posts', async () => {
+      const result = await service.findBySlug(PostsMock[0].slug);
+      const fakeResult = PostsMock[0];
+      expect(result).toEqual(fakeResult);
+    });
+
+    test('should generate a error to update post', () => {
+      service.findBySlug('error')
+        .catch((err) => {
+          const msg = err.message;
+          expect(msg).toEqual('the resource error not found');
+        });
     });
   });
 
