@@ -51,11 +51,31 @@ describe('service - posts', () => {
     });
   });
 
-  describe('when findAll destroy is called', () => {
+  describe('when update method is called', () => {
+    test('should call the updateOne MongoMock Method', async () => {
+      await service.update(PostsMock[0].slug, { title: 'this is a new title' });
+      expect(updateOneStub.called).toBeTruthy();
+    });
+
+    test('should return a posts updated', async () => {
+      const result = await service.update(PostsMock[0].slug, { title: 'this is a new title' });
+      const fakeResult = { nModified: 1 };
+      expect(result).toEqual(fakeResult);
+    });
+
+    test('should generate a error to update post', () => {
+      service.update('error', { title: 'this is a new title' })
+        .catch((err) => {
+          const msg = err.message;
+          expect(msg).toEqual('error to update post');
+        });
+    });
+  });
+
+  describe('when destroy method is called', () => {
     test('should call the updateOne MongoMock Method', async () => {
       await service.destroy(PostsMock[0].slug);
       expect(updateOneStub.called).toBeTruthy();
-      expect(countDocumentsStub.called).toBeTruthy();
     });
 
     test('should return a posts deleted', async () => {

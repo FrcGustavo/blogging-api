@@ -45,6 +45,14 @@ updateOneStub.withArgs(
   { slug: 'error' },
   { isActive: false },
 ).resolves({ nModified: 0 });
+updateOneStub.withArgs(
+  { slug: PostsMock[0].slug },
+  { title: 'this is a new title' },
+).resolves({ nModified: 1 });
+updateOneStub.withArgs(
+  { slug: 'error' },
+  { title: 'this is a new title' },
+).resolves({ nModified: 0 });
 
 
 const find = (query) => findStub(query);
