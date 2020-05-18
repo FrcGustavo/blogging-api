@@ -3,6 +3,7 @@ const {
   findStub,
   countDocumentsStub,
   createStub,
+  updateOneStub,
 } = require('../utils/mocks/mongoMock');
 const { PostsMock } = require('../utils/mocks/postsMock');
 const service = require('../components/posts/service')(mongoMock);
@@ -47,6 +48,36 @@ describe('service - posts', () => {
       const result = await service.insert(PostsMock[0]);
       const fakeResult = PostsMock[0];
       expect(result).toEqual(fakeResult);
+    });
+  });
+
+  describe('when findAll destroy is called', () => {
+    test('should call the updateOne MongoMock Method', async () => {
+      await service.destroy(PostsMock[0].slug);
+      expect(updateOneStub.called).toBeTruthy();
+      expect(countDocumentsStub.called).toBeTruthy();
+    });
+
+    test('should return a posts deleted', async () => {
+      const result = await service.destroy(PostsMock[0].slug);
+      const fakeResult = { nModified: 1 };
+      expect(result).toEqual(fakeResult);
+    });
+
+    test('should generate a error to delete post', () => {
+      service.destroy('error')
+        .catch((err) => {
+          const msg = err.message;
+          expect(msg).toEqual('error to delete post');
+        });
+    });
+
+    test('should generate a error field slug is required', () => {
+      service.destroy()
+        .catch((err) => {
+          const msg = err.message;
+          expect(msg).toEqual('field slug is required');
+        });
     });
   });
 });
