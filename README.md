@@ -1,3 +1,5 @@
+![Node.js CI](https://github.com/FranciscoGustavo/bloging/workflows/Node.js%20CI/badge.svg)
+
 # Bloging
 
 It is the api that handles the information of a blog
