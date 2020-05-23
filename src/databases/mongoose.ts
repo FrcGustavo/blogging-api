@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const config = require('../config');
-const { info, error } = require('../utils/debug');
+import mongoose from 'mongoose';
+import config from '../config';
+import { info, error } from '../utils/debug';
 
-const connectMongo = async () => {
+const connectMongo = async (): Promise<any> => {
   const PASSWORD = encodeURIComponent(config.db.password);
   const USER = encodeURIComponent(config.db.user);
   const DB_NAME = config.db.name;
@@ -19,4 +19,4 @@ const connectMongo = async () => {
   }
 };
 
-module.exports = connectMongo;
+export default connectMongo;
