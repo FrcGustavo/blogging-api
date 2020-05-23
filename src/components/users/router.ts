@@ -19,8 +19,6 @@ export default class UsersRouter {
   }
 
   loadRoutes(): void {
-    this.router.get('/', (req: any, res: any) => {
-      res.send('Hello World with type script');
-    })
+    this.router.patch('/:id', this.controller.update);
   }
 }
