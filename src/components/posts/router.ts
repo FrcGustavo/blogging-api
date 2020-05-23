@@ -1,9 +1,11 @@
-const express = require('express');
-const model = require('../../models/posts');
-const service = require('./service')(model);
-const postController = require('./controller')(service);
+import express from 'express';
+import model from '../../models/posts';
+import service from './service';
+import postController from './controller';
 
-const POSTS = (app, controller = postController) => {
+const postcontroller = postController(service(model));
+
+const POSTS = (app: any, controller: any = postcontroller) => {
   const router = express.Router();
   app.use('/api/posts', router);
 
