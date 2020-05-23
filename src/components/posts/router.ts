@@ -16,4 +16,4 @@ const POSTS = (app: any, controller: any = postcontroller) => {
   router.delete('/:slug', controller.destroy);
 };
 
-module.exports = POSTS;
+export default POSTS;
