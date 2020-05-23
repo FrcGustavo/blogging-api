@@ -1,9 +1,9 @@
-const validParams = require('../../utils/params/validParams');
-const requireParams = require('../../utils/params/requireParams');
-const NotFound = require('../../utils/errors/NotFound');
-const slugify = require('../../utils/plugins/slugify');
+import validParams from '../../utils/params/validParams';
+import requireParams from '../../utils/params/requireParams';
+import NotFound from '../../utils/errors/NotFound';
+import slugify from '../../utils/plugins/slugify';
 
-function service(model) {
+function service(model: any) {
   const requireFields = [
     'title', 'description', 'cover', 'body', 'keywords',
   ];
@@ -15,7 +15,7 @@ function service(model) {
     'likes',
   ];
 
-  const buildSlug = async (slug) => {
+  const buildSlug = async (slug: any): Promise<void> => {
     const existSlug = await model.countDocuments({ slug });
     if (existSlug > 0) {
       return buildSlug(`${slug}-${existSlug}`);
@@ -39,7 +39,7 @@ function service(model) {
    * }
    * @param {*} query
    */
-  const findAll = async (query) => {
+  const findAll = async (query: any): Promise<any> => {
     let { limit, sort, page: skip } = query;
     limit = Number(limit) || 10;
     sort = sort ? String(sort) : '-_id';
@@ -66,7 +66,7 @@ function service(model) {
    * isActive: true
    * @param {String} slug
    */
-  const findBySlug = async (slug) => {
+  const findBySlug = async (slug: any): Promise<void> => {
     const filters = { slug, isPublic: true, isActive: true };
     const post = await model.findOne(filters);
     if (!post) {
@@ -79,7 +79,7 @@ function service(model) {
    * Insert a new post in the database
    * @param {*} post
    */
-  const insert = async (post) => {
+  const insert = async (post: any): Promise<void> => {
     const validedPost = validParams(validFields, post);
     const requiredPost = requireParams(requireFields, validedPost);
 
@@ -112,7 +112,7 @@ function service(model) {
    * @param {String} slug
    * @param {*} post
    */
-  const update = async (slug, post) => {
+  const update = async (slug: any, post: any): Promise<void> => {
     const validedPost = validParams(validFields, post);
     const updatedPost = await model.updateOne({ slug }, validedPost);
 
@@ -127,7 +127,7 @@ function service(model) {
    * delete a post
    * @param {String} slug
    */
-  const destroy = async (slug) => {
+  const destroy = async (slug: any): Promise<void> => {
     if (!slug) throw new Error('field slug is required');
 
     const deletedPost = await model.updateOne({ slug }, { isActive: false });
@@ -148,4 +148,4 @@ function service(model) {
   };
 }
 
-module.exports = service;
+export default service;
