@@ -9,9 +9,9 @@
     "prestart": "npm run build",
     "start": "DEBUG=app:* node dist/server",
     "dev": "npm run build && DEBUG=app:* nodemon dist/server",
-    "test": "jest",
+    "test": "jest ./dist",
     "cover": "jest --collectCoverage",
-    "lint": "eslint --ext .js ./src"
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "author": "Francisco Gustavo <hidalgofco520@gmail.com>",
   "license": "MIT",
