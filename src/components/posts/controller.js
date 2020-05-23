@@ -1,14 +1,13 @@
-import { Request, Response, NextFunction } from 'express';
-import success from'../../router/success';
+const success = require('../../router/success');
 
-function controller(service: any) {
+function controller(service) {
   /**
    * Response a list of posts
    * @param {import("express").Request} req
    * @param {import("express").Response} res
    * @param {import("express").NextFunction} next
    */
-  const index = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const index = async (req, res, next) => {
     const { limit, sort, page } = req.query;
     try {
       const posts = await service.findAll({ limit, sort, page });
@@ -24,7 +23,7 @@ function controller(service: any) {
    * @param {import("express").Response} res
    * @param {import("express").NextFunction} next
    */
-  const show = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const show = async (req, res, next) => {
     const { slug } = req.params;
     try {
       const post = await service.findBySlug(slug);
@@ -40,7 +39,7 @@ function controller(service: any) {
    * @param {import("express").Response} res
    * @param {import("express").NextFunction} next
    */
-  const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const create = async (req, res, next) => {
     const post = req.body;
     try {
       const createdPost = await service.insert(post);
@@ -56,7 +55,7 @@ function controller(service: any) {
    * @param {import("express").Response} res
    * @param {import("express").NextFunction} next
    */
-  const update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const update = async (req, res, next) => {
     const post = req.body;
     const { slug } = req.params;
     try {
@@ -73,7 +72,7 @@ function controller(service: any) {
    * @param {import("express").Response} res
    * @param {import("express").NextFunction} next
    */
-  const destroy = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const destroy = async (req, res, next) => {
     const { slug } = req.params;
     try {
       const deletedPost = await service.destroy(slug);
@@ -92,4 +91,4 @@ function controller(service: any) {
   };
 }
 
-export default controller;
+module.exports = controller;

@@ -1,10 +1,10 @@
-import express, { Application } from 'express';
-import isValidSessionUser from '../../utils/middlewares/isValidSessionUser';
-import isLogged from '../../utils/middlewares/isLogged';
+const express = require('express');
+const isValidSessionUser = require('../../utils/middlewares/isValidSessionUser');
+const isLogged = require('../../utils/middlewares/isLogged');
 
-import * as controller from './controller';
+const controller = require('./controller');
 
-const API = (app: Application) => {
+const API = (app) => {
   const router = express.Router();
   app.use('/', router);
 
@@ -15,4 +15,4 @@ const API = (app: Application) => {
   router.post('/signin', isLogged, controller.login);
 };
 
-export default API;
+module.exports = API;

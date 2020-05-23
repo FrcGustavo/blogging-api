@@ -1,6 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import * as service from './service';
-import { error } from '../../utils/debug';
+const service = require('./service');
+const { error } = require('../../utils/debug');
 
 /**
  * Render page home
@@ -8,7 +7,7 @@ import { error } from '../../utils/debug';
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-export const index = async (req: Request, res: Response, next: NextFunction) => {
+const index = async (req, res, next) => {
   try {
     res.render('pages/home');
   } catch (err) {
@@ -23,7 +22,7 @@ export const index = async (req: Request, res: Response, next: NextFunction) => 
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-export const signup = async (req: Request, res: Response, next: NextFunction) => {
+const signup = async (req, res, next) => {
   try {
     res.render('pages/signup');
   } catch (err) {
@@ -38,7 +37,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-export const register = async (req: Request, res: Response) => {
+const register = async (req, res) => {
   const user = req.body;
   try {
     await service.create(user);
@@ -57,7 +56,7 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-export const signin = async (req: Request, res: Response, next: NextFunction) => {
+const signin = async (req, res, next) => {
   try {
     res.render('pages/signin');
   } catch (err) {
@@ -72,15 +71,23 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-export const login = async (req: Request, res: Response, next: NextFunction) => {
+const login = async (req, res, next) => {
   const user = req.body;
   try {
-    const token: any = await service.logged(user);
-    const userObj: any = { user: token };
-    req.session = userObj;
+    const token = await service.logged(user);
+    req.session.user = token;
     res.redirect('/');
   } catch (err) {
     error(err.message);
     next(err);
   }
+};
+
+
+module.exports = {
+  index,
+  signup,
+  register,
+  signin,
+  login,
 };

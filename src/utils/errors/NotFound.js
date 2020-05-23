@@ -1,10 +1,10 @@
-export default class NotFound extends Error {
-
-  public status: number;
-
+class NotFound extends Error {
   constructor(message = 'not found', status = 404) {
     super(message);
     this.name = 'Not Found';
     this.status = status;
   }
 }
+
+
+module.exports = NotFound;

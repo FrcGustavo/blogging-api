@@ -46,6 +46,7 @@ const destroy = async (slug) => {
   return Promise.resolve(false);
 };
 
+
 module.exports = {
   PostsMock,
   serviceMock: {

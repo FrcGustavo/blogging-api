@@ -1,14 +1,14 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import User from '../../models/user';
-import buildParams from '../../utils/params/validParams';
-import config from '../../config';
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const User = require('../../models/user');
+const buildParams = require('../../utils/params/validParams');
+const config = require('../../config');
 
 /**
  * Valid the params of user
  * @param {*} user
  */
-const validUserParams = (user: any) => {
+const validUserParams = (user) => {
   const validAndRequireParams = ['firstName', 'email', 'password', 'repeatPassword'];
   const params = buildParams(validAndRequireParams, user);
 
@@ -23,13 +23,13 @@ const validUserParams = (user: any) => {
  * Valid that password and repeat password are equal
  * @param {*} user
  */
-const isPasswordEqual = (user: any) => (user.password === user.repeatPassword);
+const isPasswordEqual = (user) => (user.password === user.repeatPassword);
 
 /**
  * Create a new user
  * @param {*} user
  */
-export const create = async (user: any) => {
+const create = async (user) => {
   const validatedUser = validUserParams(user);
 
   if (!isPasswordEqual(validatedUser)) {
@@ -56,9 +56,9 @@ export const create = async (user: any) => {
  * Make login to one user and return a jwt
  * @param {*} user
  */
-export const logged = async (user: any) => {
+const logged = async (user) => {
   const { email, password } = user;
-  const existedUser: any = await User.findOne({ email });
+  const existedUser = await User.findOne({ email });
 
   if (!existedUser) throw new Error('Please write correct credentials');
 
@@ -80,4 +80,9 @@ export const logged = async (user: any) => {
   });
 
   return token;
+};
+
+module.exports = {
+  create,
+  logged,
 };
