@@ -4,10 +4,14 @@
   "description": "this is the api of my blog",
   "main": "index.js",
   "scripts": {
-    "dev": "DEBUG=app:* nodemon src/server",
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "DEBUG=app:* node dist/server",
+    "dev": "DEBUG=app:* nodemon dist/server",
     "test": "jest",
     "cover": "jest --collectCoverage",
-    "lint": "eslint --ext .js ./"
+    "lint": "eslint --ext .js ./src"
   },
   "author": "Francisco Gustavo <hidalgofco520@gmail.com>",
   "license": "MIT",
@@ -24,13 +28,17 @@
     "pug": "^2.0.4"
   },
   "devDependencies": {
+    "@types/express": "^4.17.6",
     "@types/jest": "^25.2.2",
+    "@types/node": "^14.0.5",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jest": "^23.13.1",
     "jest": "^26.0.1",
     "sinon": "^9.0.2",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.3"
   }
 }

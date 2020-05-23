@@ -24,21 +24,21 @@ function service(model) {
   };
 
   /**
-     * find posts with next filters
-     * isPublic: true
-     * isActive: true
-     * limit: {
-     *  default: 10
-     * }
-     * sort: {
-     *  default: -_id
-     * }
-     * skip: {
-     *  alias: page,
-     *  default: page * limit
-     * }
-     * @param {*} query
-     */
+   * find posts with next filters
+   * isPublic: true
+   * isActive: true
+   * limit: {
+   *  default: 10
+   * }
+   * sort: {
+   *  default: -_id
+   * }
+   * skip: {
+   *  alias: page,
+   *  default: page * limit
+   * }
+   * @param {*} query
+   */
   const findAll = async (query) => {
     let { limit, sort, page: skip } = query;
     limit = Number(limit) || 10;
@@ -61,11 +61,11 @@ function service(model) {
   };
 
   /**
-     * find one post with next filters
-     * isPublic: true
-     * isActive: true
-     * @param {String} slug
-     */
+   * find one post with next filters
+   * isPublic: true
+   * isActive: true
+   * @param {String} slug
+   */
   const findBySlug = async (slug) => {
     const filters = { slug, isPublic: true, isActive: true };
     const post = await model.findOne(filters);
@@ -76,9 +76,9 @@ function service(model) {
   };
 
   /**
-     * Insert a new post in the database
-     * @param {*} post
-     */
+   * Insert a new post in the database
+   * @param {*} post
+   */
   const insert = async (post) => {
     const validedPost = validParams(validFields, post);
     const requiredPost = requireParams(requireFields, validedPost);
@@ -108,10 +108,10 @@ function service(model) {
   };
 
   /**
-     * update a post
-     * @param {String} slug
-     * @param {*} post
-     */
+   * update a post
+   * @param {String} slug
+   * @param {*} post
+   */
   const update = async (slug, post) => {
     const validedPost = validParams(validFields, post);
     const updatedPost = await model.updateOne({ slug }, validedPost);
@@ -124,9 +124,9 @@ function service(model) {
   };
 
   /**
-     * delete a post
-     * @param {String} slug
-     */
+   * delete a post
+   * @param {String} slug
+   */
   const destroy = async (slug) => {
     if (!slug) throw new Error('field slug is required');
 
@@ -147,6 +147,5 @@ function service(model) {
     destroy,
   };
 }
-
 
 module.exports = service;
