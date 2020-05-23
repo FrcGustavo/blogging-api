@@ -8,7 +8,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "DEBUG=app:* node dist/server",
-    "dev": "DEBUG=app:* nodemon dist/server",
+    "dev": "npm run build && DEBUG=app:* nodemon dist/server",
     "test": "jest",
     "cover": "jest --collectCoverage",
     "lint": "eslint --ext .js ./src"
