@@ -65,7 +65,6 @@ findOneStub.withArgs({
   isActive: true,
 }).resolves(false);
 
-
 const find = (query) => findStub(query);
 const countDocuments = (query) => countDocumentsStub(query);
 const create = (query) => createStub(query);

@@ -3,14 +3,14 @@
  * @param {Array} validParams
  * @param {Object} body
  */
-const requireParams = (params, body) => {
+const requireParams = (params: string[], body: any) => {
   params.forEach((field) => {
     if (body[field] === null || body[field] === undefined) {
-      throw new Error(`Field ${field} is required`, 400);
+      throw new Error(`Field ${field} is required`);
     }
   });
 
   return body;
 };
 
-module.exports = requireParams;
+export default requireParams;

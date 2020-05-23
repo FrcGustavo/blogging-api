@@ -1,5 +1,6 @@
-const service = require('./service');
-const { error } = require('../../utils/debug');
+import { Request, Response, NextFunction } from 'express';
+import * as service from './service';
+import { error } from '../../utils/debug';
 
 /**
  * Render page home
@@ -7,7 +8,7 @@ const { error } = require('../../utils/debug');
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-const index = async (req, res, next) => {
+export const index = async (req: Request, res: Response, next: NextFunction) => {
   try {
     res.render('pages/home');
   } catch (err) {
@@ -22,7 +23,7 @@ const index = async (req, res, next) => {
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-const signup = async (req, res, next) => {
+export const signup = async (req: Request, res: Response, next: NextFunction) => {
   try {
     res.render('pages/signup');
   } catch (err) {
@@ -37,7 +38,7 @@ const signup = async (req, res, next) => {
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-const register = async (req, res) => {
+export const register = async (req: Request, res: Response) => {
   const user = req.body;
   try {
     await service.create(user);
@@ -56,7 +57,7 @@ const register = async (req, res) => {
   }
 };
 
-const signin = async (req, res, next) => {
+export const signin = async (req: Request, res: Response, next: NextFunction) => {
   try {
     res.render('pages/signin');
   } catch (err) {
@@ -71,23 +72,15 @@ const signin = async (req, res, next) => {
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-const login = async (req, res, next) => {
+export const login = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.body;
   try {
-    const token = await service.logged(user);
-    req.session.user = token;
+    const token: any = await service.logged(user);
+    const userObj: any = { user: token };
+    req.session = userObj;
     res.redirect('/');
   } catch (err) {
     error(err.message);
     next(err);
   }
-};
-
-
-module.exports = {
-  index,
-  signup,
-  register,
-  signin,
-  login,
 };

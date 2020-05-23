@@ -1,11 +1,11 @@
-const path = require('path');
-const express = require('express');
-const session = require('express-session');
-const logger = require('morgan');
+import path from 'path';
+import express from 'express';
+import session from 'express-session';
+import logger from 'morgan';
 
-const { info } = require('./utils/debug');
-const config = require('./config');
-const ROUTER = require('./router');
+import { info } from './utils/debug';
+import config from'./config';
+import ROUTER from './router';
 
 const app = express();
 
@@ -24,4 +24,4 @@ app.use(logger('dev', { stream: { write: (msg) => info(msg) } }));
 
 ROUTER(app);
 
-module.exports = app;
+export default app;

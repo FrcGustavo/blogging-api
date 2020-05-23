@@ -4,7 +4,6 @@ const { serviceMock, PostsMock } = require('../utils/mocks/postsMock');
 const controller = require('../components/posts/controller')(serviceMock);
 const router = require('../components/posts/router');
 
-
 describe('router - posts', () => {
   const request = testServer(router, controller);
 
