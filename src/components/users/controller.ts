@@ -19,6 +19,7 @@ export default class Users {
     this.create = this.create.bind(this);
     this.login = this.login.bind(this);
     this.profile = this.profile.bind(this);
+    this.update = this.update.bind(this);
     this.destroy = this.destroy.bind(this);
   }
 
@@ -78,8 +79,13 @@ export default class Users {
   }
 
   async update(req: Request , res: Response, next: NextFunction): Promise<void> {
+    const user: any= req.user;
+    const { _id: userId } = user._doc;
+    const { body: newUser } = req;
+
     try {
-      this.success(res, 'user updated', false, 201);
+      const updatedUser = await this.service.update(userId, newUser);
+      this.success(res, 'user updated', updatedUser, 200);
     } catch (error) {
       next(error);
     }
@@ -88,8 +94,6 @@ export default class Users {
   async destroy(req: Request , res: Response, next: NextFunction): Promise<void> {
     const user: any= req.user;
     const { _id: userId } = user._doc;
-    // tslint:disable-next-line: no-console
-    console.log(userId);
     try {
       const deletedUser = await this.service.destroy(userId);
       this.success(res, 'user deleted', deletedUser, 200);

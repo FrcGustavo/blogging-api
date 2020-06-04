@@ -40,6 +40,15 @@ export default class UsersService {
     return user;
   }
 
+  async update(userId: string, user: object) {
+    const validUser = this.validParams(this.validFields, user);
+
+    const updatedUser = await this.model.updateOne({ _id: userId, isDisabled: false }, validUser);
+    if(updatedUser.nModified !== 1) throw new Error('error to update user');
+
+    return userId;
+  }
+
   async destroy(userId: string) {
     const user = await this.model.updateOne({ _id: userId, isDisabled: false }, { isDisabled: true });
     if(user.nModified !== 1) throw new Error('error to delete user');
