@@ -19,6 +19,7 @@ export default class UsersRouter {
   }
 
   loadRoutes(): void {
+    this.router.get('/:id', this.controller.profile);
     this.router.patch('/:id', this.controller.update);
   }
 }

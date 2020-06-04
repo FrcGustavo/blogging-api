@@ -34,4 +34,10 @@ export default class UsersService {
     return createdUser._id;
   }
 
+  async getUser(userId: string) {
+    const user = await this.model.findById(userId, 'firstName');
+    if(!user) throw new Error('user not found');
+    return user;
+  }
+
 }

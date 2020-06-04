@@ -18,6 +18,7 @@ export default class Users {
     this.passport = passport;
     this.create = this.create.bind(this);
     this.login = this.login.bind(this);
+    this.profile = this.profile.bind(this);
   }
 
   async create(req: Request , res: Response, next: NextFunction): Promise<void> {
@@ -63,6 +64,16 @@ export default class Users {
         next(error);
       }
     })(req, res, next);
+  }
+
+  async profile(req: Request , res: Response, next: NextFunction): Promise<void> {
+    const { id: userId } = req.params;
+    try {
+      const user = await this.service.getUser(userId);
+      this.success(res, 'user retrieved', user, 200);
+    } catch (error) {
+      next(error);
+    }
   }
 
   async update(req: Request , res: Response, next: NextFunction): Promise<void> {
