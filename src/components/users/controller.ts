@@ -45,7 +45,7 @@ export default class Users {
             next(error);
           }
 
-          const { _id: id, firstName, email } = user;
+          const { _id: id, firstName, cover, email } = user;
           const payload = {
               sub: id,
               firstName,
@@ -57,7 +57,7 @@ export default class Users {
           });
 
           return res.status(200).json({
-              token, user: { id, firstName, email }
+              token, user: { id, firstName, cover, email }
           });
 
         });

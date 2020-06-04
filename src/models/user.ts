@@ -7,6 +7,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  cover: {
+    type: String,
+    default: '',
+  },
   email: {
     type: String,
     required: true,

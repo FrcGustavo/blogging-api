@@ -6,12 +6,14 @@ export default class UsersService {
   private validParams: any;
   private requireParams: any;
   private validFields: string[];
+  private requireFields: string[];
 
   constructor(model: any, helpers: any) {
     this.model = model;
     this.validParams = helpers.validParams;
     this.requireParams = helpers.requireParams;
-    this.validFields = ['firstName', 'email', 'password'];
+    this.requireFields = ['firstName', 'email', 'password']
+    this.validFields = [...this.requireFields, 'cover'];
   }
 
   async findUser(email: string) {
@@ -21,7 +23,7 @@ export default class UsersService {
 
   async createUser(user: any) {
     const filterFiledsUser = this.validParams(this.validFields, user);
-    const validUser = this.requireParams(this.validFields, filterFiledsUser);
+    const validUser = this.requireParams(this.requireFields, filterFiledsUser);
 
     const existedUser = await this.model.findOne({ email: validUser.email });
     if(existedUser) throw new Error('error to create user');
@@ -35,7 +37,7 @@ export default class UsersService {
   }
 
   async getUser(userId: string) {
-    const user = await this.model.findOne({ _id: userId, isDisabled: false }, 'firstName');
+    const user = await this.model.findOne({ _id: userId, isDisabled: false }, 'firstName cover');
     if(!user) throw new Error('user not found');
     return user;
   }
