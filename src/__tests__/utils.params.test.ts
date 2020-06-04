@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-const validParams = require('../utils/params/validParams');
-const requireParams = require('../utils/params/requireParams');
+import validParams from '../utils/params/validParams';
+import requireParams from '../utils/params/requireParams';
 
 describe('utils - params', () => {
   const badMock = {

@@ -128,7 +128,7 @@ function service(model: any) {
    * @param {String} slug
    */
   const destroy = async (slug: any): Promise<void> => {
-    if (!slug) throw new Error('field slug is required');
+    if (slug === '') throw new Error('field slug is required');
 
     const deletedPost = await model.updateOne({ slug }, { isActive: false });
 
