@@ -1,15 +1,23 @@
 import { Request, Response, NextFunction } from "express";
+import jwt from 'jsonwebtoken';
+import passsport from 'passport';
 import succcess from '../../router/success';
+import config from '../../config';
+
+import '../../utils/auth/strategies/basic';
 
 export default class Users {
 
   private service: any;
   private success: any;
+  private passport: any;
 
-  constructor(service: any, success: any = succcess) {
+  constructor(service: any, passport: any = passsport, success: any = succcess) {
     this.service = service;
     this.success = success
+    this.passport = passport;
     this.create = this.create.bind(this);
+    this.login = this.login.bind(this);
   }
 
   async create(req: Request , res: Response, next: NextFunction): Promise<void> {
@@ -20,6 +28,41 @@ export default class Users {
     } catch (err) {
       next(err);
     }
+  }
+
+  async login(req: Request , res: Response, next: NextFunction): Promise<void> {
+    this.passport.authenticate('basic', (err: any, user: any) => {
+      try {
+        if(err || !user) {
+          next(new Error('unauthorized'));
+        }
+
+        req.login(user, { session: false }, async (error: any) => {
+          if(error) {
+            next(error);
+          }
+
+          const { _id: id, firstName, email } = user;
+          const payload = {
+              sub: id,
+              firstName,
+              email,
+          };
+
+          const token = jwt.sign(payload, config.srv.secretJWT, {
+            expiresIn: '15m'
+          });
+
+          return res.status(200).json({
+              token, user: { id, firstName, email }
+          });
+
+        });
+
+      } catch (error) {
+        next(error);
+      }
+    })(req, res, next);
   }
 
   async update(req: Request , res: Response, next: NextFunction): Promise<void> {

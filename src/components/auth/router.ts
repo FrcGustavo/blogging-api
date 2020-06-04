@@ -19,5 +19,6 @@ export default class AuthRouter {
 
   loadRoutes(): void {
     this.router.post('/register', this.controller.create);
+    this.router.post('/login', this.controller.login);
   }
 }
