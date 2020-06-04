@@ -1,5 +1,7 @@
 import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
+import requireParams from '../../params/requireParams';
+import validParams from '../../params/validParams';
 import UserService from '../../../components/users/service';
 import User from '../../../models/user';
 import config from '../../../config';
@@ -11,8 +13,8 @@ passport.use(
       secretOrKey: config.srv.secretJWT,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     },
-    async (tokenPayload, cb) => {
-      const service = new UserService(User);
+    async (tokenPayload: any, cb: any) => {
+      const service = new UserService(User, { requireParams, validParams });
 
       try {
         const user = await service.findUser(tokenPayload.email);
@@ -27,5 +29,5 @@ passport.use(
         return cb(err)
       }
     }
-  );
+  )
 );
