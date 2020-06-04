@@ -35,9 +35,15 @@ export default class UsersService {
   }
 
   async getUser(userId: string) {
-    const user = await this.model.findById(userId, 'firstName');
+    const user = await this.model.findOne({ _id: userId, isDisabled: false }, 'firstName');
     if(!user) throw new Error('user not found');
     return user;
+  }
+
+  async destroy(userId: string) {
+    const user = await this.model.updateOne({ _id: userId, isDisabled: false }, { isDisabled: true });
+    if(user.nModified !== 1) throw new Error('error to delete user');
+    return userId;
   }
 
 }

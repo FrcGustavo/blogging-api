@@ -19,6 +19,7 @@ export default class Users {
     this.create = this.create.bind(this);
     this.login = this.login.bind(this);
     this.profile = this.profile.bind(this);
+    this.destroy = this.destroy.bind(this);
   }
 
   async create(req: Request , res: Response, next: NextFunction): Promise<void> {
@@ -84,4 +85,16 @@ export default class Users {
     }
   }
 
+  async destroy(req: Request , res: Response, next: NextFunction): Promise<void> {
+    const user: any= req.user;
+    const { _id: userId } = user._doc;
+    // tslint:disable-next-line: no-console
+    console.log(userId);
+    try {
+      const deletedUser = await this.service.destroy(userId);
+      this.success(res, 'user deleted', deletedUser, 200);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
