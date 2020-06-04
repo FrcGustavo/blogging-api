@@ -23,6 +23,9 @@ export default class UsersService {
     const filterFiledsUser = this.validParams(this.validFields, user);
     const validUser = this.requireParams(this.validFields, filterFiledsUser);
 
+    const existedUser = await this.model.findOne({ email: validUser.email });
+    if(existedUser) throw new Error('error to create user');
+
     const { password } = validUser;
     const hashedPassword = await bcrypt.hash(password, 10);
 
