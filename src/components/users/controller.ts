@@ -1,14 +1,15 @@
 import { Request, Response, NextFunction } from "express";
-import * as suc from '../../router/success';
+import succcess from '../../router/success';
 
 export default class Users {
 
   private service: any;
   private success: any;
 
-  constructor(service: any, success: any = suc) {
+  constructor(service: any, success: any = succcess) {
     this.service = service;
     this.success = success
+    this.create = this.create.bind(this);
   }
 
   async create(req: Request , res: Response, next: NextFunction): Promise<void> {

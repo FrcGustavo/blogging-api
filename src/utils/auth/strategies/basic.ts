@@ -1,12 +1,14 @@
 import passport from 'passport';
 import { BasicStrategy  } from 'passport-http';
+import requireParams from '../../params/requireParams';
+import validParams from '../../params/validParams';
 import bcrypt from 'bcrypt';
 import UsersService from '../../../components/users/service';
 import User from '../../../models/user';
 
 passport.use(
-  new BasicStrategy(async (email, password, cb) => {
-    const service = new UsersService(User);
+  new BasicStrategy(async (email: string, password: string, cb: any) => {
+    const service = new UsersService(User, { requireParams, validParams });
     try {
       const user = await service.findUser(email);
 
