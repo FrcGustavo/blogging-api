@@ -8,7 +8,7 @@ passport.use(
   new BasicStrategy(async (email, password, cb) => {
     const service = new UsersService(User);
     try {
-      const user = await service.findUser({ email });
+      const user = await service.findUser(email);
 
       if (!user) {
         return cb(new Error('Unauthorized'), false);

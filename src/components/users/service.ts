@@ -6,4 +6,9 @@ export default class UsersService {
     this.model = model;
   }
 
+  async findUser(email: string) {
+    const user = await this.model.findOne({ email });
+    return user;
+  }
+
 }
