@@ -25,6 +25,8 @@
     "mongoose": "^5.9.14",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.3",
+    "passport": "^0.4.1",
+    "passport-http": "^0.3.0",
     "pug": "^2.0.4"
   },
   "devDependencies": {
