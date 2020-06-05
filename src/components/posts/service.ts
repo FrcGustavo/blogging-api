@@ -1,9 +1,11 @@
+import showdown from 'showdown';
 import validParams from '../../utils/params/validParams';
 import requireParams from '../../utils/params/requireParams';
 import NotFound from '../../utils/errors/NotFound';
 import slugify from '../../utils/plugins/slugify';
 
 function service(model: any) {
+  const converter = new showdown.Converter();
   const requireFields = [
     'title', 'description', 'cover', 'body', 'keywords',
   ];
@@ -72,6 +74,7 @@ function service(model: any) {
     if (!post) {
       throw new NotFound(`the resource ${slug} not found`);
     }
+    post.body = converter.makeHtml(post.body);
     return post;
   };
 
