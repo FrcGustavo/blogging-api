@@ -1,13 +1,14 @@
-const {
+import {
   mongoMock,
   findStub,
   countDocumentsStub,
   createStub,
   updateOneStub,
   findOneStub,
-} = require('../utils/mocks/mongoMock');
-const { PostsMock } = require('../utils/mocks/postsMock');
-const service = require('../components/posts/service')(mongoMock);
+} from '../utils/mocks/mongoMock';
+import { PostsMock } from '../utils/mocks/postsMock';
+import PostService from '../components/posts/service';
+const service = PostService(mongoMock);
 
 describe('service - posts', () => {
   describe('when findAll method is called', () => {
@@ -115,7 +116,7 @@ describe('service - posts', () => {
     });
 
     test('should generate a error field slug is required', () => {
-      service.destroy()
+      service.destroy('')
         .catch((err) => {
           const msg = err.message;
           expect(msg).toEqual('field slug is required');

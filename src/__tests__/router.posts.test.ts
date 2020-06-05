@@ -1,8 +1,9 @@
 /* eslint-disable no-undef */
-const testServer = require('../utils/mocks/testServer');
-const { serviceMock, PostsMock } = require('../utils/mocks/postsMock');
-const controller = require('../components/posts/controller')(serviceMock);
-const router = require('../components/posts/router');
+import testServer from '../utils/mocks/testServer';
+import { serviceMock, PostsMock } from '../utils/mocks/postsMock';
+import PostController from '../components/posts/controller';
+import router from '../components/posts/router';
+const controller = PostController(serviceMock)
 
 describe('router - posts', () => {
   const request = testServer(router, controller);
@@ -20,7 +21,7 @@ describe('router - posts', () => {
       request
         .get('/api/posts')
         .query(query)
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({
             error: false,
             message: 'posts listed',
@@ -41,7 +42,7 @@ describe('router - posts', () => {
     test('should response with a empty object', (done) => {
       request
         .get('/api/posts')
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({});
           done();
         });
@@ -59,7 +60,7 @@ describe('router - posts', () => {
     test('should response with a post', (done) => {
       request
         .get(`/api/posts/${slug}`)
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({
             error: false,
             message: 'post retrieved',
@@ -73,7 +74,7 @@ describe('router - posts', () => {
     test('should response with a empty object', (done) => {
       request
         .get('/api/posts/error')
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({});
           done();
         });
@@ -93,7 +94,7 @@ describe('router - posts', () => {
       request
         .post('/api/posts')
         .send(post)
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({
             error: false,
             message: 'post created',
@@ -108,7 +109,7 @@ describe('router - posts', () => {
       request
         .post('/api/posts')
         .send({})
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({});
           done();
         });
@@ -129,7 +130,7 @@ describe('router - posts', () => {
       request
         .patch(`/api/posts/${slug}`)
         .send(post)
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({
             error: false,
             message: 'post updated',
@@ -144,7 +145,7 @@ describe('router - posts', () => {
       request
         .patch(`/api/posts/${slug}`)
         .send({})
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({});
           done();
         });
@@ -165,7 +166,7 @@ describe('router - posts', () => {
       request
         .delete(`/api/posts/${slug}`)
         .send(post)
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({
             error: false,
             message: 'post deleted',
@@ -180,7 +181,7 @@ describe('router - posts', () => {
       request
         .delete('/api/posts/error')
         .send({})
-        .end((err, res) => {
+        .end((err: any, res: any) => {
           expect(res.body).toEqual({});
           done();
         });

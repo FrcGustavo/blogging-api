@@ -1,4 +1,4 @@
-const slugify = require('../utils/plugins/slugify');
+import slugify from '../utils/plugins/slugify';
 
 describe('utils - plugins', () => {
   describe('slugify', () => {

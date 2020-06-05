@@ -9,14 +9,19 @@
     "prestart": "npm run build",
     "start": "DEBUG=app:* node dist/server",
     "dev": "npm run build && DEBUG=app:* nodemon dist/server",
-    "test": "jest",
+    "test": "jest ./dist",
     "cover": "jest --collectCoverage",
-    "lint": "eslint --ext .js ./src"
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "author": "Francisco Gustavo <hidalgofco520@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/passport": "^1.0.3",
+    "@types/passport-http": "^0.3.8",
+    "@types/passport-jwt": "^3.0.3",
     "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -25,6 +30,9 @@
     "mongoose": "^5.9.14",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.3",
+    "passport": "^0.4.1",
+    "passport-http": "^0.3.0",
+    "passport-jwt": "^4.0.0",
     "pug": "^2.0.4"
   },
   "devDependencies": {

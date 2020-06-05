@@ -1,17 +1,17 @@
-import { Router } from 'express';
+import Router, { Application } from 'express';
 import requireParams from '../../utils/params/requireParams';
 import validParams from '../../utils/params/validParams';
 import User from '../../models/user';
-import UsersService from './service';
-import UsersController from './controller';
-import UsersRouter from './router';
+import UsersService from '../users/service';
+import UsersController from '../users/controller';
+import AuthRouter from './router';
 
-function USERS(app: any): any {
+function AUTH(app: Application): void {
   const service = new UsersService(User, { requireParams, validParams });
   const controller = new UsersController(service);
-  const router = new UsersRouter(app, Router(), '/api/users', controller);
+  const router = new AuthRouter(app, Router(), '/api/auth', controller);
   router.setupRouter();
   router.loadRoutes();
 };
 
-export default USERS;
+export default AUTH;

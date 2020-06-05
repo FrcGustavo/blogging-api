@@ -7,6 +7,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  cover: {
+    type: String,
+    default: '',
+  },
   email: {
     type: String,
     required: true,
@@ -15,6 +19,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  }
 }, {
   timestamps: true,
 });

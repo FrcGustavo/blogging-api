@@ -1,9 +1,6 @@
 import { Application, Router } from "express";
-import passport from 'passport';
-import '../../utils/auth/strategies/jwt';
 
-export default class UsersRouter {
-
+export default class AuthRouter {
   private app: Application
   private router: Router
   private path: string
@@ -21,16 +18,7 @@ export default class UsersRouter {
   }
 
   loadRoutes(): void {
-    this.router.get('/:id', this.controller.profile);
-    this.router.patch(
-      '/',
-      passport.authenticate('jwt', { session: false }),
-      this.controller.update,
-    );
-    this.router.delete(
-      '/',
-      passport.authenticate('jwt', { session: false }),
-      this.controller.destroy,
-    );
+    this.router.post('/register', this.controller.create);
+    this.router.post('/login', this.controller.login);
   }
 }
