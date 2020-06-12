@@ -3,11 +3,19 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const postSchema = new Schema({
-  title: {
+  user: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'users',
+  },
+  userCover: {
     type: String,
     required: true,
   },
-  body: {
+  username: {
+    type: String,
+    required: true,
+  },
+  title: {
     type: String,
     required: true,
   },
@@ -15,11 +23,11 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  body: {
     type: String,
-    default: '',
+    required: true,
   },
-  keywords: {
+  description: {
     type: String,
     default: '',
   },
@@ -28,9 +36,9 @@ const postSchema = new Schema({
     unique: true,
     required: true,
   },
-  isPublic: {
-    type: Boolean,
-    default: false,
+  keywords: {
+    type: String,
+    default: '',
   },
   views: {
     type: Number,
@@ -44,7 +52,11 @@ const postSchema = new Schema({
     type: Number,
     default: 0,
   },
-  isActive: {
+  isPublic: {
+    type: Boolean,
+    default: false,
+  },
+  isDisabled: {
     type: Boolean,
     default: true,
   },

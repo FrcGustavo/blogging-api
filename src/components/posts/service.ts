@@ -17,6 +17,12 @@ function service(model: any) {
     'likes',
   ];
 
+  const findByAuthor = async (authorId: string) => {
+    const posts = await model.find({ user: authorId });
+
+    return posts;
+  };
+
   const buildSlug = async (slug: any): Promise<void> => {
     const existSlug = await model.countDocuments({ slug });
     if (existSlug > 0) {
@@ -143,6 +149,7 @@ function service(model: any) {
   };
 
   return {
+    findByAuthor,
     findAll,
     findBySlug,
     insert,

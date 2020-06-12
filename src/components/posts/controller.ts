@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import success from'../../router/success';
+import { info } from '../../utils/debug';
 
 function controller(service: any) {
   /**
@@ -83,12 +84,24 @@ function controller(service: any) {
     }
   };
 
+  const findByAuthor = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const authorId = (req.user as any)._doc._id;
+
+    try {
+      const posts = await service.findByAuthor(authorId);
+      success(res, 'posts listed', posts, 200);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   return {
     index,
     show,
     create,
     update,
     destroy,
+    findByAuthor,
   };
 }
 
