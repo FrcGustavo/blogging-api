@@ -86,9 +86,9 @@ function controller(service: any) {
 
   const findByAuthor = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const authorId = (req.user as any)._doc._id;
-
+    const { query }  = req;
     try {
-      const posts = await service.findByAuthor(authorId);
+      const posts = await service.findByAuthor(authorId, query);
       success(res, 'posts listed', posts, 200);
     } catch (error) {
       next(error);
