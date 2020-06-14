@@ -5,6 +5,7 @@ import NotFound from '../../utils/errors/NotFound';
 import slugify from '../../utils/plugins/slugify';
 import setupPagination from '../../utils/pagination/setupPagination';
 import toDoPagination from '../../utils/pagination/toDoPagination';
+import { dev } from '../../utils/debug';
 
 function service(model: any) {
   const converter = new showdown.Converter();
@@ -19,6 +20,14 @@ function service(model: any) {
     'likes',
   ];
 
+  const find = async (filters: any, limit: any, sort: any, skip: any) => (
+    await model.find(filters)
+    .limit(limit)
+    .sort(sort)
+    .skip(skip)
+  );
+
+
   const findByAuthor = async (authorId: string, query: any) => {
     const {
       limit,
@@ -28,10 +37,36 @@ function service(model: any) {
     } = setupPagination(query);
 
     const filters = { user: authorId, isDisabled: false };
-    const posts = await model.find(filters);
+    const posts = await find(filters, limit, sort, skip);
     const pagination = await toDoPagination(model, { limit, page }, filters);
 
-    return posts;
+    const emptyPosts = posts.map(({
+      _id,
+      title,
+      cover,
+      body,
+      description,
+      slug,
+      keywords,
+      views,
+      timeShared,
+      likes,
+      isPublic,
+    }: any) => ({
+      id: _id,
+      title,
+      cover,
+      body,
+      description,
+      slug,
+      keywords,
+      views,
+      timeShared,
+      likes,
+      isPublic,
+    }));
+
+    return { posts: emptyPosts, pagination };
   };
 
   const buildSlug = async (slug: any): Promise<void> => {
@@ -67,10 +102,24 @@ function service(model: any) {
     } = setupPagination(query);
 
     const filters = { isPublic: true, isDisabled: false };
-    const posts = await model.find(filters).limit(limit).sort(sort).skip(skip);
+    const posts = await find(filters, limit, sort, skip);
     const pagination = await toDoPagination(model, { limit, page }, filters);
 
-    return { posts, pagination };
+    const emptyPosts = posts.map(({
+      _id,
+      title,
+      cover,
+      description,
+      slug,
+    }: any) => ({
+      id: _id,
+      title,
+      cover,
+      description,
+      slug,
+    }));
+
+    return { posts: emptyPosts, pagination };
   };
 
   /**
