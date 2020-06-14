@@ -3,6 +3,7 @@ import validParams from '../../utils/params/validParams';
 import requireParams from '../../utils/params/requireParams';
 import NotFound from '../../utils/errors/NotFound';
 import slugify from '../../utils/plugins/slugify';
+import setupPagination from '../../utils/pagination/setupPagination';
 
 function service(model: any) {
   const converter = new showdown.Converter();
@@ -18,6 +19,13 @@ function service(model: any) {
   ];
 
   const findByAuthor = async (authorId: string) => {
+    const {
+      limit,
+      skip,
+      sort,
+      page,
+    } = setupPagination(query);
+  
     const posts = await model.find({ user: authorId });
 
     return posts;
@@ -48,21 +56,18 @@ function service(model: any) {
    * @param {*} query
    */
   const findAll = async (query: any): Promise<any> => {
-    let { limit, sort, page: skip } = query;
-    limit = Number(limit) || 10;
-    sort = sort ? String(sort) : '-_id';
-    skip = (Number(skip || 1) - 1) * limit;
+    const {
+      limit,
+      skip,
+      sort,
+      page,
+    } = setupPagination(query);
 
     const filters = { isPublic: true, isActive: true };
     const posts = await model.find(filters).limit(limit).sort(sort).skip(skip);
 
-    if (posts.length === 0) {
-      throw new NotFound('list of posts not found', 404);
-    }
-
     const totalPosts = await model.countDocuments(filters);
-    const totalPages = Math.ceil(totalPosts / (limit));
-    const page = query.page || 1;
+    const totalPages = Math.ceil(totalPosts / limit);
     const pagination = { totalPosts, totalPages, page };
 
     return { posts, pagination };
