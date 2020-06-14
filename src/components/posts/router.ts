@@ -18,7 +18,10 @@ const POSTS = (app: any, controller: any = postcontroller) => {
     controller.findByAuthor,
   );
   router.get('/', controller.index);
-  router.post('/', controller.create);
+  router.post('/', 
+    passport.authenticate('jwt', { session: false }),  
+    controller.create,
+  );
   router.get('/:slug', controller.show);
   router.patch('/:slug', controller.update);
   router.delete('/:slug', controller.destroy);

@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import success from'../../router/success';
-import { info } from '../../utils/debug';
 
 function controller(service: any) {
   /**
@@ -42,9 +41,9 @@ function controller(service: any) {
    * @param {import("express").NextFunction} next
    */
   const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const post = req.body;
+    const { body: post, user } = req;
     try {
-      const createdPost = await service.insert(post);
+      const createdPost = await service.insert(post, user);
       success(res, 'post created', createdPost, 201);
     } catch (error) {
       next(error);
@@ -85,7 +84,7 @@ function controller(service: any) {
   };
 
   const findByAuthor = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const authorId = (req.user as any)._doc._id;
+    const authorId = (req.user as any).id;
     const { query }  = req;
     try {
       const posts = await service.findByAuthor(authorId, query);

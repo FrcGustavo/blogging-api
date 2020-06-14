@@ -29,7 +29,7 @@ const postSchema = new Schema({
   },
   description: {
     type: String,
-    default: '',
+    required: true,
   },
   slug: {
     type: String,
@@ -38,7 +38,7 @@ const postSchema = new Schema({
   },
   keywords: {
     type: String,
-    default: '',
+    required: true,
   },
   views: {
     type: Number,
@@ -58,7 +58,7 @@ const postSchema = new Schema({
   },
   isDisabled: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 }, {
   timestamps: true,

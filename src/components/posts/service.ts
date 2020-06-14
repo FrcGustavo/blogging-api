@@ -5,19 +5,15 @@ import NotFound from '../../utils/errors/NotFound';
 import slugify from '../../utils/plugins/slugify';
 import setupPagination from '../../utils/pagination/setupPagination';
 import toDoPagination from '../../utils/pagination/toDoPagination';
-import { dev } from '../../utils/debug';
 
 function service(model: any) {
   const converter = new showdown.Converter();
   const requireFields = [
-    'title', 'description', 'cover', 'body', 'keywords',
+    'title', 'cover', 'body', 'description', 'keywords',
   ];
   const validFields = [
     ...requireFields,
     'slug',
-    'views',
-    'timeShared',
-    'likes',
   ];
 
   const find = async (filters: any, limit: any, sort: any, skip: any) => (
@@ -168,31 +164,30 @@ function service(model: any) {
 
   /**
    * Insert a new post in the database
-   * @param {*} post
    */
-  const insert = async (post: any): Promise<void> => {
+  const insert = async (post: any, author: any): Promise<void> => {
     const validedPost = validParams(validFields, post);
     const requiredPost = requireParams(requireFields, validedPost);
 
-    const isPublic = false;
-    const views = 0;
-    const timeShared = 0;
-    const likes = 0;
+    const { 
+      id: user,
+      cover: userCover,
+      username,
+    } = author;
 
     const { title } = requiredPost;
     let { slug } = requiredPost;
 
     if (!slug) {
-      slug = buildSlug(slugify(title));
+      slug = await buildSlug(slugify(title));
     }
 
     const createdPost = await model.create({
+      user,
+      userCover,
+      username,
       ...requiredPost,
       slug,
-      isPublic,
-      views,
-      timeShared,
-      likes,
     });
 
     return createdPost;

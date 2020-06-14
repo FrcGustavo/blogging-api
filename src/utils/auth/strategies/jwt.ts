@@ -22,9 +22,9 @@ passport.use(
         if(!user) {
           return cb(new Error(), false);
         }
-        delete user.password;
+        const { _id: id, firstName, lastName, username, cover, email } = user;
 
-        cb(null, { ...user });
+        cb(null, { id, firstName, lastName, username, cover, email });
       } catch (err) {
         return cb(err)
       }
