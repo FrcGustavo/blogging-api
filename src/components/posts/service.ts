@@ -169,7 +169,7 @@ function service(model: any) {
     const validedPost = validParams(validFields, post);
     const requiredPost = requireParams(requireFields, validedPost);
 
-    const { 
+    const {
       id: user,
       cover: userCover,
       username,
@@ -193,36 +193,27 @@ function service(model: any) {
     return createdPost;
   };
 
-  /**
-   * update a post
-   * @param {String} slug
-   * @param {*} post
-   */
-  const update = async (slug: any, post: any): Promise<void> => {
+  const update = async (slug: string, post: any, authorId: string): Promise<boolean> => {
     const validedPost = validParams(validFields, post);
-    const updatedPost = await model.updateOne({ slug }, validedPost);
+    const updatedPost = await model.updateOne({ slug, isDisabled: false, user: authorId }, validedPost);
 
     if (updatedPost.nModified !== 1) {
       throw new Error('error to update post');
     }
 
-    return updatedPost;
+    return false;
   };
 
-  /**
-   * delete a post
-   * @param {String} slug
-   */
-  const destroy = async (slug: any): Promise<void> => {
+  const destroy = async (slug: string, authorId: string): Promise<boolean> => {
     if (slug === '') throw new Error('field slug is required');
 
-    const deletedPost = await model.updateOne({ slug }, { isActive: false });
+    const deletedPost = await model.updateOne({ slug, isDisabled: false, user: authorId, }, { isDisabled: true });
 
     if (deletedPost.nModified !== 1) {
       throw new Error('error to delete post');
     }
 
-    return deletedPost;
+    return false;
   };
 
   return {

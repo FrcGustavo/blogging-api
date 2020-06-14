@@ -59,8 +59,9 @@ function controller(service: any) {
   const update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const post = req.body;
     const { slug } = req.params;
+    const { id: authorId } = (req.user as any);
     try {
-      const updatedPost = await service.update(slug, post);
+      const updatedPost = await service.update(slug, post, authorId);
       success(res, 'post updated', updatedPost, 200);
     } catch (error) {
       next(error);
@@ -75,8 +76,9 @@ function controller(service: any) {
    */
   const destroy = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { slug } = req.params;
+    const { id: authorId } = (req.user as any);
     try {
-      const deletedPost = await service.destroy(slug);
+      const deletedPost = await service.destroy(slug, authorId);
       success(res, 'post deleted', deletedPost, 200);
     } catch (error) {
       next(error);
