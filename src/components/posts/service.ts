@@ -128,14 +128,42 @@ function service(model: any) {
    * isActive: true
    * @param {String} slug
    */
-  const findBySlug = async (slug: any): Promise<void> => {
-    const filters = { slug, isPublic: true, isActive: true };
+  const findBySlug = async (slug: string): Promise<any> => {
+    const filters = { slug, isPublic: true, isDisabled: false };
     const post = await model.findOne(filters);
     if (!post) {
       throw new NotFound(`the resource ${slug} not found`);
     }
-    post.body = converter.makeHtml(post.body);
-    return post;
+    const body = converter.makeHtml(post.body)
+    const {
+      _id: id,
+      user,
+      userCover,
+      username,
+      title,
+      cover,
+      description,
+      keywords,
+      views,
+      timeShared,
+      likes,
+      createdAt,
+    } = post;
+    return {
+      id,
+      user,
+      userCover,
+      username,
+      title,
+      cover,
+      body,
+      description,
+      keywords,
+      views,
+      timeShared,
+      likes,
+      createdAt,
+    };
   };
 
   /**
