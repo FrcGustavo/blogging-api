@@ -4,6 +4,7 @@ import requireParams from '../../utils/params/requireParams';
 import NotFound from '../../utils/errors/NotFound';
 import slugify from '../../utils/plugins/slugify';
 import setupPagination from '../../utils/pagination/setupPagination';
+import toDoPagination from '../../utils/pagination/toDoPagination';
 
 function service(model: any) {
   const converter = new showdown.Converter();
@@ -18,15 +19,17 @@ function service(model: any) {
     'likes',
   ];
 
-  const findByAuthor = async (authorId: string) => {
+  const findByAuthor = async (authorId: string, query: any) => {
     const {
       limit,
       skip,
       sort,
       page,
     } = setupPagination(query);
-  
-    const posts = await model.find({ user: authorId });
+
+    const filters = { user: authorId, isDisabled: false };
+    const posts = await model.find(filters);
+    const pagination = await toDoPagination(model, { limit, page }, filters);
 
     return posts;
   };
@@ -63,12 +66,9 @@ function service(model: any) {
       page,
     } = setupPagination(query);
 
-    const filters = { isPublic: true, isActive: true };
+    const filters = { isPublic: true, isDisabled: false };
     const posts = await model.find(filters).limit(limit).sort(sort).skip(skip);
-
-    const totalPosts = await model.countDocuments(filters);
-    const totalPages = Math.ceil(totalPosts / limit);
-    const pagination = { totalPosts, totalPages, page };
+    const pagination = await toDoPagination(model, { limit, page }, filters);
 
     return { posts, pagination };
   };
