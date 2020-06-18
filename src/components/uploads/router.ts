@@ -1,4 +1,6 @@
 import { Application, Router } from "express";
+import '../../utils/auth/strategies/jwt';
+import passport from "passport";
 
 export default class UploadsRouter {
 
@@ -29,8 +31,10 @@ export default class UploadsRouter {
   loadRoutes(): void {
     this.router.post(
       '/',
+      (this.middlewares as any).passport.authenticate('jwt', { session: false }),
       (this.middlewares as any).upload.single('cover'),
       this.controller.upload,
     );
+    this.router.get('/:id', this.controller.show);
   }
 }

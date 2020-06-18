@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import uploader from '../../utils/uploader';
 
 export default class UploadsService {
@@ -18,5 +20,15 @@ export default class UploadsService {
     const file = this.validateFile(files);
     const uploadedFile = await uploader(file);
     return uploadedFile;
+  }
+
+  async findFile(id: any) {
+    return new Promise((resolve, reject) => {
+      const pathFile = `uploads/${id}`;
+      fs.exists(pathFile, (exists) => {
+        if (!exists) return reject('not foun image');
+        return resolve(path.resolve(pathFile));
+      });
+    });
   }
 }

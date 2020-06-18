@@ -10,6 +10,7 @@ export default class Uploads {
     this.success = success;
 
     this.upload = this.upload.bind(this);
+    this.show = this.show.bind(this);
   }
 
   async upload(req: Request, res: Response, next: NextFunction) {
@@ -21,4 +22,14 @@ export default class Uploads {
       next(error);
     }
   }
+
+  async show (req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    try {
+      const pathFile = await this.service.findFile(id);
+      res.status(200).sendFile(pathFile);
+    } catch (error) {
+      next(error);
+    }
+  };
 }

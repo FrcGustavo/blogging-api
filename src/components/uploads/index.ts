@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
+import passport from 'passport';
 
 import success from '../../router/success';
 import UploadsService  from './service';
@@ -15,7 +16,7 @@ function UPLOADS(app: any): void {
     Router(),
     '/api/uploads',
     controller,
-    { upload },
+    { upload, passport, },
   );
   router.setupRouter();
   router.loadRoutes();
