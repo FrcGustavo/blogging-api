@@ -53,7 +53,7 @@ export default class Users {
           };
 
           const token = jwt.sign(payload, config.srv.secretJWT, {
-            expiresIn: '15m'
+            expiresIn: '1d'
           });
 
           return res.status(200).json({
