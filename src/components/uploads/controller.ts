@@ -8,12 +8,14 @@ export default class Uploads {
   constructor(service: any, success: any) {
     this.service = service;
     this.success = success;
+
+    this.upload = this.upload.bind(this);
   }
 
   async upload(req: Request, res: Response, next: NextFunction) {
-    const { files } = req as any;
+    const { file } = req as any;
     try {
-      const uploadedFile = await this.service.uploadFile(files);
+      const uploadedFile = await this.service.uploadFile(file);
       this.success(res, 'file uploaded', uploadedFile, 201);
     } catch (error) {
       next(error);
