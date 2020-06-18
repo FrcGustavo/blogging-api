@@ -42,12 +42,12 @@ describe('service - posts', () => {
 
   describe('when insert method is called', () => {
     test('should call the create MongoMock Method', async () => {
-      await service.insert(PostsMock[0]);
+      await service.insert(PostsMock[0], 'id');
       expect(createStub.called).toBeTruthy();
     });
 
     test('should return a new posts', async () => {
-      const result = await service.insert(PostsMock[0]);
+      const result = await service.insert(PostsMock[0], 'id');
       const fakeResult = PostsMock[0];
       expect(result).toEqual(fakeResult);
     });
@@ -76,18 +76,18 @@ describe('service - posts', () => {
 
   describe('when update method is called', () => {
     test('should call the updateOne MongoMock Method', async () => {
-      await service.update(PostsMock[0].slug, { title: 'this is a new title' });
+      await service.update(PostsMock[0].slug, { title: 'this is a new title' }, 'id');
       expect(updateOneStub.called).toBeTruthy();
     });
 
     test('should return a posts updated', async () => {
-      const result = await service.update(PostsMock[0].slug, { title: 'this is a new title' });
+      const result = await service.update(PostsMock[0].slug, { title: 'this is a new title' }, 'id');
       const fakeResult = { nModified: 1 };
       expect(result).toEqual(fakeResult);
     });
 
     test('should generate a error to update post', () => {
-      service.update('error', { title: 'this is a new title' })
+      service.update('error', { title: 'this is a new title' }, 'id')
         .catch((err) => {
           const msg = err.message;
           expect(msg).toEqual('error to update post');
@@ -97,18 +97,18 @@ describe('service - posts', () => {
 
   describe('when destroy method is called', () => {
     test('should call the updateOne MongoMock Method', async () => {
-      await service.destroy(PostsMock[0].slug);
+      await service.destroy(PostsMock[0].slug, 'id');
       expect(updateOneStub.called).toBeTruthy();
     });
 
     test('should return a posts deleted', async () => {
-      const result = await service.destroy(PostsMock[0].slug);
+      const result = await service.destroy(PostsMock[0].slug, 'id');
       const fakeResult = { nModified: 1 };
       expect(result).toEqual(fakeResult);
     });
 
     test('should generate a error to delete post', () => {
-      service.destroy('error')
+      service.destroy('error', 'id')
         .catch((err) => {
           const msg = err.message;
           expect(msg).toEqual('error to delete post');
@@ -116,7 +116,7 @@ describe('service - posts', () => {
     });
 
     test('should generate a error field slug is required', () => {
-      service.destroy('')
+      service.destroy('', '')
         .catch((err) => {
           const msg = err.message;
           expect(msg).toEqual('field slug is required');

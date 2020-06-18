@@ -3,19 +3,67 @@ import validParams from '../../utils/params/validParams';
 import requireParams from '../../utils/params/requireParams';
 import NotFound from '../../utils/errors/NotFound';
 import slugify from '../../utils/plugins/slugify';
+import setupPagination from '../../utils/pagination/setupPagination';
+import toDoPagination from '../../utils/pagination/toDoPagination';
 
 function service(model: any) {
   const converter = new showdown.Converter();
   const requireFields = [
-    'title', 'description', 'cover', 'body', 'keywords',
+    'title', 'cover', 'body', 'description', 'keywords',
   ];
   const validFields = [
     ...requireFields,
     'slug',
-    'views',
-    'timeShared',
-    'likes',
   ];
+
+  const find = async (filters: any, limit: any, sort: any, skip: any) => (
+    await model.find(filters)
+    .limit(limit)
+    .sort(sort)
+    .skip(skip)
+  );
+
+
+  const findByAuthor = async (authorId: string, query: any) => {
+    const {
+      limit,
+      skip,
+      sort,
+      page,
+    } = setupPagination(query);
+
+    const filters = { user: authorId, isDisabled: false };
+    const posts = await find(filters, limit, sort, skip);
+    const pagination = await toDoPagination(model, { limit, page }, filters);
+
+    const emptyPosts = posts.map(({
+      _id,
+      title,
+      cover,
+      body,
+      description,
+      slug,
+      keywords,
+      views,
+      timeShared,
+      likes,
+      isPublic,
+    }: any) => ({
+      id: _id,
+      title,
+      cover,
+      body,
+      description,
+      slug,
+      keywords,
+      views,
+      timeShared,
+      likes,
+      isPublic,
+    }));
+
+    return { posts: emptyPosts, pagination };
+  };
 
   const buildSlug = async (slug: any): Promise<void> => {
     const existSlug = await model.countDocuments({ slug });
@@ -42,24 +90,32 @@ function service(model: any) {
    * @param {*} query
    */
   const findAll = async (query: any): Promise<any> => {
-    let { limit, sort, page: skip } = query;
-    limit = Number(limit) || 10;
-    sort = sort ? String(sort) : '-_id';
-    skip = (Number(skip || 1) - 1) * limit;
+    const {
+      limit,
+      skip,
+      sort,
+      page,
+    } = setupPagination(query);
 
-    const filters = { isPublic: true, isActive: true };
-    const posts = await model.find(filters).limit(limit).sort(sort).skip(skip);
+    const filters = { isPublic: true, isDisabled: false };
+    const posts = await find(filters, limit, sort, skip);
+    const pagination = await toDoPagination(model, { limit, page }, filters);
 
-    if (posts.length === 0) {
-      throw new NotFound('list of posts not found', 404);
-    }
+    const emptyPosts = posts.map(({
+      _id,
+      title,
+      cover,
+      description,
+      slug,
+    }: any) => ({
+      id: _id,
+      title,
+      cover,
+      description,
+      slug,
+    }));
 
-    const totalPosts = await model.countDocuments(filters);
-    const totalPages = Math.ceil(totalPosts / (limit));
-    const page = query.page || 1;
-    const pagination = { totalPosts, totalPages, page };
-
-    return { posts, pagination };
+    return { posts: emptyPosts, pagination };
   };
 
   /**
@@ -68,81 +124,100 @@ function service(model: any) {
    * isActive: true
    * @param {String} slug
    */
-  const findBySlug = async (slug: any): Promise<void> => {
-    const filters = { slug, isPublic: true, isActive: true };
+  const findBySlug = async (slug: string): Promise<any> => {
+    const filters = { slug, isPublic: true, isDisabled: false };
     const post = await model.findOne(filters);
     if (!post) {
       throw new NotFound(`the resource ${slug} not found`);
     }
-    post.body = converter.makeHtml(post.body);
-    return post;
+    const body = converter.makeHtml(post.body)
+    const {
+      _id: id,
+      user,
+      userCover,
+      username,
+      title,
+      cover,
+      description,
+      keywords,
+      views,
+      timeShared,
+      likes,
+      createdAt,
+    } = post;
+    return {
+      id,
+      user,
+      userCover,
+      username,
+      title,
+      cover,
+      body,
+      description,
+      keywords,
+      views,
+      timeShared,
+      likes,
+      createdAt,
+    };
   };
 
   /**
    * Insert a new post in the database
-   * @param {*} post
    */
-  const insert = async (post: any): Promise<void> => {
+  const insert = async (post: any, author: any): Promise<void> => {
     const validedPost = validParams(validFields, post);
     const requiredPost = requireParams(requireFields, validedPost);
 
-    const isPublic = false;
-    const views = 0;
-    const timeShared = 0;
-    const likes = 0;
+    const {
+      id: user,
+      cover: userCover,
+      username,
+    } = author;
 
     const { title } = requiredPost;
     let { slug } = requiredPost;
 
     if (!slug) {
-      slug = buildSlug(slugify(title));
+      slug = await buildSlug(slugify(title));
     }
 
     const createdPost = await model.create({
+      user,
+      userCover,
+      username,
       ...requiredPost,
       slug,
-      isPublic,
-      views,
-      timeShared,
-      likes,
     });
 
     return createdPost;
   };
 
-  /**
-   * update a post
-   * @param {String} slug
-   * @param {*} post
-   */
-  const update = async (slug: any, post: any): Promise<void> => {
+  const update = async (slug: string, post: any, authorId: string): Promise<boolean> => {
     const validedPost = validParams(validFields, post);
-    const updatedPost = await model.updateOne({ slug }, validedPost);
+    const updatedPost = await model.updateOne({ slug, isDisabled: false, user: authorId }, validedPost);
 
     if (updatedPost.nModified !== 1) {
       throw new Error('error to update post');
     }
 
-    return updatedPost;
+    return false;
   };
 
-  /**
-   * delete a post
-   * @param {String} slug
-   */
-  const destroy = async (slug: any): Promise<void> => {
+  const destroy = async (slug: string, authorId: string): Promise<boolean> => {
     if (slug === '') throw new Error('field slug is required');
 
-    const deletedPost = await model.updateOne({ slug }, { isActive: false });
+    const deletedPost = await model.updateOne({ slug, isDisabled: false, user: authorId, }, { isDisabled: true });
 
     if (deletedPost.nModified !== 1) {
       throw new Error('error to delete post');
     }
 
-    return deletedPost;
+    return false;
   };
 
   return {
+    findByAuthor,
     findAll,
     findBySlug,
     insert,

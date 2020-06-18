@@ -41,9 +41,9 @@ function controller(service: any) {
    * @param {import("express").NextFunction} next
    */
   const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const post = req.body;
+    const { body: post, user } = req;
     try {
-      const createdPost = await service.insert(post);
+      const createdPost = await service.insert(post, user);
       success(res, 'post created', createdPost, 201);
     } catch (error) {
       next(error);
@@ -59,8 +59,9 @@ function controller(service: any) {
   const update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const post = req.body;
     const { slug } = req.params;
+    const { id: authorId } = (req.user as any);
     try {
-      const updatedPost = await service.update(slug, post);
+      const updatedPost = await service.update(slug, post, authorId);
       success(res, 'post updated', updatedPost, 200);
     } catch (error) {
       next(error);
@@ -75,9 +76,21 @@ function controller(service: any) {
    */
   const destroy = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { slug } = req.params;
+    const { id: authorId } = (req.user as any);
     try {
-      const deletedPost = await service.destroy(slug);
+      const deletedPost = await service.destroy(slug, authorId);
       success(res, 'post deleted', deletedPost, 200);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  const findByAuthor = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const authorId = (req.user as any).id;
+    const { query }  = req;
+    try {
+      const posts = await service.findByAuthor(authorId, query);
+      success(res, 'posts listed', posts, 200);
     } catch (error) {
       next(error);
     }
@@ -89,6 +102,7 @@ function controller(service: any) {
     create,
     update,
     destroy,
+    findByAuthor,
   };
 }
 
