@@ -27,6 +27,10 @@ export default class UploadsRouter {
   }
 
   loadRoutes(): void {
-    this.router.post('/', this.controller.upload);
+    this.router.post(
+      '/', 
+      (this.middlewares as any).upload.single('cover'),
+      this.controller.upload,
+    );
   }
 } 
