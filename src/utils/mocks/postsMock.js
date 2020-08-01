@@ -1,5 +1,9 @@
 /* eslint-disable no-throw-literal */
 const PostsMock = [{
+  _id: '',
+  user: '',
+  userCover: '',
+  username: '',
   title: '',
   body: '',
   cover: '',
@@ -11,6 +15,8 @@ const PostsMock = [{
   timeShared: 0,
   likes: 0,
   isActive: true,
+  createdAt: '',
+  id: '',
 }];
 
 const findAll = async (query) => {

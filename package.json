@@ -9,7 +9,7 @@
     "prestart": "npm run build",
     "start": "DEBUG=app:* node dist/server",
     "dev": "npm run build && DEBUG=app:* nodemon dist/server",
-    "test": "jest ./dist",
+    "test": "tsc & jest ./dist",
     "cover": "jest --collectCoverage",
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },
