@@ -7,8 +7,8 @@ const config = {
     mode: process.env.NODE_ENV || 'development',
     port: process.env.PORT || 3000,
     logPrefix: process.env.LOG_PREFIX || 'app',
-    secretSession: process.env.SECRET_SESSION || '',
-    secretJWT: process.env.SECRET_JTW || '',
+    secretSession: process.env.SECRET_SESSION || 'my_secret-key',
+    secretJWT: process.env.SECRET_JTW || 'my_secret-key',
   },
   db: {
     host: process.env.DB_HOST || '',
