@@ -38,7 +38,6 @@ const findBySlug = async (slug) => {
 };
 
 const insert = async (post) => {
-  console.log(post, 'ESTES ES EL POST');
   if (Object.keys(post).length === 0) throw false;
   return Promise.resolve(PostsMock[0]);
 };
