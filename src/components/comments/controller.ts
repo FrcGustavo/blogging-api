@@ -1,6 +1,4 @@
-import service from "../posts/service";
-
-const CommentsController = (service: any) => {
+const CommentsController = (service: any, success: any) => {
     const index = (req: any, res: any) => {
         res.send('HOLA MUNDO');
     };
@@ -10,8 +8,10 @@ const CommentsController = (service: any) => {
     };
 
     const create = async (req: any, res: any, next: any) => {
+        const { body } = req;
         try {
-            const createdComment = await service.insertComment(); 
+            const createdComment = await service.insertComment(body); 
+            success(res, 'comment created', createdComment, 201);
         } catch (error) {
             next(error);
         }
