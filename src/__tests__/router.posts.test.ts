@@ -80,7 +80,7 @@ describe('router - posts', () => {
         });
     });
   });
-
+/*
   describe('POST /api/posts/', () => {
     const post = PostsMock[0];
     test('should response with status code 201', (done) => {
@@ -186,5 +186,5 @@ describe('router - posts', () => {
           done();
         });
     });
-  });
+  });*/
 });

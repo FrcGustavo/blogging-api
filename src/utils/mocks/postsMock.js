@@ -1,5 +1,9 @@
 /* eslint-disable no-throw-literal */
 const PostsMock = [{
+  _id: '',
+  user: '',
+  userCover: '',
+  username: '',
   title: '',
   body: '',
   cover: '',
@@ -11,6 +15,8 @@ const PostsMock = [{
   timeShared: 0,
   likes: 0,
   isActive: true,
+  createdAt: '',
+  id: '',
 }];
 
 const findAll = async (query) => {
@@ -32,6 +38,7 @@ const findBySlug = async (slug) => {
 };
 
 const insert = async (post) => {
+  console.log(post, 'ESTES ES EL POST');
   if (Object.keys(post).length === 0) throw false;
   return Promise.resolve(PostsMock[0]);
 };

@@ -22,7 +22,7 @@ sortStub.withArgs('-_id').returns({ skip: (query) => skipStub(query) });
 sortStub.withArgs('title').returns({ skip: (query) => skipStub(query) });
 limitStub.withArgs(10).returns({ sort: (query) => sortStub(query) });
 limitStub.withArgs(20).returns({ sort: (query) => sortStub(query) });
-findStub.withArgs({ isPublic: true, isActive: true })
+findStub.withArgs({ isPublic: true, isDisabled: false })
   .returns({ limit: (query) => limitStub(query) });
 
 countDocumentsStub.withArgs({ isPublic: true, isActive: true }).resolves(PostsMock.length);
@@ -45,7 +45,7 @@ updateOneStub.withArgs(
 updateOneStub.withArgs(
   { slug: 'error' },
   { isActive: false },
-).resolves({ nModified: 0 });
+).resolves({ nModified: 1 });
 updateOneStub.withArgs(
   { slug: PostsMock[0].slug },
   { title: 'this is a new title' },
@@ -53,16 +53,16 @@ updateOneStub.withArgs(
 updateOneStub.withArgs(
   { slug: 'error' },
   { title: 'this is a new title' },
-).resolves({ nModified: 0 });
+).resolves({ nModified: 1 });
 findOneStub.withArgs({
   slug: PostsMock[0].slug,
   isPublic: true,
-  isActive: true,
+  isDisabled: false,
 }).resolves(PostsMock[0]);
 findOneStub.withArgs({
   slug: 'error',
   isPublic: true,
-  isActive: true,
+  isDisabled: false,
 }).resolves(false);
 
 const find = (query) => findStub(query);
