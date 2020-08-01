@@ -9,7 +9,7 @@
     "prestart": "npm run build",
     "start": "DEBUG=app:* node dist/server",
     "dev": "npm run build && DEBUG=app:* nodemon dist/server",
-    "test": "tsc & jest ./dist",
+    "test": "tsc -p tsconfig.json && jest ./dist",
     "cover": "jest --collectCoverage",
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },
@@ -50,6 +50,7 @@
     "@types/mongoose": "^5.7.21",
     "@types/morgan": "^1.9.0",
     "@types/node": "^14.0.5",
+    "@types/supertest": "^2.0.10",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
