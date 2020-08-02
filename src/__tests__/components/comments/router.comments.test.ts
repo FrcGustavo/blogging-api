@@ -1,8 +1,11 @@
-/*import express, { Router } from 'express';
+import express, { Router } from 'express';
 import supertest from 'supertest';
 
-import CommentsRouter from '../components/comments/router';
-import CommentsController from '../components/comments/controller';
+import CommentsRouter from '../../../components/comments/router';
+import CommentsController from '../../../components/comments/controller';
+
+import success from '../../../router/success';
+import fakeServiceComments from '../../../utils/fakeServices/fakeCommentsService';
 
 const testServer = (router: any, path: string) => {
     const app = express();
@@ -13,7 +16,7 @@ const testServer = (router: any, path: string) => {
 };
 
 const route = Router()
-const controller = CommentsController();
+const controller = CommentsController(fakeServiceComments, success);
 CommentsRouter(route, controller);
 
 describe('router - posts', () => {
@@ -32,10 +35,14 @@ describe('router - posts', () => {
             request
                 .get('/api/comments')
                 .end((err: any, res: any) => {
-                    expect(res.text).toEqual('HOLA MUNDO');
+                    expect(res.body).toEqual({
+                        error: false,
+                        status: 200,
+                        message: 'comments listed',
+                        body: 'request is successfully',
+                    });
                     done();
                 });
         });
     });
 });
-*/
