@@ -20,11 +20,11 @@ const CommentsService = (model: any, validParams: any, requireParams: any, setup
         const emptyComments = comments.map(({
             username,
             body,
-            createdAt 
+            createdAt
         }: any) => ({
             username,
             body,
-            createdAt 
+            createdAt
         }));
 
         return { comments: emptyComments, pagination };
