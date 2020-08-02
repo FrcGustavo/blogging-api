@@ -1,6 +1,4 @@
-import { stringify } from "querystring";
-
-const fakeServiceComments = {
+const fakeCommentsService = {
     findAll: async (query: any) => {
         if (query.error) {
             throw false;
@@ -27,4 +25,4 @@ const fakeServiceComments = {
     },
 };
 
-export default fakeServiceComments;
+export default fakeCommentsService;

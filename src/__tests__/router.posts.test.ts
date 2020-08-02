@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+/*
 import testServer from '../utils/mocks/testServer';
 import { serviceMock, PostsMock } from '../utils/mocks/postsMock';
 import PostController from '../components/posts/controller';
@@ -80,7 +81,7 @@ describe('router - posts', () => {
         });
     });
   });
-/*
+
   describe('POST /api/posts/', () => {
     const post = PostsMock[0];
     test('should response with status code 201', (done) => {
@@ -186,5 +187,5 @@ describe('router - posts', () => {
           done();
         });
     });
-  });*/
-});
+  });
+});*/

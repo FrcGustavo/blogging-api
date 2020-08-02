@@ -4,17 +4,14 @@ import CommentsRouter from '../../../components/comments/router';
 import CommentsController from '../../../components/comments/controller';
 import success from '../../../router/success';
 import { mockComment } from '../../../utils/fakeModels/fakeComments';
-import fakeServiceComments from '../../../utils/fakeServices/fakeCommentsService';
+import fakeCommentsService from '../../../utils/fakeServices/fakeCommentsService';
+import fakePassport from '../../../utils/fakeUtils/fakePassport';
 
 import testServer from '../../../utils/fakeServer/testServer';
 
-const passport = {
-    authenticate: () => (req: any, res: any, next: any) => next(),
-}
-
 const route = Router()
-const controller = CommentsController(fakeServiceComments, success);
-CommentsRouter(route, controller, passport);
+const controller = CommentsController(fakeCommentsService, success);
+CommentsRouter(route, controller, fakePassport);
 
 describe('router - posts', () => {
     const request = testServer(route, '/api/comments');
