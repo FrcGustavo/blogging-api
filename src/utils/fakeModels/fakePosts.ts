@@ -18,3 +18,26 @@ export const mockPost = {
     updatedAt: '2020-08-02T01:04:34.265Z',
     _v: 0,
 };
+
+export const mockPostsLits = [mockPost, mockPost];
+
+const skip = () => {
+    return mockPostsLits;
+};
+const sort = () => {
+    return { skip };
+};
+const limit = () => {
+    return { sort };
+};
+
+const fakeModelPosts = {
+    countDocuments: async (filters: any) => {
+        return mockPostsLits.length;
+    },
+    find: (filters: any) => {
+        return { limit };
+    },
+};
+
+export default fakeModelPosts;
