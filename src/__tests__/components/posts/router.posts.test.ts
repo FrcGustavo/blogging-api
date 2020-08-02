@@ -115,6 +115,40 @@ describe('router - posts', () => {
               done();
             });
         });
-      });
+    });
 
+    describe('PATCH /api/posts/', () => {
+        const { slug } = mockPost;
+        test('should response with status code 200', (done) => {
+          request
+            .patch(`/api/posts/${slug}`)
+            .send(mockPost)
+            .expect(200, done);
+        });
+    
+        test('should response with a post updated', (done) => {
+          request
+            .patch(`/api/posts/${slug}`)
+            .send(mockPost)
+            .end((err: any, res: any) => {
+              expect(res.body).toEqual({
+                error: false,
+                message: 'post updated',
+                status: 200,
+                body: 'request is successfully',
+              });
+              done();
+            });
+        });
+    
+        test('should response with a empty object', (done) => {
+          request
+            .patch(`/api/posts/${slug}`)
+            .send({ error: true })
+            .end((err: any, res: any) => {
+              expect(res.body).toEqual({});
+              done();
+            });
+        });
+    });
 });
