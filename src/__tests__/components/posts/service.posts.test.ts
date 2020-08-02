@@ -149,4 +149,20 @@ describe('service - posts', () => {
         });
     });
 
+    describe('update', () => {
+        test('should return with post updated', async () => {
+            const result = await service.update(mockPost.slug, mockPost, mockPost.user);
+            expect(result).toBeFalsy();
+        });
+
+        test('should generate a error', async () => {
+            try {
+                await service.update('error', mockPost, mockPost.user);
+            } catch (error) {
+                const result = error.message;
+                expect(result).toEqual('error to update post');
+            }
+        });
+    });
+
 });

@@ -49,7 +49,13 @@ const fakeModelPosts = {
     },
     create: async () => {
         return mockPost;
-    }
+    },
+    updateOne: async ({ slug }: any) => {
+        if (slug === 'error') {
+            return {};
+        }
+        return { nModified: 1 };
+    },
 };
 
 export default fakeModelPosts;
