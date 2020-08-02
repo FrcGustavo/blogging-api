@@ -23,6 +23,12 @@ const fakePostsService = {
         }
         return 'request is successfully';
     },
+    destroy: async (slug: string, authorId: string) => {
+        if (slug === 'error') {
+            throw false;
+        }
+        return 'request is successfully';
+    },
 };
 
 export default fakePostsService;

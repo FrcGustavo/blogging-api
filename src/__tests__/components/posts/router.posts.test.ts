@@ -48,7 +48,7 @@ describe('router - posts', () => {
                     done();
                 });
         });
-    
+
     });
 
     describe('GET /api/posts/:slug', () => {
@@ -58,7 +58,7 @@ describe('router - posts', () => {
             .get(`/api/posts/${slug}`)
             .expect(200, done);
         });
-    
+
         test('should response with a post', (done) => {
           request
             .get(`/api/posts/${slug}`)
@@ -72,7 +72,7 @@ describe('router - posts', () => {
               done();
             });
         });
-    
+
         test('should response with a empty object', (done) => {
           request
             .get('/api/posts/error')
@@ -90,7 +90,7 @@ describe('router - posts', () => {
             .send(mockPost)
             .expect(201, done);
         });
-    
+
         test('should response with a post created', (done) => {
           request
             .post('/api/posts')
@@ -105,7 +105,7 @@ describe('router - posts', () => {
               done();
             });
         });
-    
+
         test('should response with a empty object', (done) => {
           request
             .post('/api/posts')
@@ -125,7 +125,7 @@ describe('router - posts', () => {
             .send(mockPost)
             .expect(200, done);
         });
-    
+
         test('should response with a post updated', (done) => {
           request
             .patch(`/api/posts/${slug}`)
@@ -140,7 +140,7 @@ describe('router - posts', () => {
               done();
             });
         });
-    
+
         test('should response with a empty object', (done) => {
           request
             .patch(`/api/posts/${slug}`)
@@ -151,4 +151,36 @@ describe('router - posts', () => {
             });
         });
     });
+
+    describe('DELETE /api/posts/', () => {
+        const { slug } = mockPost;
+        test('should response with status code 200', (done) => {
+          request
+            .delete(`/api/posts/${slug}`)
+            .expect(200, done);
+        });
+
+        test('should response with a post deleted', (done) => {
+          request
+            .delete(`/api/posts/${slug}`)
+            .end((err: any, res: any) => {
+              expect(res.body).toEqual({
+                error: false,
+                message: 'post deleted',
+                status: 200,
+                body: 'request is successfully',
+              });
+              done();
+            });
+        });
+
+        test('should response with a empty object', (done) => {
+          request
+            .delete('/api/posts/error')
+            .end((err: any, res: any) => {
+              expect(res.body).toEqual({});
+              done();
+            });
+        });
+      });
 });
