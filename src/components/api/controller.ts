@@ -9,12 +9,12 @@ import { error } from '../../utils/debug';
  * @param {import("express").NextFunction} next
  */
 export const index = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    res.render('pages/home');
-  } catch (err) {
-    error(err);
-    next(err);
-  }
+	try {
+		res.render('pages/home');
+	} catch (err) {
+		error(err);
+		next(err);
+	}
 };
 
 /**
@@ -24,12 +24,12 @@ export const index = async (req: Request, res: Response, next: NextFunction) => 
  * @param {import("express").NextFunction} next
  */
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    res.render('pages/signup');
-  } catch (err) {
-    error(err.message);
-    next(err);
-  }
+	try {
+		res.render('pages/signup');
+	} catch (err) {
+		error(err.message);
+		next(err);
+	}
 };
 
 /**
@@ -39,31 +39,31 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
  * @param {import("express").NextFunction} next
  */
 export const register = async (req: Request, res: Response) => {
-  const user = req.body;
-  try {
-    await service.create(user);
-    res.render('pages/signin', {
-      messages: [
-        'user created successfully',
-      ],
-    });
-  } catch (err) {
-    error(err.message);
-    res.render('pages/signup', {
-      errors: [
-        err.message,
-      ],
-    });
-  }
+	const user = req.body;
+	try {
+		await service.create(user);
+		res.render('pages/signin', {
+			messages: [
+				'user created successfully',
+			],
+		});
+	} catch (err) {
+		error(err.message);
+		res.render('pages/signup', {
+			errors: [
+				err.message,
+			],
+		});
+	}
 };
 
 export const signin = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    res.render('pages/signin');
-  } catch (err) {
-    error(err.message);
-    next(err);
-  }
+	try {
+		res.render('pages/signin');
+	} catch (err) {
+		error(err.message);
+		next(err);
+	}
 };
 
 /**
@@ -73,14 +73,14 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
  * @param {import("express").NextFunction} next
  */
 export const login = async (req: Request, res: Response, next: NextFunction) => {
-  const user = req.body;
-  try {
-    const token: any = await service.logged(user);
-    const userObj: any = { user: token };
-    req.session = userObj;
-    res.redirect('/');
-  } catch (err) {
-    error(err.message);
-    next(err);
-  }
+	const user = req.body;
+	try {
+		const token: any = await service.logged(user);
+		const userObj: any = { user: token };
+		req.session = userObj;
+		res.redirect('/');
+	} catch (err) {
+		error(err.message);
+		next(err);
+	}
 };

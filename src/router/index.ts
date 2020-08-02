@@ -7,12 +7,12 @@ import UPLOADS from '../components/uploads';
 import COMMENTS from '../components/comments';
 
 const ROUTER = (app: Application): void => {
-  API(app);
-  POSTS(app);
-  USERS(app);
-  AUTH(app);
-  UPLOADS(app);
-  COMMENTS(app);
+	API(app);
+	POSTS(app);
+	USERS(app);
+	AUTH(app);
+	UPLOADS(app);
+	COMMENTS(app);
 };
 
 export default ROUTER;

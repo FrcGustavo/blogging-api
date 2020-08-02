@@ -15,10 +15,10 @@ app.set('view engine', 'pug');
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: config.srv.secretSession,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false },
+	secret: config.srv.secretSession,
+	resave: false,
+	saveUninitialized: true,
+	cookie: { secure: false },
 }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

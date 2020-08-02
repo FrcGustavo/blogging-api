@@ -9,14 +9,14 @@ import config from '../../config';
  * @param {*} user
  */
 const validUserParams = (user: any) => {
-  const validAndRequireParams = ['firstName', 'email', 'password', 'repeatPassword'];
-  const params = buildParams(validAndRequireParams, user);
+	const validAndRequireParams = ['firstName', 'email', 'password', 'repeatPassword'];
+	const params = buildParams(validAndRequireParams, user);
 
-  Object.keys(params).forEach((key) => {
-    if (params[key] === null || params[key] === undefined || params[key] === '') throw new Error('All params is required');
-  });
+	Object.keys(params).forEach((key) => {
+		if (params[key] === null || params[key] === undefined || params[key] === '') { throw new Error('All params is required'); }
+	});
 
-  return params;
+	return params;
 };
 
 /**
@@ -30,26 +30,26 @@ const isPasswordEqual = (user: any) => (user.password === user.repeatPassword);
  * @param {*} user
  */
 export const create = async (user: any) => {
-  const validatedUser = validUserParams(user);
+	const validatedUser = validUserParams(user);
 
-  if (!isPasswordEqual(validatedUser)) {
-    throw new Error('the password are not equal');
-  }
+	if (!isPasswordEqual(validatedUser)) {
+		throw new Error('the password are not equal');
+	}
 
-  const existedUser = await User.findOne({ email: user.email });
+	const existedUser = await User.findOne({ email: user.email });
 
-  if (existedUser) throw new Error('resource true exists');
+	if (existedUser) { throw new Error('resource true exists'); }
 
-  const hashedPassword = await bcrypt.hash(validatedUser.password, 10);
+	const hashedPassword = await bcrypt.hash(validatedUser.password, 10);
 
-  const { firstName, email } = validatedUser;
-  const createdUser = await User.create({
-    firstName,
-    email,
-    password: hashedPassword,
-  });
+	const { firstName, email } = validatedUser;
+	const createdUser = await User.create({
+		firstName,
+		email,
+		password: hashedPassword,
+	});
 
-  return createdUser;
+	return createdUser;
 };
 
 /**
@@ -57,27 +57,27 @@ export const create = async (user: any) => {
  * @param {*} user
  */
 export const logged = async (user: any) => {
-  const { email, password } = user;
-  const existedUser: any = await User.findOne({ email });
+	const { email, password } = user;
+	const existedUser: any = await User.findOne({ email });
 
-  if (!existedUser) throw new Error('Please write correct credentials');
+	if (!existedUser) { throw new Error('Please write correct credentials'); }
 
-  const isValidPassword = await bcrypt.compare(password, existedUser.password);
+	const isValidPassword = await bcrypt.compare(password, existedUser.password);
 
-  if (!isValidPassword) throw new Error('Please write correct credentials');
+	if (!isValidPassword) { throw new Error('Please write correct credentials'); }
 
-  delete existedUser.password;
+	delete existedUser.password;
 
-  const payload = {
-    // eslint-disable-next-line no-underscore-dangle
-    sub: existedUser._id,
-    email: existedUser.email,
-    firstName: existedUser.firstName,
-  };
+	const payload = {
+		// eslint-disable-next-line no-underscore-dangle
+		sub: existedUser._id,
+		email: existedUser.email,
+		firstName: existedUser.firstName,
+	};
 
-  const token = jwt.sign(payload, config.srv.secretJWT, {
-    expiresIn: '59min',
-  });
+	const token = jwt.sign(payload, config.srv.secretJWT, {
+		expiresIn: '59min',
+	});
 
-  return token;
+	return token;
 };

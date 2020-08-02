@@ -7,24 +7,24 @@ import UsersService from '../../../components/users/service';
 import User from '../../../models/user';
 
 passport.use(
-  new BasicStrategy(async (email: string, password: string, cb: any) => {
-    const service = new UsersService(User, { requireParams, validParams });
-    try {
-      const user = await service.findUser(email);
+	new BasicStrategy(async (email: string, password: string, cb: any) => {
+		const service = new UsersService(User, { requireParams, validParams });
+		try {
+			const user = await service.findUser(email);
 
-      if (!user) {
-        return cb(new Error('Unauthorized'), false);
-      }
+			if (!user) {
+				return cb(new Error('Unauthorized'), false);
+			}
 
-      if(!(await bcrypt.compare(password, user.password))) {
-        return cb(new Error('Unauthorized'), false);
-      }
+			if(!(await bcrypt.compare(password, user.password))) {
+				return cb(new Error('Unauthorized'), false);
+			}
 
-      delete user.password;
+			delete user.password;
 
-      return cb(null, user);
-    } catch (error) {
-      return cb(error);
-    }
-  }),
+			return cb(null, user);
+		} catch (error) {
+			return cb(error);
+		}
+	}),
 );

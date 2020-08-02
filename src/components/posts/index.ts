@@ -11,12 +11,12 @@ import setupPagination from '../../utils/pagination/setupPagination';
 import toDoPagination from '../../utils/pagination/toDoPagination';
 
 const POST = (app: any) => {
-    const router = Router();
-    const service = PostsService(Post, validParams, requireParams, setupPagination, toDoPagination);
-    const controller = PostsController(service, success);
+		const router = Router();
+		const service = PostsService(Post, validParams, requireParams, setupPagination, toDoPagination);
+		const controller = PostsController(service, success);
 
-    app.use('/api/posts', router);
-    PostsRouter(router, controller, passport);
+		app.use('/api/posts', router);
+		PostsRouter(router, controller, passport);
 };
 
 export default POST;
