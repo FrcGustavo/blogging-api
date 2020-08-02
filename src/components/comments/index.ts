@@ -9,13 +9,10 @@ import validParams from '../../utils/params/validParams';
 import setupPagination from '../../utils/pagination/setupPagination';
 import toDoPagination from '../../utils/pagination/toDoPagination';
 
-
-
 const COMMENTS = (app: any) => {
     const router = Router();
     const service = CommentsService(Comment, validParams, requireParams, setupPagination, toDoPagination);
     const controller = CommentsController(service, success);
-
 
     app.use('/api/comments', router);
     CommentsRouter(router, controller);

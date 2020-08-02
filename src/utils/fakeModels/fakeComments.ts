@@ -1,4 +1,4 @@
-export const mockComent = {
+export const mockComment = {
     _id: '5f2611228cfc8705d3f4ef89',
     post: '5eb268995a6c8f000a6a8be4',
     username: 'Francisco',
@@ -9,10 +9,10 @@ export const mockComent = {
     _v: 0,
 };
 
-export const mockComentsList = [mockComent, mockComent];
+export const mockCommentsList = [mockComment, mockComment];
 
 const skip = () => {
-    return mockComentsList;
+    return mockCommentsList;
 };
 const sort = () => {
     return { skip };
@@ -23,13 +23,13 @@ const limit = () => {
 
 const fakeModelComments = {
     countDocuments: async (filters: any) => {
-        return mockComentsList.length;
+        return mockCommentsList.length;
     },
     find: (filters: any) => {
         return { limit };
     },
     create: async (param: any) => {
-        return mockComent;
+        return mockComment;
     },
 };
 

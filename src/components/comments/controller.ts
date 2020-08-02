@@ -9,10 +9,6 @@ const CommentsController = (service: any, success: any) => {
         }
     };
 
-    const show = (req: any, res: any) => {
-        res.send('BY ID PERSONALIZADO');
-    };
-
     const create = async (req: any, res: any, next: any) => {
         const { body } = req;
         try {
@@ -23,10 +19,20 @@ const CommentsController = (service: any, success: any) => {
         }
     }
 
+    const destroy = async (req: any, res: any, next: any) => {
+        const { id: commentId } = req.params;
+        try {
+            const deletedComment = await service.deleteComment(commentId);
+            success(res, 'comment deleted', deletedComment, 200);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     return {
         index,
-        show,
         create,
+        destroy,
     }
 
 };

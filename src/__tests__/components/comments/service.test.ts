@@ -1,5 +1,5 @@
 import CommentsService from '../../../components/comments/service';
-import fakeModelComments, { mockComent, mockComentsList } from '../../../utils/fakeModels/fakeComments';
+import fakeModelComments, { mockComment, mockCommentsList } from '../../../utils/fakeModels/fakeComments';
 import validParams from '../../../utils/params/validParams';
 import requireParams from '../../../utils/params/requireParams';
 import setupPagination from '../../../utils/pagination/setupPagination';
@@ -9,9 +9,9 @@ describe('service - comments', () => {
     const service = CommentsService(fakeModelComments, validParams, requireParams, setupPagination, toDoPagination);
     describe('insertComment', () => {
         test('should return a new comment', async () => {
-            const { post, username, body } = mockComent;
+            const { post, username, body } = mockComment;
             const result = await service.insertComment({ post, username, body });
-            expect(result).toEqual(mockComent);
+            expect(result).toEqual(mockComment);
         });
     });
 
@@ -19,7 +19,7 @@ describe('service - comments', () => {
         test('should return a list of comments', async () => {
             const result = await service.findAll({});
             const expected = {
-                comments: mockComentsList.map(({ username, body, createdAt }) => ({ username, body, createdAt })),
+                comments: mockCommentsList.map(({ username, body, createdAt }) => ({ username, body, createdAt })),
                 pagination: {
                     page: 1,
                     pages: 1,
