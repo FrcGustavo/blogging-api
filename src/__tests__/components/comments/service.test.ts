@@ -29,4 +29,23 @@ describe('service - comments', () => {
             expect(result).toEqual(expected);
         });
     });
+
+    describe('deleteComment', () => {
+        test('should return a false value', async () => {
+            const result = await service.deleteComment(mockComment._id);
+            const expected = false;
+            expect(result).toEqual(expected);
+        });
+
+        test('should generate an error', async () => {
+            try {
+                await service.deleteComment('error');
+            } catch (error) {
+                const result = error.message;
+                const expected = 'error to delete comment';
+                expect(result).toEqual(expected);
+                
+            }
+        });
+    });
 });

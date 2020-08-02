@@ -31,6 +31,12 @@ const fakeModelComments = {
     create: async (param: any) => {
         return mockComment;
     },
+    updateOne: async ({ _id }: any) => {
+        if (_id == 'error') {
+            return {};
+        }
+        return { nModified: 1 };
+    } 
 };
 
 export default fakeModelComments;
