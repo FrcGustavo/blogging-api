@@ -1,4 +1,6 @@
-const CommentsService = (model: any, validParams: any, requireParams: any, setupPagination: any, toDoPagination: any) => {
+const CommentsService = (
+	model: any, validParams: any, requireParams: any, setupPagination: any, toDoPagination: any,
+) => {
 		const requiredFields = ['post', 'body'];
 		const validFields = [ ...requiredFields, 'username' ];
 

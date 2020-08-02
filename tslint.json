@@ -4,7 +4,10 @@
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {  
+    "rules": {
+        "max-line-length": {
+            "options": [120]
+        },
         "curly": true,
         "quotemark": [true, "single"],
         "indent": [true, "tabs", 2],
