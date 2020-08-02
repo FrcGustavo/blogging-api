@@ -5,15 +5,18 @@ const fakeServiceComments = {
         }
         return 'request is successfully';
     },
-    insertComment: async () => {
+    insertComment: async ({ error }: any) => {
+        if (error) {
+            throw false;
+        }
         return 'request is successfully';
     },
 
     deleteComment: async (commentId: string) => {
         if (commentId === 'error') {
             throw false;
-        } 
-        return 'request is successfully';  
+        }
+        return 'request is successfully';
     },
 };
 

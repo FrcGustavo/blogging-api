@@ -54,6 +54,40 @@ describe('router - posts', () => {
         });
     });
 
+    describe('POST /api/comments', () => {
+        test('should response with status code 201', (done) => {
+            request
+                .post('/api/comments')
+                .send(mockComment)
+                .expect(201, done);
+        });
+
+        test('should response with a new comment', (done) => {
+            request
+                .post('/api/comments')
+                .send(mockComment)
+                .end((err: any, res: any) => {
+                    expect(res.body).toEqual({
+                        error: false,
+                        status: 201,
+                        message: 'comment created',
+                        body: 'request is successfully',
+                    });
+                    done();
+                });
+        });
+
+        test('should response with an error', (done) => {
+            request
+                .post('/api/comments')
+                .send({ error: true })
+                .end((err: any, res: any) => {
+                    expect(res.body).toEqual({});
+                    done();
+                });
+        });
+    });
+
     describe('DELETE /api/comments', () => {
         test('should response with status code 200', (done) => {
             request
