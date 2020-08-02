@@ -3,6 +3,7 @@ import { Router } from 'express';
 import PostsRouter from '../../../components/posts/router';
 import PostsController from '../../../components/posts/controller';
 import success from '../../../router/success';
+import fakePassport from '../../../utils/fakeUtils/fakePassport';
 
 import testServer from '../../../utils/fakeServer/testServer';
 
