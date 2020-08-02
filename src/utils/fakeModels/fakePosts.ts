@@ -33,6 +33,9 @@ const limit = () => {
 
 const fakeModelPosts = {
     countDocuments: async (filters: any) => {
+        if (filters.slug) {
+            return 0;
+        }
         return mockPostsLits.length;
     },
     find: (filters: any) => {
@@ -44,6 +47,9 @@ const fakeModelPosts = {
         }
         return mockPost;
     },
+    create: async () => {
+        return mockPost;
+    }
 };
 
 export default fakeModelPosts;

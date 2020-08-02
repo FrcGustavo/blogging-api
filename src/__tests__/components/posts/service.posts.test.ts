@@ -110,4 +110,43 @@ describe('service - posts', () => {
         });
     });
 
+    describe('insert', () => {
+        const {
+            user: id,
+            userCover,
+            username,
+            title,
+            cover,
+            body,
+            description,
+            keywords,
+            slug,
+        } = mockPost;
+        test('shloud return a new post', async () => {
+            const result = await service.insert({
+                title,
+                cover,
+                body,
+                description,
+                keywords,
+                slug,
+            }, { id, userCover, username });
+            const expected = mockPost;
+            expect(result).toEqual(expected);
+        });
+
+        test('shloud return a new post with auto slug', async () => {
+            const result = await service.insert({
+                title,
+                cover,
+                body,
+                description,
+                keywords,
+            }, { id, userCover, username });
+            
+            const expected = mockPost;
+            expect(result).toEqual(expected);
+        });
+    });
+
 });
