@@ -143,7 +143,7 @@ describe('service - posts', () => {
                 description,
                 keywords,
             }, { id, userCover, username });
-            
+
             const expected = mockPost;
             expect(result).toEqual(expected);
         });
@@ -161,6 +161,31 @@ describe('service - posts', () => {
             } catch (error) {
                 const result = error.message;
                 expect(result).toEqual('error to update post');
+            }
+        });
+    });
+
+    describe('destroy', () => {
+        test('should return with post deleted', async () => {
+            const result = await service.destroy(mockPost.slug, mockPost.user);
+            expect(result).toBeFalsy();
+        });
+
+        test('should generate a error', async () => {
+            try {
+                await service.destroy('error', mockPost.user);
+            } catch (error) {
+                const result = error.message;
+                expect(result).toEqual('error to delete post');
+            }
+        });
+
+        test('should generate a error without slug', async () => {
+            try {
+                await service.destroy('', mockPost.user);
+            } catch (error) {
+                const result = error.message;
+                expect(result).toEqual('field slug is required');
             }
         });
     });
