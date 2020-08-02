@@ -10,7 +10,13 @@ const fakePostsService = {
             throw false;
         }
         return 'request is successfully';
-    }
+    },
+    insert: async (post: any, user: any) => {
+        if (post.error === true) {
+            throw false;
+        }
+        return 'request is successfully';
+    },
 };
 
 export default fakePostsService;
