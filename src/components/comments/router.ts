@@ -1,5 +1,10 @@
 const CommentsRouter = (router: any, controller: any, passport: any) => {
-    router.get('/', controller.index);
+    router.get(
+        '/',
+        passport.authenticate('jwt', { session: false }),
+        controller.index,
+    );
+    router.get('/:id', controller.listByPost);
     router.post('/', controller.create);
     router.delete(
         '/:id',

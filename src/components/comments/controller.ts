@@ -9,6 +9,16 @@ const CommentsController = (service: any, success: any) => {
         }
     };
 
+    const listByPost = async (req: any, res: any, next: any) => {
+        const { id: postId } = req.params;
+        try {
+            const comments = await service.findByPost(postId);
+            success(res, 'comments listed', comments, 200);
+        } catch (error) {
+            next(error);
+        }
+    };
+
     const create = async (req: any, res: any, next: any) => {
         const { body } = req;
         try {
@@ -17,7 +27,7 @@ const CommentsController = (service: any, success: any) => {
         } catch (error) {
             next(error);
         }
-    }
+    };
 
     const destroy = async (req: any, res: any, next: any) => {
         const { id: commentId } = req.params;
@@ -27,10 +37,11 @@ const CommentsController = (service: any, success: any) => {
         } catch (error) {
             next(error);
         }
-    }
+    };
 
     return {
         index,
+        listByPost,
         create,
         destroy,
     }

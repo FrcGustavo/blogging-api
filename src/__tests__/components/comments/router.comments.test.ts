@@ -58,6 +58,37 @@ describe('router - posts', () => {
         });
     });
 
+    describe('GET /api/comments/:id', () => {
+        test('should response with status code 200', (done) => {
+            request
+                .get(`/api/comments/${mockComment._id}`)
+                .expect(200, done);
+        });
+
+        test('should response with a message', (done) => {
+            request
+                .get(`/api/comments/${mockComment._id}`)
+                .end((err: any, res: any) => {
+                    expect(res.body).toEqual({
+                        error: false,
+                        status: 200,
+                        message: 'comments listed',
+                        body: 'request is successfully',
+                    });
+                    done();
+                });
+        });
+
+        test('should response with an error', (done) => {
+            request
+                .get('/api/comments/error')
+                .end((err: any, res: any) => {
+                    expect(res.body).toEqual({});
+                    done();
+                });
+        });
+    });
+
     describe('POST /api/comments', () => {
         test('should response with status code 201', (done) => {
             request
