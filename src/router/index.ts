@@ -1,6 +1,6 @@
 import { Application } from 'express';
 import API from '../components/api/router';
-import POSTS from '../components/posts/router';
+import POSTS from '../components/posts';
 import USERS from '../components/users';
 import AUTH from '../components/auth';
 import UPLOADS from '../components/uploads';
