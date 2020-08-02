@@ -5,9 +5,9 @@ const PostsController = (service: any, success: any) => {
    * Response a list of posts
    */
   const index = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { limit, sort, page } = req.query;
+    const { query } = req;
     try {
-      const posts = await service.findAll({ limit, sort, page });
+      const posts = await service.findAll(query);
       success(res, 'posts listed', posts, 200);
     } catch (error) {
       next(error);

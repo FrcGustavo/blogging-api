@@ -39,7 +39,48 @@ describe('router - posts', () => {
                     done();
                 });
         });
+
+        test('should response with a empty object', (done) => {
+            request
+                .get('/api/posts?error=true')
+                .end((err: any, res: any) => {
+                    expect(res.body).toEqual({});
+                    done();
+                });
+        });
     
+    });
+
+    describe('GET /api/posts/:slug', () => {
+        const { slug } = mockPost;
+        test('should response with status code 200', (done) => {
+          request
+            .get(`/api/posts/${slug}`)
+            .expect(200, done);
+        });
+    
+        test('should response with a post', (done) => {
+          request
+            .get(`/api/posts/${slug}`)
+            .end((err: any, res: any) => {
+              expect(res.body).toEqual({
+                error: false,
+                message: 'post retrieved',
+                status: 200,
+                body: 'request is successfully',
+              });
+              done();
+            });
+        });
+    
+        test('should response with a empty object', (done) => {
+          request
+            .get('/api/posts/error')
+            .end((err: any, res: any) => {
+              expect(res.body).toEqual({});
+              done();
+            });
+        });
     });
 
 });
