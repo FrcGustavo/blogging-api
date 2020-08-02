@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import passport from 'passport';
+import '../../utils/auth/strategies/jwt';
 import CommentsRouter from './router';
 import CommentsController from "./controller";
 import CommentsService from "./service";
@@ -15,7 +17,7 @@ const COMMENTS = (app: any) => {
     const controller = CommentsController(service, success);
 
     app.use('/api/comments', router);
-    CommentsRouter(router, controller);
+    CommentsRouter(router, controller, passport);
 };
 
 export default COMMENTS;

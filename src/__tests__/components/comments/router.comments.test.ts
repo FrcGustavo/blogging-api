@@ -16,9 +16,13 @@ const testServer = (router: any, path: string) => {
     return supertest(app);
 };
 
+const passport = {
+    authenticate: () => (req: any, res: any, next: any) => next(),
+}
+
 const route = Router()
 const controller = CommentsController(fakeServiceComments, success);
-CommentsRouter(route, controller);
+CommentsRouter(route, controller, passport);
 
 describe('router - posts', () => {
     const request = testServer(route, '/api/comments');

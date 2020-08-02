@@ -44,7 +44,7 @@ describe('service - comments', () => {
                 const result = error.message;
                 const expected = 'error to delete comment';
                 expect(result).toEqual(expected);
-                
+
             }
         });
     });
