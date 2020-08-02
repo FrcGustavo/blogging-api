@@ -183,4 +183,27 @@ describe('router - posts', () => {
             });
         });
       });
+
+      describe('GET /api/posts/author', () => {
+        const { slug } = mockPost;
+        test('should response with status code 200', (done) => {
+          request
+            .get('/api/posts/author')
+            .expect(200, done);
+        });
+
+        test('should response with a post getd', (done) => {
+          request
+            .get('/api/posts/author')
+            .end((err: any, res: any) => {
+              expect(res.body).toEqual({
+                error: false,
+                message: 'posts listed',
+                status: 200,
+                body: 'request is successfully',
+              });
+              done();
+            });
+        });
+      });
 });

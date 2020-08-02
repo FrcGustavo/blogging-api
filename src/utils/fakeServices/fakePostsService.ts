@@ -29,6 +29,9 @@ const fakePostsService = {
         }
         return 'request is successfully';
     },
+    findByAuthor: async (authorId: string, { error }: any) => {
+        return 'request is successfully';
+    },
 };
 
 export default fakePostsService;
