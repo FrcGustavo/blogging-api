@@ -6,10 +6,14 @@ import Comment from '../../models/comments';
 import success from '../../router/success';
 import requireParams from '../../utils/params/requireParams';
 import validParams from '../../utils/params/validParams';
+import setupPagination from '../../utils/pagination/setupPagination';
+import toDoPagination from '../../utils/pagination/toDoPagination';
+
+
 
 const COMMENTS = (app: any) => {
     const router = Router();
-    const service = CommentsService(Comment, validParams, requireParams);
+    const service = CommentsService(Comment, validParams, requireParams, setupPagination, toDoPagination);
     const controller = CommentsController(service, success);
 
 

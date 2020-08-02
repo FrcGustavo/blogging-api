@@ -1,6 +1,12 @@
 const CommentsController = (service: any, success: any) => {
-    const index = (req: any, res: any) => {
-        res.send('HOLA MUNDO');
+    const index = async (req: any, res: any, next: any) => {
+        const { query } = req;
+        try {
+            const comments = await service.findAll(query);
+            success(res, 'comments listed', comments, 200);
+        } catch (error) {
+            next(error);
+        }
     };
 
     const show = (req: any, res: any) => {
