@@ -19,7 +19,24 @@ describe('service - comments', () => {
         test('should return a list of comments', async () => {
             const result = await service.findAll({});
             const expected = {
-                comments: mockCommentsList.map(({ username, body, createdAt }) => ({ username, body, createdAt })),
+                comments: mockCommentsList.map(
+                    ({ _id, post, username, body, createdAt }) => ({ id: _id, post, username, body, createdAt })),
+                pagination: {
+                    page: 1,
+                    pages: 1,
+                    total: 2,
+                },
+            }
+            expect(result).toEqual(expected);
+        });
+    });
+
+    describe('findByPost', () => {
+        test('should return a list of comments own post', async () => {
+            const result = await service.findByPost(mockComment._id, {});
+            const expected = {
+                comments: mockCommentsList.map(
+                    ({ username, body, createdAt }) => ({ username, body, createdAt })),
                 pagination: {
                     page: 1,
                     pages: 1,
