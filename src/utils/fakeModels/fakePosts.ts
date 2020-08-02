@@ -38,6 +38,12 @@ const fakeModelPosts = {
     find: (filters: any) => {
         return { limit };
     },
+    findOne: ({ slug }: any) => {
+        if (slug === 'error') {
+            return null;
+        }
+        return mockPost;
+    },
 };
 
 export default fakeModelPosts;

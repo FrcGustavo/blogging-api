@@ -31,7 +31,7 @@ describe('service - posts', () => {
                 posts: mockPostsLits.map(
                     ({
                         _id,
-                        title,  
+                        title,
                         cover,
                         body,
                         description,
@@ -63,4 +63,51 @@ describe('service - posts', () => {
             expect(result).toEqual(expected);
         });
     });
+
+    describe('findBySlug', () => {
+        test('should return a post', async () => {
+            const {
+                _id: id,
+                user,
+                userCover,
+                username,
+                title,
+                cover,
+                description,
+                keywords,
+                views,
+                timeShared,
+                likes,
+                createdAt,
+            } = mockPost;
+            const result = await service.findBySlug(mockPost.slug);
+            const expected = {
+                id,
+                user,
+                userCover,
+                username,
+                title,
+                cover,
+                body: '<h1 id=\"titleinformatmarckdown\">Title in format marckdown</h1>',
+                description,
+                keywords,
+                views,
+                timeShared,
+                likes,
+                createdAt,
+            }
+            expect(result).toEqual(expected);
+        });
+
+        test('should generate a error', async () => {
+            try {
+                await service.findBySlug('error');
+            } catch (error) {
+                const { message } = error;
+                const expected = 'the resource error not found';
+                expect(message).toEqual(expected);
+            }
+        });
+    });
+
 });
