@@ -1,20 +1,12 @@
-import express, { Router } from 'express';
-import supertest from 'supertest';
+import { Router } from 'express';
 
 import CommentsRouter from '../../../components/comments/router';
 import CommentsController from '../../../components/comments/controller';
-
 import success from '../../../router/success';
 import { mockComment } from '../../../utils/fakeModels/fakeComments';
 import fakeServiceComments from '../../../utils/fakeServices/fakeCommentsService';
 
-const testServer = (router: any, path: string) => {
-    const app = express();
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
-    app.use(path, router);
-    return supertest(app);
-};
+import testServer from '../../../utils/fakeServer/testServer';
 
 const passport = {
     authenticate: () => (req: any, res: any, next: any) => next(),
