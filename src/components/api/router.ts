@@ -5,14 +5,14 @@ import isLogged from '../../utils/middlewares/isLogged';
 import * as controller from './controller';
 
 const API = (app: Application) => {
-  const router = express.Router();
-  app.use('/', router);
+	const router = express.Router();
+	app.use('/', router);
 
-  router.get('/', isValidSessionUser('/signin'), controller.index);
-  router.get('/signup', isLogged, controller.signup);
-  router.post('/signup', isLogged, controller.register);
-  router.get('/signin', isLogged, controller.signin);
-  router.post('/signin', isLogged, controller.login);
+	router.get('/', isValidSessionUser('/signin'), controller.index);
+	router.get('/signup', isLogged, controller.signup);
+	router.post('/signup', isLogged, controller.register);
+	router.get('/signin', isLogged, controller.signin);
+	router.post('/signin', isLogged, controller.login);
 };
 
 export default API;

@@ -6,7 +6,9 @@
     "jsRules": {},
     "rules": {  
         "curly": true,
-        "quotemark": [true, "single"]
+        "quotemark": [true, "single"],
+        "indent": [true, "tabs", 2],
+        "jsdoc-format": [true, "check-multiline-start"]
     },
     "rulesDirectory": []
-}   
+}

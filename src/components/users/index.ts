@@ -7,11 +7,11 @@ import UsersController from './controller';
 import UsersRouter from './router';
 
 function USERS(app: any): any {
-  const service = new UsersService(User, { requireParams, validParams });
-  const controller = new UsersController(service);
-  const router = new UsersRouter(app, Router(), '/api/users', controller);
-  router.setupRouter();
-  router.loadRoutes();
+	const service = new UsersService(User, { requireParams, validParams });
+	const controller = new UsersController(service);
+	const router = new UsersRouter(app, Router(), '/api/users', controller);
+	router.setupRouter();
+	router.loadRoutes();
 };
 
 export default USERS;
