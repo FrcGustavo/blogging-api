@@ -1,4 +1,4 @@
-import { Application, Router } from "express";
+import { Application, Router } from 'express';
 
 export default class AuthRouter {
   private app: Application

@@ -13,7 +13,7 @@ const validUserParams = (user: any) => {
   const params = buildParams(validAndRequireParams, user);
 
   Object.keys(params).forEach((key) => {
-    if (params[key] === null || params[key] === undefined || params[key] === '') throw new Error('All params is required');
+    if (params[key] === null || params[key] === undefined || params[key] === '') { throw new Error('All params is required'); }
   });
 
   return params;
@@ -38,7 +38,7 @@ export const create = async (user: any) => {
 
   const existedUser = await User.findOne({ email: user.email });
 
-  if (existedUser) throw new Error('resource true exists');
+  if (existedUser) { throw new Error('resource true exists'); }
 
   const hashedPassword = await bcrypt.hash(validatedUser.password, 10);
 
@@ -60,11 +60,11 @@ export const logged = async (user: any) => {
   const { email, password } = user;
   const existedUser: any = await User.findOne({ email });
 
-  if (!existedUser) throw new Error('Please write correct credentials');
+  if (!existedUser) { throw new Error('Please write correct credentials'); }
 
   const isValidPassword = await bcrypt.compare(password, existedUser.password);
 
-  if (!isValidPassword) throw new Error('Please write correct credentials');
+  if (!isValidPassword) { throw new Error('Please write correct credentials'); }
 
   delete existedUser.password;
 

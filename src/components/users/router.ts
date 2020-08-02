@@ -1,4 +1,4 @@
-import { Application, Router } from "express";
+import { Application, Router } from 'express';
 import passport from 'passport';
 import '../../utils/auth/strategies/jwt';
 

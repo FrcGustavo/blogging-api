@@ -11,7 +11,7 @@ const saveInLocal = (file: any) => new Promise((resolve, reject) => {
   const format = file.mimetype.split('/')[1];
 
   fs.copyFile(file.path, newPath, (error) => {
-    if (error) return reject(error);
+    if (error) { return reject(error); }
     return resolve({
       secure_url: secureUrl,
       resource_type: resourceType,

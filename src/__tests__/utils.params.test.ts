@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import validParams from '../utils/params/validParams';
 import requireParams from '../utils/params/requireParams';
 

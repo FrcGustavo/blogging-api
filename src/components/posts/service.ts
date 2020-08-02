@@ -202,7 +202,7 @@ function PostsService(model: any, validParams: any, requireParams: any, setupPag
   };
 
   const destroy = async (slug: string, authorId: string): Promise<boolean> => {
-    if (slug === '') throw new Error('field slug is required');
+    if (slug === '') { throw new Error('field slug is required'); }
 
     const deletedPost = await model.updateOne({ slug, isDisabled: false, user: authorId, }, { isDisabled: true });
 

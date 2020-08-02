@@ -26,7 +26,7 @@ export default class UploadsService {
     return new Promise((resolve, reject) => {
       const pathFile = `uploads/${id}`;
       fs.exists(pathFile, (exists) => {
-        if (!exists) return reject('not foun image');
+        if (!exists) { return reject('not foun image'); }
         return resolve(path.resolve(pathFile));
       });
     });

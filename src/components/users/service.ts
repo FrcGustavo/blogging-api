@@ -26,7 +26,7 @@ export default class UsersService {
     const validUser = this.requireParams(this.requireFields, filterFiledsUser);
 
     const existedUser = await this.model.findOne({ email: validUser.email });
-    if(existedUser) throw new Error('error to create user');
+    if(existedUser) { throw new Error('error to create user'); }
 
     const { password } = validUser;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -38,7 +38,7 @@ export default class UsersService {
 
   async getUser(userId: string) {
     const user = await this.model.findOne({ _id: userId, isDisabled: false }, 'firstName cover');
-    if(!user) throw new Error('user not found');
+    if(!user) { throw new Error('user not found'); }
     return user;
   }
 
@@ -46,14 +46,14 @@ export default class UsersService {
     const validUser = this.validParams(this.validFields, user);
 
     const updatedUser = await this.model.updateOne({ _id: userId, isDisabled: false }, validUser);
-    if(updatedUser.nModified !== 1) throw new Error('error to update user');
+    if(updatedUser.nModified !== 1) { throw new Error('error to update user'); }
 
     return userId;
   }
 
   async destroy(userId: string) {
     const user = await this.model.updateOne({ _id: userId, isDisabled: false }, { isDisabled: true });
-    if(user.nModified !== 1) throw new Error('error to delete user');
+    if(user.nModified !== 1) { throw new Error('error to delete user'); }
     return userId;
   }
 

@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Response } from 'express';
 
 const unsuccess = (res: Response, message: string, data: object, status: number): void => {
   res
