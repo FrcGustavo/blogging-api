@@ -3,17 +3,18 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const commmentSchema = new Schema({
+    post: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'posts',
+        required: true,
+    },
     username: {
         type: String,
-        required: true,
+        default: 'anonimo',
     },
     body: {
         type: String,
         required: true,
-    },
-    isPublic: {
-        type: Boolean,
-        default: false,
     },
     isDisabled: {
         type: Boolean,

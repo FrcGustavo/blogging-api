@@ -10,7 +10,7 @@ const CommentsController = (service: any, success: any) => {
     const create = async (req: any, res: any, next: any) => {
         const { body } = req;
         try {
-            const createdComment = await service.insertComment(body); 
+            const createdComment = await service.insertComment(body);
             success(res, 'comment created', createdComment, 201);
         } catch (error) {
             next(error);

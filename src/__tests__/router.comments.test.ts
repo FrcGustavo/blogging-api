@@ -1,11 +1,11 @@
-import express, { Router } from 'express';
+/*import express, { Router } from 'express';
 import supertest from 'supertest';
 
 import CommentsRouter from '../components/comments/router';
 import CommentsController from '../components/comments/controller';
 
 const testServer = (router: any, path: string) => {
-    const app = express();    
+    const app = express();
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(path, router);
@@ -38,3 +38,4 @@ describe('router - posts', () => {
         });
     });
 });
+*/
