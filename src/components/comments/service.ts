@@ -1,10 +1,11 @@
 import service from "../posts/service";
+import { query } from "express";
 
 const CommentsService = (model: any, validParams: any, requireParams: any, setupPagination: any, toDoPagination: any) => {
     const requiredFields = ['post', 'body'];
     const validFields = [ ...requiredFields, 'username' ];
 
-    const findAll = async (query: object) => {
+    const find = async (filters: any, query: any) => {
         const {
             limit,
             skip,
@@ -12,12 +13,39 @@ const CommentsService = (model: any, validParams: any, requireParams: any, setup
             page,
         } = setupPagination(query);
 
-        const filters = { isDisabled: false };
         const pagination = await toDoPagination(model, { limit, page }, filters);
         const comments = await model.find(filters)
             .limit(limit)
             .sort(sort)
             .skip(skip);
+
+        return { comments, pagination };
+    };
+
+    const findAll = async (query: object) => {
+        const filters = { isDisabled: false };
+        const { comments, pagination } = await find(filters, query);
+
+        const emptyComments = comments.map(({
+            _id,
+            post,
+            username,
+            body,
+            createdAt
+        }: any) => ({
+            id: _id,
+            post,
+            username,
+            body,
+            createdAt
+        }));
+
+        return { comments: emptyComments, pagination };
+    }
+
+    const findByPost = async (postId: string, query: object) => {
+        const filters = { post: postId, isDisabled: false };
+        const { comments, pagination } = await find(filters, query);
 
         const emptyComments = comments.map(({
             username,
@@ -54,6 +82,7 @@ const CommentsService = (model: any, validParams: any, requireParams: any, setup
 
     return {
         findAll,
+        findByPost,
         insertComment,
         deleteComment,
     };

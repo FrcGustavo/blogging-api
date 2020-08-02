@@ -11,8 +11,9 @@ const CommentsController = (service: any, success: any) => {
 
     const listByPost = async (req: any, res: any, next: any) => {
         const { id: postId } = req.params;
+        const { query } = req;
         try {
-            const comments = await service.findByPost(postId);
+            const comments = await service.findByPost(postId, query);
             success(res, 'comments listed', comments, 200);
         } catch (error) {
             next(error);
