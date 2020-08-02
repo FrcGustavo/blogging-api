@@ -1,17 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import success from'../../router/success';
 
-function controller(service: any) {
+const PostsController = (service: any, success: any) => {
   /**
    * Response a list of posts
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   * @param {import("express").NextFunction} next
    */
   const index = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { limit, sort, page } = req.query;
+    const { query } = req;
     try {
-      const posts = await service.findAll({ limit, sort, page });
+      const posts = await service.findAll(query);
       success(res, 'posts listed', posts, 200);
     } catch (error) {
       next(error);
@@ -20,9 +16,6 @@ function controller(service: any) {
 
   /**
    * Response with only a post
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   * @param {import("express").NextFunction} next
    */
   const show = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { slug } = req.params;
@@ -36,9 +29,6 @@ function controller(service: any) {
 
   /**
    * Response with a new posts
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   * @param {import("express").NextFunction} next
    */
   const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { body: post, user } = req;
@@ -52,9 +42,6 @@ function controller(service: any) {
 
   /**
    * Response with a updated posts
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   * @param {import("express").NextFunction} next
    */
   const update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const post = req.body;
@@ -70,9 +57,6 @@ function controller(service: any) {
 
   /**
    * Response with a deleted posts
-   * @param {import("express").Request} req
-   * @param {import("express").Response} res
-   * @param {import("express").NextFunction} next
    */
   const destroy = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { slug } = req.params;
@@ -85,6 +69,9 @@ function controller(service: any) {
     }
   };
 
+  /**
+   * Response a list of posts filtered by author
+   */
   const findByAuthor = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const authorId = (req.user as any).id;
     const { query }  = req;
@@ -106,4 +93,4 @@ function controller(service: any) {
   };
 }
 
-export default controller;
+export default PostsController;

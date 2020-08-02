@@ -1,28 +1,17 @@
-import express, { Router } from 'express';
-import supertest from 'supertest';
+import { Router } from 'express';
 
 import CommentsRouter from '../../../components/comments/router';
 import CommentsController from '../../../components/comments/controller';
-
 import success from '../../../router/success';
 import { mockComment } from '../../../utils/fakeModels/fakeComments';
-import fakeServiceComments from '../../../utils/fakeServices/fakeCommentsService';
+import fakeCommentsService from '../../../utils/fakeServices/fakeCommentsService';
+import fakePassport from '../../../utils/fakeUtils/fakePassport';
 
-const testServer = (router: any, path: string) => {
-    const app = express();
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
-    app.use(path, router);
-    return supertest(app);
-};
-
-const passport = {
-    authenticate: () => (req: any, res: any, next: any) => next(),
-}
+import testServer from '../../../utils/fakeServer/testServer';
 
 const route = Router()
-const controller = CommentsController(fakeServiceComments, success);
-CommentsRouter(route, controller, passport);
+const controller = CommentsController(fakeCommentsService, success);
+CommentsRouter(route, controller, fakePassport);
 
 describe('router - posts', () => {
     const request = testServer(route, '/api/comments');

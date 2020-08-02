@@ -1,12 +1,8 @@
 import showdown from 'showdown';
-import validParams from '../../utils/params/validParams';
-import requireParams from '../../utils/params/requireParams';
 import NotFound from '../../utils/errors/NotFound';
 import slugify from '../../utils/plugins/slugify';
-import setupPagination from '../../utils/pagination/setupPagination';
-import toDoPagination from '../../utils/pagination/toDoPagination';
 
-function service(model: any) {
+function PostsService(model: any, validParams: any, requireParams: any, setupPagination: any, toDoPagination: any) {
   const converter = new showdown.Converter();
   const requireFields = [
     'title', 'cover', 'body', 'description', 'keywords',
@@ -227,4 +223,4 @@ function service(model: any) {
   };
 }
 
-export default service;
+export default PostsService;

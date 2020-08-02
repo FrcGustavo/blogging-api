@@ -1,17 +1,4 @@
-import express from 'express';
-import passport from 'passport';
-import model from '../../models/posts';
-import service from './service';
-import postController from './controller';
-
-import '../../utils/auth/strategies/jwt';
-
-const postcontroller = postController(service(model));
-
-const POSTS = (app: any, controller: any = postcontroller) => {
-  const router = express.Router();
-  app.use('/api/posts', router);
-
+const PostsRouter = (router: any, controller: any, passport: any) => {
   router.get(
     '/author',
     passport.authenticate('jwt', { session: false }),
@@ -35,4 +22,4 @@ const POSTS = (app: any, controller: any = postcontroller) => {
   );
 };
 
-export default POSTS;
+export default PostsRouter;
