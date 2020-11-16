@@ -83,6 +83,17 @@ const PostsController = (service: any, success: any) => {
 		}
 	};
 
+	const findOneByAuthor = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		const { slug } = req.params;
+
+		try {
+			const posts = await service.findBySlugAuthor(slug);
+			success(res, 'post listed', posts, 200);
+		} catch (error) {
+			next(error);
+		}
+	};
+
 	return {
 		index,
 		show,
@@ -90,6 +101,7 @@ const PostsController = (service: any, success: any) => {
 		update,
 		destroy,
 		findByAuthor,
+		findOneByAuthor,
 	};
 }
 
