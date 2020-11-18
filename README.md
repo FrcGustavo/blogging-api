@@ -33,9 +33,25 @@ Install dependencies
 npm install
 ```
 
+Run build
+```bash
+npm run build
+```
+
 Run development mode
 ```bash
 npm run dev
+```
+
+Run production mode
+```bash
+npm run start
+```
+
+Run tests and coverage code
+```bash
+npm run test
+npm run cover
 ```
 
 Run linter and auto fix files

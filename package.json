@@ -4,13 +4,11 @@
   "description": "this is the api of my blog",
   "main": "index.js",
   "scripts": {
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
-    "build": "tsc",
-    "prestart": "npm run build",
-    "start": "DEBUG=app:* node dist/server",
+    "build": "npm run lint && tsc -p tsconfig.json",
     "dev": "npm run build && DEBUG=app:* nodemon dist/server",
-    "test": "tsc -p tsconfig.json && jest ./dist",
-    "cover": "jest --collectCoverage",
+    "start": "npm run build && DEBUG=app:* node dist/server",
+    "test": "npm run build && jest ./dist",
+    "cover": "npm run build && jest --collectCoverage ./dist",
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "author": "Francisco Gustavo <hidalgofco520@gmail.com>",

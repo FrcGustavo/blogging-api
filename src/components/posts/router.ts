@@ -4,6 +4,11 @@ const PostsRouter = (router: any, controller: any, passport: any) => {
 		passport.authenticate('jwt', { session: false }),
 		controller.findByAuthor,
 	);
+	router.get(
+		'/author/:slug',
+		passport.authenticate('jwt', { session: false }),
+		controller.findOneByAuthor,
+	);
 	router.get('/', controller.index);
 	router.post('/',
 		passport.authenticate('jwt', { session: false }),

@@ -114,6 +114,49 @@ function PostsService(model: any, validParams: any, requireParams: any, setupPag
 		return { posts: emptyPosts, pagination };
 	};
 
+	const findBySlugAuthor = async (slug: string): Promise<any> => {
+		const filters = { slug, isDisabled: false };
+		const post = await model.findOne(filters);
+
+		if (!post) {
+			throw new NotFound(`the resource ${slug} not found`);
+		}
+
+		const {
+			_id: id,
+			user,
+			userCover,
+			username,
+			title,
+			cover,
+			body,
+			description,
+			keywords,
+			views,
+			timeShared,
+			likes,
+			createdAt,
+			isPublic,
+		} = post;
+		return {
+			id,
+			user,
+			userCover,
+			username,
+			title,
+			cover,
+			body,
+			slug,
+			description,
+			keywords,
+			views,
+			timeShared,
+			likes,
+			createdAt,
+			isPublic,
+		};
+	};
+
 	/**
 	 * find one post with next filters
 	 * isPublic: true
@@ -216,6 +259,7 @@ function PostsService(model: any, validParams: any, requireParams: any, setupPag
 	return {
 		findByAuthor,
 		findAll,
+		findBySlugAuthor,
 		findBySlug,
 		insert,
 		update,
