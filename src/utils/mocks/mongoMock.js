@@ -1,4 +1,4 @@
-const sinon = require('sinon');
+const sinon = require('__tests__');
 const { PostsMock } = require('./postsMock');
 
 /**
