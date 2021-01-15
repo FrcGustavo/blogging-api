@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
-const supertest = require('supertest');
+const supertest = require('__tests__');
 
 const testServer = (router, controller) => {
   const app = express();

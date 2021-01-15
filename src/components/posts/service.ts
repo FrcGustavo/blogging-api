@@ -115,13 +115,13 @@ function PostsService(model: any, validParams: any, requireParams: any, setupPag
 	};
 
 	const findBySlugAuthor = async (slug: string): Promise<any> => {
-		const filters = { slug, isDisabled: false };
+		const filters = { _id: slug, isDisabled: false };
 		const post = await model.findOne(filters);
 
 		if (!post) {
 			throw new NotFound(`the resource ${slug} not found`);
 		}
-
+		const html = converter.makeHtml(post.body)
 		const {
 			_id: id,
 			user,
@@ -146,6 +146,7 @@ function PostsService(model: any, validParams: any, requireParams: any, setupPag
 			title,
 			cover,
 			body,
+			html,
 			slug,
 			description,
 			keywords,

@@ -1,5 +1,5 @@
-import validParams from '../utils/params/validParams';
-import requireParams from '../utils/params/requireParams';
+import validParams from '../src/utils/params/validParams';
+import requireParams from '../src/utils/params/requireParams';
 
 describe('utils - params', () => {
 	const badMock = {
