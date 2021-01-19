@@ -1,15 +1,61 @@
 import { Model } from 'mongoose';
+import showdown from 'showdown';
 import { IPost } from '../../../models/posts';
 import setupPagination from '../../../utils/pagination/setupPagination';
 import { toDoPagination  } from '../../../utils/pagination/toDoPagination';
 import { find } from '../../../utils/pagination/findWithPagination';
 
 export class UsersService {
+  private converter = new showdown.Converter();
+	
   constructor(
     private model: Model<IPost>,
   ) {}
 
-  async findAll(queries: any) {  
+  async findOnePost(id: string, lang: any): Promise<any> {
+    const filters = { _id: id, isDisabled: false };
+    const post: any = await this.model.findOne(filters);
+    const {
+			_id,
+			user,
+			userCover,
+			username,
+			title,
+			cover,
+			body,
+			description,
+      keywords,
+      slug,
+			views,
+			timeShared,
+			likes,
+			createdAt,
+      isPublic,
+      en
+    } = post;
+    const html = this.converter.makeHtml(lang === 'en' ? en.body : body);
+
+    return {
+      id: _id,
+			user,
+			userCover,
+			username,
+			title: lang === 'en' ? en.title : title,
+			cover: lang === 'en' ? en.cover : cover,
+			body: lang === 'en' ? en.body : body,
+			html,
+			description: lang === 'en' ? en.description : description,
+      keywords: lang === 'en' ? en.keywords : keywords,
+      slug,
+			views,
+			timeShared,
+			likes,
+			createdAt,
+			isPublic,
+    };
+  }
+
+  async findAll(queries: any): Promise<any> {  
     const {
 			limit,
 			skip,
@@ -41,7 +87,7 @@ export class UsersService {
     };
   }
 
-  async insert(post: any, author: any) {
+  async insert(post: any, author: any): Promise<any> {
 		const {
 			id: user,
 			cover: userCover,

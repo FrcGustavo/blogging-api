@@ -15,6 +15,7 @@ export class UsersRouter {
       );
     
     this.router.route('/users/posts/:id')
+      .get(this.controller.findOnePost)
       .patch(
         passport.authenticate('jwt', { session: false }),
         this.controller.update

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, query } from 'express';
 import { PostsService } from './service';
 import { success } from '../../../router/success';
 
@@ -12,16 +12,18 @@ export class PostsController {
     const { query } = req;
     try {
       const listedPosts = await this.service.findAll(query);
-      success(res, '', listedPosts, 200);
+      success(res, 'listed posts', listedPosts, 200);
     } catch (error) {
       next(error);
     }
   }
 
   async findOne(req: Request, res: Response, next: NextFunction): Promise<any> {
+    const { slug } = req.params;
+    const { lang } = req.query;
     try {
-      success(res, '', {}, 200);
-      
+      const post = await this.service.findBySlug(slug, lang as string);
+      success(res, 'retrieved post', post, 200);
     } catch (error) {
       next(error);
     }

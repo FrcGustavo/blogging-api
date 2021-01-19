@@ -4,17 +4,29 @@ import { success } from '../../../router/success';
 
 export class UsersController {
   constructor(private usersService: UsersService) {
+    this.findOnePost = this.findOnePost.bind(this);
     this.findAllPosts = this.findAllPosts.bind(this);
     this.createPost = this.createPost.bind(this);
     this.update = this.update.bind(this);
     this.destroy = this.destroy.bind(this);
   }
 
+  async findOnePost(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const { lang } = req.query;
+    try {
+      const post = await this.usersService.findOnePost(id, lang);
+      success(res, 'post retrieved', post, 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async findAllPosts(req: Request, res: Response, next: NextFunction) {
     const { query } = req;
     try {
       const posts = await this.usersService.findAll(query);
-      return res.json(posts);
+      success(res, 'posts listed', posts, 200)
     } catch (error) {
       next(error);
     }
@@ -24,7 +36,7 @@ export class UsersController {
     const { body: post, user } = req;
     try {
       const createdPost = await this.usersService.insert(post, user);
-      return res.json(createdPost);
+      success(res, 'post created', createdPost, 200);
     } catch (error) {
       next(error);
     }
