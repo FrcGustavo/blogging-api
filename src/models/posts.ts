@@ -2,11 +2,9 @@ import mongoose, { Document } from 'mongoose';
 
 export interface IPostEn extends Document {
 	title: string;
-	cover: string;
 	body: string;
 	description: string;
 	keywords: string;
-	slug: string;
 }
 
 export interface IPost extends Document {
@@ -32,21 +30,12 @@ export const handlePostSchema = {
 		type: String,
 		required: true,
 	},
-	cover: {
-		type: String,
-		required: true,
-	},
 	body: {
 		type: String,
 		required: true,
 	},
 	description: {
 		type: String,
-		required: true,
-	},
-	slug: {
-		type: String,
-		unique: true,
 		required: true,
 	},
 	keywords: {

@@ -77,7 +77,7 @@ export class PostsService {
 			userCover,
 			username,
 			title: isEnglish ? en.title : title,
-			cover: isEnglish ? en.cover : cover,
+			cover,
 			body: html,
 			description: isEnglish ? en.description : description,
       keywords: isEnglish ? en.keywords : keywords,
