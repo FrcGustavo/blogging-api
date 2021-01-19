@@ -1,20 +1,33 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
-const { Schema } = mongoose;
+export interface IPostEn extends Document {
+	title: string;
+	cover: string;
+	body: string;
+	description: string;
+	keywords: string;
+	slug: string;
+}
 
-const postSchema = new Schema({
-	user: {
-		type: mongoose.SchemaTypes.ObjectId,
-		ref: 'users',
-	},
-	userCover: {
-		type: String,
-		required: true,
-	},
-	username: {
-		type: String,
-		required: true,
-	},
+export interface IPost extends Document {
+	user: string;
+	userCover: string;
+	username: string;
+	title: string;
+	cover: string;
+	body: string;
+	description: string;
+	keywords: string;
+	slug: string;
+	views: number;
+	timeShared: number;
+	likes: number;
+	isPublic: boolean;
+	isDisabled: boolean;
+	en: IPostEn
+}
+
+export const handlePostSchema = {
 	title: {
 		type: String,
 		required: true,
@@ -40,6 +53,24 @@ const postSchema = new Schema({
 		type: String,
 		required: true,
 	},
+}
+
+const { Schema } = mongoose;
+
+const postSchema = new Schema({
+	user: {
+		type: mongoose.SchemaTypes.ObjectId,
+		ref: 'users',
+	},
+	userCover: {
+		type: String,
+		required: true,
+	},
+	username: {
+		type: String,
+		required: true,
+	},
+	...handlePostSchema,
 	views: {
 		type: Number,
 		default: 0,
@@ -60,10 +91,14 @@ const postSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+	en: {
+		type: new Schema(handlePostSchema),
+		default: null
+	}
 }, {
 	timestamps: true,
 });
 
-const Post = mongoose.model('posts', postSchema);
+export const Post = mongoose.model<IPost>('posts', postSchema);
 
 export default Post;

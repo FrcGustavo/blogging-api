@@ -1,4 +1,4 @@
-const toDoPagination = async (model: any, query = { limit: 10, page: 1 }, filters = {}) => {
+export const toDoPagination = async (model: any, query = { limit: 10, page: 1 }, filters = {}) => {
 	const { limit, page } = query;
 	const total = await model.countDocuments(filters);
 

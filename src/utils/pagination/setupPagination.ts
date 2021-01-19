@@ -1,4 +1,4 @@
-const setupPagination = (
+export const setupPagination = (
 	query = {
 		limit: 10,
 		sort_name: '_id',
