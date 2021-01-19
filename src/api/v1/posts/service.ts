@@ -32,7 +32,7 @@ export class PostsService {
           title: en.title,
           cover: en.cover,
           description: en.description,
-          slug: en.slug
+          slug,
         }
       }
       
