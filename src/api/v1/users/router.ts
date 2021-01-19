@@ -14,6 +14,16 @@ export class UsersRouter {
         this.controller.createPost
       );
     
+    this.router.route('/users/posts/:id')
+      .patch(
+        passport.authenticate('jwt', { session: false }),
+        this.controller.update
+      )
+      .delete(
+        passport.authenticate('jwt', { session: false }),
+        this.controller.destroy
+      );
+
     this.router.route('/users')
       .get((req, res) => res.send('HI'));
   }

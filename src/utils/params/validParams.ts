@@ -1,4 +1,4 @@
-const validParams = (params: string[], body: any) => {
+export const validParams = (params: string[], body: any) => {
 	const newParams: any = {};
 
 	params.forEach((attr: string) => {

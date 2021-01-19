@@ -4,58 +4,36 @@ import setupPagination from '../../../utils/pagination/setupPagination';
 import { toDoPagination  } from '../../../utils/pagination/toDoPagination';
 import { find } from '../../../utils/pagination/findWithPagination';
 
-type queries = {
-  limit?: number;
-  sort_name?: string;
-  sort?: string;
-  page?: number;
-  lang?: string;
-}
-
 export class UsersService {
   constructor(
     private model: Model<IPost>,
   ) {}
 
-  async findAll(queries: queries) {  
+  async findAll(queries: any) {  
     const {
 			limit,
 			skip,
 			sort,
 			page,
-    } = setupPagination(queries as any);
+    } = setupPagination(queries);
 
     const filters = { isDisabled: false };
 		const posts = await find(this.model, filters, limit, sort, skip);
 		const pagination = await toDoPagination(this.model, { limit, page }, filters);
   
-    const emptyPosts = posts.map(({
-			_id,
-			title,
-			cover,
-			description,
+    const emptyPosts = posts.map(({_id, title, cover, description, slug, en	}: any) => ({
+      id: _id,
+      title,
+      cover,
+      description,
       slug,
-      en
-		}: any) => {
-      if (en !== null && queries.lang === 'en') {
-        console.log(en);
-        return {
-          id: _id,
-          title: en.title,
-          cover: en.cover,
-          description: en.description,
-          slug: en.slug,
-        }
-      } else {
-        return {
-          id: _id,
-          title,
-          cover,
-          description,
-          slug
-        }
-      }
-    });
+      en: en ? {
+        title: en.title,
+        cover: en.cover,
+        description: en.description,
+        slug: en.slug,
+      } : null
+    }));
 
     return {
       posts: emptyPosts,
@@ -74,10 +52,32 @@ export class UsersService {
       user,
 			userCover,
 			username,
-      ...post
+      ...post,
     });
 
     return createdPost;
   }
+
+  async update(id: string, post: any, authorId: string): Promise<boolean> {
+    const updatedPost = await this.model.updateOne({ _id: id, isDisabled: false, user: authorId }, post);
+
+		if (updatedPost.nModified !== 1) {
+			throw new Error('error to update post');
+		}
+
+		return false;
+  };
+  
+  async destroy(id: string, authorId: string): Promise<boolean> {
+		if (id === '') { throw new Error('field id is required'); }
+
+		const deletedPost = await this.model.updateOne({ _id: id, isDisabled: false, user: authorId, }, { isDisabled: true });
+
+		if (deletedPost.nModified !== 1) {
+			throw new Error('error to delete post');
+		}
+
+		return false;
+	};
 
 }

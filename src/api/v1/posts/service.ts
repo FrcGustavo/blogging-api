@@ -18,7 +18,7 @@ export class PostsService {
       sort
     } = setupPagination(queries);
     
-    const filters = { isDisabled: false };
+    const filters = { isPublic: true, isDisabled: false };
     const posts = await find(this.model, filters, limit, sort, skip);
     const pagination = await toDoPagination(this.model, { limit, page }, filters);
 
