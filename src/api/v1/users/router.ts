@@ -8,14 +8,20 @@ export class UsersRouter {
     private controller: UsersController
   ) {    
     this.router.route('/users/posts')
-      .get(this.controller.findAllPosts)
+      .get(
+        passport.authenticate('jwt', { session: false }),
+        this.controller.findAllPosts
+      )
       .post(
         passport.authenticate('jwt', { session: false }),
         this.controller.createPost
       );
     
     this.router.route('/users/posts/:id')
-      .get(this.controller.findOnePost)
+      .get(
+        passport.authenticate('jwt', { session: false }),
+        this.controller.findOnePost
+      )
       .patch(
         passport.authenticate('jwt', { session: false }),
         this.controller.update
@@ -24,8 +30,5 @@ export class UsersRouter {
         passport.authenticate('jwt', { session: false }),
         this.controller.destroy
       );
-
-    this.router.route('/users')
-      .get((req, res) => res.send('HI'));
   }
 }

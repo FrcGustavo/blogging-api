@@ -10,6 +10,4 @@ COPY [".", "/usr/src/"]
 
 EXPOSE 5000
 
-RUN npm run build
-
-CMD ["DEBUG=app:*", "node", "dist/server"]
+CMD ["npm", "run", "start"]
