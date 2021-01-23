@@ -22,16 +22,16 @@ export default class UsersService {
 	}
 
 	async createUser(user: any) {
-		const filterFiledsUser = this.validParams(this.validFields, user);
-		const validUser = this.requireParams(this.requireFields, filterFiledsUser);
+		// const filterFiledsUser = this.validParams(this.validFields, user);
+		// const validUser = this.requireParams(this.requireFields, filterFiledsUser);
 
-		const existedUser = await this.model.findOne({ email: validUser.email });
+		const existedUser = await this.model.findOne({ email: user.email });
 		if(existedUser) { throw new Error('error to create user'); }
 
-		const { password } = validUser;
+		const { password } = user;
 		const hashedPassword = await bcrypt.hash(password, 10);
 
-		const createdUser = await this.model.create({ ...validUser, password: hashedPassword });
+		const createdUser = await this.model.create({ ...user, password: hashedPassword });
 
 		return createdUser._id;
 	}

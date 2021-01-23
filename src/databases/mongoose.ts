@@ -6,7 +6,7 @@ const connectMongo = async (): Promise<any> => {
 	const PASSWORD = encodeURIComponent(config.db.password);
 	const USER = encodeURIComponent(config.db.user);
 	const DB_NAME = config.db.name;
-	const mongoUri = `mongodb+srv://${USER}:${PASSWORD}@${config.db.host}/${DB_NAME}?retryWrites=true&w=majority`;
+	const mongoUri = `mongodb://${USER}:${PASSWORD}@${config.db.host}/${DB_NAME}?retryWrites=true&w=majority`;
 	try {
 		await mongoose.connect(
 			mongoUri,
