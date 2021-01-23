@@ -15,43 +15,31 @@ export class UsersService {
   async findOnePost(id: string, lang: any): Promise<any> {
     const filters = { _id: id, isDisabled: false };
     const post: any = await this.model.findOne(filters);
+    
     const {
-			_id,
+      _id,
 			user,
 			userCover,
 			username,
-			title,
 			cover,
-			body,
-			description,
-      keywords,
-      slug,
-			views,
-			timeShared,
-			likes,
 			createdAt,
-      isPublic,
-      en
+      en,
+      es
     } = post;
-    const html = this.converter.makeHtml(lang === 'en' ? en.body : body);
+    const isEnglish = (lang === 'en' && en !== null);
+    const html = this.converter.makeHtml(isEnglish ? en.body : es.body);
 
     return {
       id: _id,
 			user,
 			userCover,
 			username,
-			title: lang === 'en' ? en.title : title,
-			cover: lang === 'en' ? en.cover : cover,
-			body: lang === 'en' ? en.body : body,
-			html,
-			description: lang === 'en' ? en.description : description,
-      keywords: lang === 'en' ? en.keywords : keywords,
-      slug,
-			views,
-			timeShared,
-			likes,
-			createdAt,
-			isPublic,
+			title: isEnglish ? en.title : es.title,
+			cover,
+			body: html,
+			description: isEnglish ? en.description : es.description,
+      keywords: isEnglish ? en.keywords : es.keywords,
+      createdAt,
     };
   }
 
@@ -66,23 +54,9 @@ export class UsersService {
     const filters = { isDisabled: false };
 		const posts = await find(this.model, filters, limit, sort, skip);
 		const pagination = await toDoPagination(this.model, { limit, page }, filters);
-  
-    const emptyPosts = posts.map(({_id, title, cover, description, slug, en	}: any) => ({
-      id: _id,
-      title,
-      cover,
-      description,
-      slug,
-      en: en ? {
-        title: en.title,
-        cover: en.cover,
-        description: en.description,
-        slug: en.slug,
-      } : null
-    }));
 
     return {
-      posts: emptyPosts,
+      posts: posts,
       pagination
     };
   }
