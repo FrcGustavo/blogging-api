@@ -15,6 +15,7 @@ const config = {
 		user: process.env.DB_USER || '',
 		password: process.env.DB_PASSWORD || '',
 		name: process.env.DB_NAME || '',
+		isLocal: process.env.DB_IS_LOCAL || false,
 	},
 };
 
