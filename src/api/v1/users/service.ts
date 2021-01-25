@@ -53,10 +53,15 @@ export class UsersService {
 
     const filters = { isDisabled: false };
 		const posts = await find(this.model, filters, limit, sort, skip);
-		const pagination = await toDoPagination(this.model, { limit, page }, filters);
+    const pagination = await toDoPagination(this.model, { limit, page }, filters);
+
+    const emptyPosts = posts.map(
+      ({ _id: id, user, userCover, username, cover, slug, createdAt, updatedAt, isPublic, es, en }: any) => (
+        { id, user, userCover, username, cover, slug, createdAt, updatedAt, isPublic, es, en }
+      ));
 
     return {
-      posts: posts,
+      posts: emptyPosts,
       pagination
     };
   }
