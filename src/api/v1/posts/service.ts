@@ -13,7 +13,7 @@ export class PostsService {
   ) {}
 
   async findAll(queries: any) {
-    const lang = queries.lang ? queries.lang : 'es';
+    const lang = queries.lang;
     const {
       limit,
       page,
@@ -25,18 +25,15 @@ export class PostsService {
     const posts = await find(this.model, filters, limit, sort, skip);
     const pagination = await toDoPagination(this.model, { limit, page }, filters);
 
-    const emptyPosts = posts.map(({ _id, title, cover, description, slug, en }: any) => {
-      if (lang === 'en' && en !== null) {
+    const emptyPosts = posts.map(({ _id, cover, slug, es, en }: any) => {
+      const isEnglish = (lang === 'en' && en !== null);
         return {
           id: _id,
-          title: en.title,
-          cover: en.cover,
-          description: en.description,
+          cover,
           slug,
+          title: isEnglish ? en.title : es.title,
+          description: isEnglish ? en.description : es.description,
         }
-      }
-      
-      return { id: _id, title, cover, description, slug };
     });
     return {
       posts: emptyPosts,
@@ -57,33 +54,24 @@ export class PostsService {
 			user,
 			userCover,
 			username,
-			title,
 			cover,
-			body,
-			description,
-      keywords,
-			views,
-			timeShared,
-			likes,
 			createdAt,
-      en
+      en,
+      es
     } = post;
     const isEnglish = (lang === 'en' && en !== null);
-    const html = this.converter.makeHtml(isEnglish ? en.body : body);
-    
+    const html = this.converter.makeHtml(isEnglish ? en.body : es.body);
+
     return {
       id: _id,
 			user,
 			userCover,
 			username,
-			title: isEnglish ? en.title : title,
+			title: isEnglish ? en.title : es.title,
 			cover,
 			body: html,
-			description: isEnglish ? en.description : description,
-      keywords: isEnglish ? en.keywords : keywords,
-			views,
-			timeShared,
-			likes,
+			description: isEnglish ? en.description : es.description,
+      keywords: isEnglish ? en.keywords : es.keywords,
       createdAt,
     };
   }

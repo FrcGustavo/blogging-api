@@ -1,6 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 
-export interface IPostEn extends Document {
+export interface IPostLang extends Document {
 	title: string;
 	body: string;
 	description: string;
@@ -11,18 +11,12 @@ export interface IPost extends Document {
 	user: string;
 	userCover: string;
 	username: string;
-	title: string;
 	cover: string;
-	body: string;
-	description: string;
-	keywords: string;
 	slug: string;
-	views: number;
-	timeShared: number;
-	likes: number;
 	isPublic: boolean;
 	isDisabled: boolean;
-	en: IPostEn
+	en: IPostLang;
+	es: IPostLang;
 }
 
 export const handlePostSchema = {
@@ -59,18 +53,14 @@ const postSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	...handlePostSchema,
-	views: {
-		type: Number,
-		default: 0,
+	cover: {
+		type: String,
+		required: true,
 	},
-	timeShared: {
-		type: Number,
-		default: 0,
-	},
-	likes: {
-		type: Number,
-		default: 0,
+	slug: {
+		type: String,
+		unique: true,
+		required: true,
 	},
 	isPublic: {
 		type: Boolean,
@@ -81,6 +71,10 @@ const postSchema = new Schema({
 		default: false,
 	},
 	en: {
+		type: new Schema(handlePostSchema),
+		default: null
+	},
+	es: {
 		type: new Schema(handlePostSchema),
 		default: null
 	}
