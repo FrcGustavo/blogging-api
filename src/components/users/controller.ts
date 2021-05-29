@@ -93,7 +93,7 @@ export default class Users {
 
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { user } = req;
-    const { _id: userId } = user._doc;
+    const { _id: userId } = (user as any)._doc;
     const { body: newUser } = req;
 
     try {
@@ -110,7 +110,7 @@ export default class Users {
     next: NextFunction
   ): Promise<void> {
     const { user } = req;
-    const { _id: userId } = user._doc;
+    const { _id: userId } = (user as any)._doc;
     try {
       const deletedUser = await this.service.destroy(userId);
       this.success(res, 'user deleted', deletedUser, 200);
