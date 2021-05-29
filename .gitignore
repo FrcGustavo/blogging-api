@@ -4,5 +4,5 @@
 coverage
 /dist
 /uploads
-./package-lock.json
+package-lock.json
 yarn.lock

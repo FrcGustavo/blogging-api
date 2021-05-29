@@ -8,9 +8,9 @@ const setupRouter = (router: Router) => {
   return router;
 }
 
-const API_V1 = (app: any) => {
+const API_REST_V1 = (app: any) => {
   const router: Router = Router(); 
-  app.use('/v1', setupRouter(router));
+  app.use('/rest/v1', setupRouter(router));
 };
 
-export default API_V1;
+export default API_REST_V1;
