@@ -18,11 +18,16 @@ export type PostItem = {
 
 export type PostsList = Array<PostItem>;
 
+export type QueryPostsList = {
+  page?: string;
+  limit?: string;
+};
+
 export interface PostsRouterContract {}
 
 export interface PostsControllerContract {
   getAllPosts: (
-    req: Request,
+    req: Request<{}, {}, {}, QueryPostsList>,
     res: Response,
     next: NextFunction
   ) => Promise<void>;
@@ -34,6 +39,16 @@ export interface PostsControllerContract {
 }
 
 export interface PostsServiceContract {
-  getAllPosts: () => Promise<PostsList>;
+  getAllPosts: (query: QueryPostsList) => Promise<PostsList>;
   getOnePost: () => Promise<PostRetrieved>;
+}
+
+export type OptionsFindAllPostEntity = {
+  limit: number;
+  offset: number;
+};
+
+export interface PostEntityContract {
+  findAll: (options: OptionsFindAllPostEntity) => Promise<PostsList>;
+  findOne: () => Promise<void>;
 }

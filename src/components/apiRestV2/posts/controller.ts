@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { PostsControllerContract, PostsServiceContract } from './types';
+import {
+  PostsControllerContract,
+  PostsServiceContract,
+  QueryPostsList,
+} from './types';
 
 export class PostsController implements PostsControllerContract {
   constructor(private service: PostsServiceContract) {
@@ -7,9 +11,14 @@ export class PostsController implements PostsControllerContract {
     this.getOnePost = this.getOnePost.bind(this);
   }
 
-  async getAllPosts(req: Request, res: Response, next: NextFunction) {
+  async getAllPosts(
+    req: Request<{}, {}, {}, QueryPostsList>,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { query } = req;
     try {
-      const listPosts = await this.service.getAllPosts();
+      const listPosts = await this.service.getAllPosts(query);
       res.json(listPosts);
     } catch (error) {
       next(error);
