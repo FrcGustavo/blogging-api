@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, query } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { PostsService } from './service';
 import { success } from '../../../router/success';
 

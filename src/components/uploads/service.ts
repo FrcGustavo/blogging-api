@@ -13,7 +13,7 @@ export default class UploadsService {
       return file;
     }
 
-    throw false;
+    throw new Error();
   }
 
   async uploadFile(files: any) {
@@ -27,7 +27,7 @@ export default class UploadsService {
       const pathFile = `uploads/${id}`;
       fs.exists(pathFile, (exists) => {
         if (!exists) {
-          return reject('not foun image');
+          return reject(new Error('not foun image'));
         }
         return resolve(path.resolve(pathFile));
       });

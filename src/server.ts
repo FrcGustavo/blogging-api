@@ -7,6 +7,4 @@ const server = app;
 
 ROUTER(app);
 
-server.listen(config.srv.port, async () => {
-  console.log(`Server is runing http:localhost:${config.srv.port}`);
-});
+server.listen(config.srv.port);

@@ -23,7 +23,7 @@ passport.use(
         }
         const { _id: id, firstName, lastName, username, cover, email } = user;
 
-        cb(null, {
+        return cb(null, {
           id,
           firstName,
           lastName,

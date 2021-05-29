@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import passport from 'passport';
 import { PostsController } from './controller';
 
 export class PostsRouter {

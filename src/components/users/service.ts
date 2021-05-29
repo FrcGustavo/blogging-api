@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: off */
 import bcrypt from 'bcrypt';
 
 export default class UsersService {

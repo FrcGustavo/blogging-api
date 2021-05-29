@@ -1,6 +1,5 @@
 import { Application, Router } from 'express';
 import '../../utils/auth/strategies/jwt';
-import passport from 'passport';
 
 export default class UploadsRouter {
   private app: Application;

@@ -4,4 +4,11 @@ export const find = async (
   limit: any,
   sort: any,
   skip: any
-): Promise<any> => await model.find(filters).limit(limit).sort(sort).skip(skip);
+): Promise<any> => {
+  const findedData = await model
+    .find(filters)
+    .limit(limit)
+    .sort(sort)
+    .skip(skip);
+  return findedData;
+};

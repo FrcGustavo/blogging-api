@@ -13,8 +13,10 @@ function PostsService(
   const requireFields = ['title', 'cover', 'body', 'description', 'keywords'];
   const validFields = [...requireFields, 'slug', 'isPublic'];
 
-  const find = async (filters: any, limit: any, sort: any, skip: any) =>
-    await model.find(filters).limit(limit).sort(sort).skip(skip);
+  const find = async (filters: any, limit: any, sort: any, skip: any) => {
+    const finded = await model.find(filters).limit(limit).sort(sort).skip(skip);
+    return finded;
+  };
 
   const findByAuthor = async (authorId: string, query: any) => {
     const { limit, skip, sort, page } = setupPagination(query);

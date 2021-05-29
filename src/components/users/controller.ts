@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: off */
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import passsport from 'passport';
