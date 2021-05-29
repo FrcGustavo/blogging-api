@@ -7,5 +7,5 @@ import { UsersRouter } from './router';
 export const Users = (router: Router) => {
   const service: UsersService = new UsersService(Post);
   const controller: UsersController = new UsersController(service);
-  new UsersRouter(router ,controller);
-}
+  new UsersRouter(router, controller);
+};

@@ -26,7 +26,7 @@ export class UsersController {
     const { query } = req;
     try {
       const posts = await this.usersService.findAll(query);
-      success(res, 'posts listed', posts, 200)
+      success(res, 'posts listed', posts, 200);
     } catch (error) {
       next(error);
     }
@@ -42,26 +42,30 @@ export class UsersController {
     }
   }
 
-  async update (req: Request, res: Response, next: NextFunction): Promise<void> {
-		const post = req.body;
-		const { id } = req.params;
-		const { id: authorId } = (req.user as any);
-		try {
-			const updatedPost = await this.usersService.update(id, post, authorId);
-			success(res, 'post updated', updatedPost, 200);
-		} catch (error) {
-			next(error);
-		}
-  };
-  
-  async destroy(req: Request, res: Response, next: NextFunction): Promise<void> {
-		const { id } = req.params;
-		const { id: authorId } = (req.user as any);
-		try {
-			const deletedPost = await this.usersService.destroy(id, authorId);
-			success(res, 'post deleted', deletedPost, 200);
-		} catch (error) {
-			next(error);
-		}
-	};
+  async update(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const post = req.body;
+    const { id } = req.params;
+    const { id: authorId } = req.user as any;
+    try {
+      const updatedPost = await this.usersService.update(id, post, authorId);
+      success(res, 'post updated', updatedPost, 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async destroy(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const { id } = req.params;
+    const { id: authorId } = req.user as any;
+    try {
+      const deletedPost = await this.usersService.destroy(id, authorId);
+      success(res, 'post deleted', deletedPost, 200);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

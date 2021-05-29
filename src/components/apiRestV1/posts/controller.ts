@@ -28,5 +28,4 @@ export class PostsController {
       next(error);
     }
   }
-
 }

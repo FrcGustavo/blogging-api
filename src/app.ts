@@ -19,7 +19,6 @@ class App {
   getIntance() {
     return this.app;
   }
-
 }
 
 export default App;

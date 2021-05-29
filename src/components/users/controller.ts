@@ -7,98 +7,115 @@ import config from '../../config';
 import '../../utils/auth/strategies/basic';
 
 export default class Users {
+  private service: any;
 
-	private service: any;
-	private success: any;
-	private passport: any;
+  private success: any;
 
-	constructor(service: any, passport: any = passsport, success: any = succcess) {
-		this.service = service;
-		this.success = success
-		this.passport = passport;
-		this.create = this.create.bind(this);
-		this.login = this.login.bind(this);
-		this.profile = this.profile.bind(this);
-		this.update = this.update.bind(this);
-		this.destroy = this.destroy.bind(this);
-	}
+  private passport: any;
 
-	async create(req: Request , res: Response, next: NextFunction): Promise<void> {
-		const { body: user } = req;
-		try {
-			const createdUser = await this.service.createUser(user);
-			this.success(res, 'user created', createdUser, 201);
-		} catch (err) {
-			next(err);
-		}
-	}
+  constructor(
+    service: any,
+    passport: any = passsport,
+    success: any = succcess
+  ) {
+    this.service = service;
+    this.success = success;
+    this.passport = passport;
+    this.create = this.create.bind(this);
+    this.login = this.login.bind(this);
+    this.profile = this.profile.bind(this);
+    this.update = this.update.bind(this);
+    this.destroy = this.destroy.bind(this);
+  }
 
-	async login(req: Request , res: Response, next: NextFunction): Promise<void> {
-		this.passport.authenticate('basic', (err: any, user: any) => {
-			try {
-				if(err || !user) {
-					next(new Error('unauthorized'));
-				}
+  async create(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { body: user } = req;
+    try {
+      const createdUser = await this.service.createUser(user);
+      this.success(res, 'user created', createdUser, 201);
+    } catch (err) {
+      next(err);
+    }
+  }
 
-				req.login(user, { session: false }, async (error: any) => {
-					if(error) {
-						next(error);
-					}
+  async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+    this.passport.authenticate('basic', (err: any, user: any) => {
+      try {
+        if (err || !user) {
+          next(new Error('unauthorized'));
+        }
 
-					const { _id: id, firstName, cover, email } = user;
-					const payload = {
-							sub: id,
-							firstName,
-							email,
-					};
+        req.login(user, { session: false }, async (error: any) => {
+          if (error) {
+            next(error);
+          }
 
-					const token = jwt.sign(payload, config.srv.secretJWT, {
-						expiresIn: '1d'
-					});
+          const { _id: id, firstName, cover, email } = user;
+          const payload = {
+            sub: id,
+            firstName,
+            email,
+          };
 
-					return res.status(200).json({
-							token, user: { id, firstName, cover, email }
-					});
+          const token = jwt.sign(payload, config.srv.secretJWT, {
+            expiresIn: '1d',
+          });
 
-				});
+          return res.status(200).json({
+            token,
+            user: {
+              id,
+              firstName,
+              cover,
+              email,
+            },
+          });
+        });
+      } catch (error) {
+        next(error);
+      }
+    })(req, res, next);
+  }
 
-			} catch (error) {
-				next(error);
-			}
-		})(req, res, next);
-	}
+  async profile(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.params;
+    try {
+      const user = await this.service.getUser(userId);
+      this.success(res, 'user retrieved', user, 200);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-	async profile(req: Request , res: Response, next: NextFunction): Promise<void> {
-		const { id: userId } = req.params;
-		try {
-			const user = await this.service.getUser(userId);
-			this.success(res, 'user retrieved', user, 200);
-		} catch (error) {
-			next(error);
-		}
-	}
+  async update(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { user } = req;
+    const { _id: userId } = user._doc;
+    const { body: newUser } = req;
 
-	async update(req: Request , res: Response, next: NextFunction): Promise<void> {
-		const user: any= req.user;
-		const { _id: userId } = user._doc;
-		const { body: newUser } = req;
+    try {
+      const updatedUser = await this.service.update(userId, newUser);
+      this.success(res, 'user updated', updatedUser, 200);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-		try {
-			const updatedUser = await this.service.update(userId, newUser);
-			this.success(res, 'user updated', updatedUser, 200);
-		} catch (error) {
-			next(error);
-		}
-	}
-
-	async destroy(req: Request , res: Response, next: NextFunction): Promise<void> {
-		const user: any= req.user;
-		const { _id: userId } = user._doc;
-		try {
-			const deletedUser = await this.service.destroy(userId);
-			this.success(res, 'user deleted', deletedUser, 200);
-		} catch (error) {
-			next(error);
-		}
-	}
+  async destroy(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const { user } = req;
+    const { _id: userId } = user._doc;
+    try {
+      const deletedUser = await this.service.destroy(userId);
+      this.success(res, 'user deleted', deletedUser, 200);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

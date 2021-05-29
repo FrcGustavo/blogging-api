@@ -3,11 +3,9 @@ import passport from 'passport';
 import { UsersController } from './controller';
 
 export class UsersRouter {
-  constructor(
-    private router: Router,
-    private controller: UsersController
-  ) {    
-    this.router.route('/users/posts')
+  constructor(private router: Router, private controller: UsersController) {
+    this.router
+      .route('/users/posts')
       .get(
         passport.authenticate('jwt', { session: false }),
         this.controller.findAllPosts
@@ -16,8 +14,9 @@ export class UsersRouter {
         passport.authenticate('jwt', { session: false }),
         this.controller.createPost
       );
-    
-    this.router.route('/users/posts/:id')
+
+    this.router
+      .route('/users/posts/:id')
       .get(
         passport.authenticate('jwt', { session: false }),
         this.controller.findOnePost

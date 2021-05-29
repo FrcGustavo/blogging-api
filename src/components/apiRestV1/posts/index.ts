@@ -7,5 +7,5 @@ import { PostsRouter } from './router';
 export const Posts = (router: Router) => {
   const service: PostsService = new PostsService(Post);
   const controller: PostsController = new PostsController(service);
-  new PostsRouter(router ,controller);
-}
+  new PostsRouter(router, controller);
+};

@@ -6,10 +6,10 @@ const setupRouter = (router: Router) => {
   Users(router);
   Posts(router);
   return router;
-}
+};
 
 const API_REST_V1 = (app: any) => {
-  const router: Router = Router(); 
+  const router: Router = Router();
   app.use('/rest/v1', setupRouter(router));
 };
 

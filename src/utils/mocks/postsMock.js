@@ -1,23 +1,25 @@
 /* eslint-disable no-throw-literal */
-const PostsMock = [{
-  _id: '',
-  user: '',
-  userCover: '',
-  username: '',
-  title: '',
-  body: '',
-  cover: '',
-  description: '',
-  keywords: '',
-  slug: 'this-my-posts',
-  isPublic: true,
-  views: 0,
-  timeShared: 0,
-  likes: 0,
-  isActive: true,
-  createdAt: '',
-  id: '',
-}];
+const PostsMock = [
+  {
+    _id: '',
+    user: '',
+    userCover: '',
+    username: '',
+    title: '',
+    body: '',
+    cover: '',
+    description: '',
+    keywords: '',
+    slug: 'this-my-posts',
+    isPublic: true,
+    views: 0,
+    timeShared: 0,
+    likes: 0,
+    isActive: true,
+    createdAt: '',
+    id: '',
+  },
+];
 
 const findAll = async (query) => {
   const { limit, sort, page } = query;
