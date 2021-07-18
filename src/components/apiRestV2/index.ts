@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import { Posts } from './posts';
+import { Users } from './users';
 
 const setupRouter = (router: Router) => {
   Posts(router);
+  Users(router);
   return router;
 };
 
