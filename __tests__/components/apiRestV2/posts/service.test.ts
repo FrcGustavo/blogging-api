@@ -24,7 +24,7 @@ class MockPostService implements PostEntityContract {
 describe('service - posts', () => {
   const mockPostEntity = new MockPostService();
   const service = new PostsService(mockPostEntity);
-  describe('findAll', () => {
+  describe('getAllPosts', () => {
     test('should return a list of posts', async () => {
       const result = await service.getAllPosts({});
       const expected = [
@@ -38,7 +38,7 @@ describe('service - posts', () => {
     });
   });
 
-  describe('findOne', () => {
+  describe('getOnePost', () => {
     test('should return a post', async () => {
       const result = await service.getOnePost()
       const expected = {

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import success from '../../../router/success';
 import {
   PostsControllerContract,
   PostsServiceContract,
@@ -19,7 +20,15 @@ export class PostsController implements PostsControllerContract {
     const { query } = req;
     try {
       const listPosts = await this.service.getAllPosts(query);
-      res.json(listPosts);
+      success({ res, data: listPosts });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createPost(req: Request, res: Response, next: NextFunction) {
+    try {
+      success({ res });
     } catch (error) {
       next(error);
     }
@@ -28,7 +37,23 @@ export class PostsController implements PostsControllerContract {
   async getOnePost(req: Request, res: Response, next: NextFunction) {
     try {
       const retrievedPost = await this.service.getOnePost();
-      res.json(retrievedPost);
+      success({ res, data: retrievedPost });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updatePost(req: Request, res: Response, next: NextFunction) {
+    try {
+      success({ res });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deletePost(req: Request, res: Response, next: NextFunction) {
+    try {
+      success({ res });
     } catch (error) {
       next(error);
     }
