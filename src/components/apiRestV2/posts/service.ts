@@ -2,6 +2,7 @@ import {
   PostsServiceContract,
   PostEntityContract,
   QueryPostsList,
+  PostItem,
 } from './types';
 
 export class PostsService implements PostsServiceContract {
@@ -22,11 +23,23 @@ export class PostsService implements PostsServiceContract {
     return listPosts;
   }
 
-  async getOnePost() {
-    return {
-      uid: '',
-      title: '',
-      isPublic: false,
-    };
+  async getOnePost(uuid: string) {
+    const post = await this.entity.findOne(uuid);
+    return post;
+  }
+
+  async createPost(post: PostItem) {
+    const createdPost = await this.entity.create(post);
+    return createdPost;
+  }
+
+  async updatePost(uuid: string) {
+    const isUpdated = await this.entity.update(uuid);
+    return { isUpdated };
+  }
+
+  async deletePost(uuid: string) {
+    const isDeleted = await this.entity.delete(uuid);
+    return { isDeleted };
   }
 }

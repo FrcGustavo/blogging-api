@@ -45,7 +45,10 @@ export interface PostsControllerContract {
 
 export interface PostsServiceContract {
   getAllPosts: (query: QueryPostsList) => Promise<PostsList>;
-  getOnePost: () => Promise<PostItem>;
+  getOnePost: (uuid: string) => Promise<PostItem>;
+  createPost: (post: PostItem) => Promise<PostItem>;
+  updatePost: (uuid: string) => Promise<{ isUpdated: boolean }>;
+  deletePost: (uuid: string) => Promise<{ isDeleted: boolean }>;
 }
 
 export type OptionsFindAllPostEntity = {
@@ -55,5 +58,8 @@ export type OptionsFindAllPostEntity = {
 
 export interface PostEntityContract {
   findAll: (options: OptionsFindAllPostEntity) => Promise<PostsList>;
-  findOne: () => Promise<PostItem>;
+  findOne: (uuid: string) => Promise<PostItem>;
+  create: (post: PostItem) => Promise<PostItem>;
+  update: (uuid: string) => Promise<boolean>;
+  delete: (uuid: string) => Promise<boolean>;
 }

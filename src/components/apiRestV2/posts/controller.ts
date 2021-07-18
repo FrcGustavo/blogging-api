@@ -9,7 +9,10 @@ import {
 export class PostsController implements PostsControllerContract {
   constructor(private service: PostsServiceContract) {
     this.getAllPosts = this.getAllPosts.bind(this);
+    this.createPost = this.createPost.bind(this);
     this.getOnePost = this.getOnePost.bind(this);
+    this.updatePost = this.updatePost.bind(this);
+    this.deletePost = this.deletePost.bind(this);
   }
 
   async getAllPosts(
@@ -27,33 +30,40 @@ export class PostsController implements PostsControllerContract {
   }
 
   async createPost(req: Request, res: Response, next: NextFunction) {
+    const { body } = req;
     try {
-      success({ res });
+      const createdPost = await this.service.createPost(body);
+      success({ res, data: createdPost });
     } catch (error) {
       next(error);
     }
   }
 
   async getOnePost(req: Request, res: Response, next: NextFunction) {
+    const { uuid } = req.params;
     try {
-      const retrievedPost = await this.service.getOnePost();
-      success({ res, data: retrievedPost });
+      const retrievedPost = await this.service.getOnePost(uuid);
+      success({ res, status: 201, data: retrievedPost });
     } catch (error) {
       next(error);
     }
   }
 
   async updatePost(req: Request, res: Response, next: NextFunction) {
+    const { uuid } = req.params;
     try {
-      success({ res });
+      const updatedPost = await this.service.updatePost(uuid);
+      success({ res, data: updatedPost });
     } catch (error) {
       next(error);
     }
   }
 
   async deletePost(req: Request, res: Response, next: NextFunction) {
+    const { uuid } = req.params;
     try {
-      success({ res });
+      const deletedPost = await this.service.deletePost(uuid);
+      success({ res, data: deletedPost });
     } catch (error) {
       next(error);
     }

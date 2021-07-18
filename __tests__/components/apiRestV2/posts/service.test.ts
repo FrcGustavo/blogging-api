@@ -17,7 +17,7 @@ class MockPostService implements PostEntityContract {
       uid: '',
       title: '',
       isPublic: false,
-    }
+    };
   }
 }
 
@@ -40,7 +40,7 @@ describe('service - posts', () => {
 
   describe('getOnePost', () => {
     test('should return a post', async () => {
-      const result = await service.getOnePost()
+      const result = await service.getOnePost();
       const expected = {
         uid: '',
         title: '',
