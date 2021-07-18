@@ -8,7 +8,7 @@ const setupRouter = (router: Router) => {
 
 const API_REST_V2 = (app: any) => {
   const router: Router = Router();
-  app.use('/rest/v2', setupRouter(router));
+  app.use('/', setupRouter(router));
 };
 
 export default API_REST_V2;

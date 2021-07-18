@@ -26,11 +26,7 @@ export class PostsService implements PostsServiceContract {
     return {
       uid: '',
       title: '',
-      description: '',
-      keywords: '',
-      cover: '',
-      body: '',
-      slug: '',
+      isPublic: false,
     };
   }
 }

@@ -11,5 +11,11 @@ export class PostEntity implements PostEntityContract {
     ];
   }
 
-  async findOne() {}
+  async findOne() {
+    return {
+      uid: '',
+      title: '',
+      isPublic: false,
+    };
+  }
 }
