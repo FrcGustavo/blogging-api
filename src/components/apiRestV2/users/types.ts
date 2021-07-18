@@ -4,7 +4,7 @@ export type UserItem = {
   uid: string;
   name: string;
   username: string;
-  password?: string;
+  password: string;
 };
 
 export type UsersList = Array<UserItem>;
@@ -46,7 +46,7 @@ export interface UsersControllerContract {
 
 export interface UsersServiceContract {
   //   getAllPosts: (query: QueryPostsList) => Promise<PostsList>;
-  //   getOnePost: (uuid: string) => Promise<PostItem>;
+  getOneUserByEmail: (email: string) => Promise<UserItem>;
   createUser: (user: UserItem) => Promise<UserItem>;
   //   updatePost: (uuid: string) => Promise<{ isUpdated: boolean }>;
   //   deletePost: (uuid: string) => Promise<{ isDeleted: boolean }>;
@@ -59,7 +59,7 @@ export interface UsersServiceContract {
 
 export interface UserEntityContract {
   findAll: () => Promise<UsersList>;
-  // findOne: (uuid: string) => Promise<UserItem>;
+  findOne: ({ email }: { email: string }) => Promise<UserItem>;
   create: (user: UserItem) => Promise<UserItem>;
   // update: (uuid: string) => Promise<boolean>;
   // delete: (uuid: string) => Promise<boolean>;

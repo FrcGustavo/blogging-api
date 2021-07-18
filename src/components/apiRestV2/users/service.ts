@@ -3,6 +3,11 @@ import { UsersServiceContract, UserEntityContract, UserItem } from './types';
 export class UsersService implements UsersServiceContract {
   constructor(private entity: UserEntityContract) {}
 
+  async getOneUserByEmail(email: string) {
+    const user = await this.entity.findOne({ email });
+    return user;
+  }
+
   async createUser(post: UserItem) {
     const createdUser = await this.entity.create(post);
     return createdUser;

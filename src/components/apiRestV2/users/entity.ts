@@ -1,9 +1,10 @@
 import { UserEntityContract, UserItem } from './types';
 
-const User = {
+const User: UserItem = {
   uid: '',
-  title: '',
-  isPublic: false,
+  name: '',
+  username: '',
+  password: '',
 };
 
 const Users = new Array(24).fill(User);
@@ -11,6 +12,12 @@ const Users = new Array(24).fill(User);
 export class UserEntity implements UserEntityContract {
   async findAll() {
     return Users;
+  }
+
+  async findOne({ email }: { email: string }) {
+    const user = { ...User };
+    user.username = email;
+    return user;
   }
 
   async create(user: UserItem) {
