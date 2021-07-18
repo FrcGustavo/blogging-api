@@ -12,7 +12,13 @@ class MockPostService implements PostEntityContract {
     ];
   }
 
-  async findOne() {}
+  async findOne() {
+    return {
+      uid: '',
+      title: '',
+      isPublic: false,
+    }
+  }
 }
 
 describe('service - posts', () => {
@@ -28,6 +34,18 @@ describe('service - posts', () => {
           isPublic: false,
         },
       ];
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('findOne', () => {
+    test('should return a post', async () => {
+      const result = await service.getOnePost()
+      const expected = {
+        uid: '',
+        title: '',
+        isPublic: false,
+      };
       expect(result).toEqual(expected);
     });
   });

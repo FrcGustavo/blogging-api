@@ -1,15 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 
-export type PostRetrieved = {
-  uid: string;
-  title: string;
-  description: string;
-  keywords: string;
-  cover: string;
-  body: string;
-  slug: string;
-};
-
 export type PostItem = {
   uid: string;
   title: string;
@@ -40,7 +30,7 @@ export interface PostsControllerContract {
 
 export interface PostsServiceContract {
   getAllPosts: (query: QueryPostsList) => Promise<PostsList>;
-  getOnePost: () => Promise<PostRetrieved>;
+  getOnePost: () => Promise<PostItem>;
 }
 
 export type OptionsFindAllPostEntity = {
@@ -50,5 +40,5 @@ export type OptionsFindAllPostEntity = {
 
 export interface PostEntityContract {
   findAll: (options: OptionsFindAllPostEntity) => Promise<PostsList>;
-  findOne: () => Promise<void>;
+  findOne: () => Promise<PostItem>;
 }
