@@ -7,4 +7,6 @@ const server = app;
 
 ROUTER(app);
 
-server.listen(config.srv.port);
+server.listen(config.srv.port, () => {
+  console.log('Server is running');
+});
