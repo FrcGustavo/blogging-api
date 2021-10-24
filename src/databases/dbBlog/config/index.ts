@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
-import { databaseConfig } from '../types';
+import { DatabaseConfig } from '../types';
 
 dotenv.config();
 
-const config: databaseConfig = {
+const config: DatabaseConfig = {
   database: process.env.DB_NAME || '',
   username: process.env.DB_USER || '',
   password: process.env.DB_PASS || '',

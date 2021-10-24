@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
 import setupDatabase from '../lib/db';
-import { databaseConfig } from '../types';
+import { DatabaseConfig } from '../types';
 
-const setupPostModel = (config: databaseConfig) => {
+const setupPostModel = (config: DatabaseConfig) => {
   const sequelize = setupDatabase(config);
 
   return sequelize.define('post', {

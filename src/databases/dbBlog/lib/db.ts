@@ -1,9 +1,9 @@
 import { Sequelize, Options } from 'sequelize';
-import { databaseConfig } from '../types';
+import { DatabaseConfig } from '../types';
 
 let sequelize: Sequelize | null = null;
 
-const setupDatabase = (config: databaseConfig): Sequelize => {
+const setupSequelize = (config: DatabaseConfig): Sequelize => {
   if (!sequelize) {
     sequelize = new Sequelize(config as Options);
   }
@@ -11,4 +11,4 @@ const setupDatabase = (config: databaseConfig): Sequelize => {
   return sequelize;
 };
 
-export default setupDatabase;
+export default setupSequelize;

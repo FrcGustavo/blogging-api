@@ -1,4 +1,5 @@
 import { PostEntityContract, PostItem } from './types';
+import { setupDatabaseBlog } from '../../../databases';
 
 const POST = {
   uid: '',
@@ -10,7 +11,10 @@ const POSTS = new Array(24).fill(POST);
 
 export class PostEntity implements PostEntityContract {
   async findAll() {
-    return POSTS;
+    const { Post } = await setupDatabaseBlog();
+    const ListPosts = Post.findPosts();
+
+    return ListPosts;
   }
 
   async findOne() {
