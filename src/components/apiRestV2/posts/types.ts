@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 export type PostItem = {
-  uid: string;
+  uuid: string;
   title: string;
   isPublic: boolean;
 };

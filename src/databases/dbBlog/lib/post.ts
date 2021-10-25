@@ -1,8 +1,8 @@
-import { ModelCtor } from 'sequelize';
+import { SetupPost } from '../types';
 
-const setupPost = (PostModel: ModelCtor<any>) => {
+const setupPost: SetupPost = (postModel) => {
   const findPosts = async () => {
-    const posts = await PostModel.findAll();
+    const posts = await postModel.findAll();
     return posts;
   };
 

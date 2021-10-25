@@ -1,21 +1,21 @@
-import Sequelize from 'sequelize';
+import { DataTypes } from 'sequelize';
 import setupDatabase from '../lib/db';
-import { DatabaseConfig } from '../types';
+import { PostInstance, SetupPostModel } from '../types';
 
-const setupPostModel = (config: DatabaseConfig) => {
+const setupPostModel: SetupPostModel = (config) => {
   const sequelize = setupDatabase(config);
 
-  return sequelize.define('post', {
+  return sequelize.define<PostInstance>('post', {
     uuid: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     title: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    public: {
-      type: Sequelize.BOOLEAN,
+    isPublic: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },

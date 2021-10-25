@@ -1,11 +1,11 @@
 import setupSequelize from './dbBlog';
-import { DatabaseConfig } from './dbBlog/types';
+import { DatabaseConfig, PostLib, Services } from './dbBlog/types';
 
-let services: any = null;
-let Post: any = null;
+let services: Services;
+let Post: PostLib;
 
 export const setupDatabaseBlog = async (config?: DatabaseConfig) => {
-  if (services === null && Post === null && config) {
+  if (!services && !Post && config) {
     services = await setupSequelize(config);
     Post = services.Post;
 

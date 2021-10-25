@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import { setupDatabaseBlog } from './databases';
+import config from './config';
 
 class App {
   private app: Application;
@@ -12,14 +13,7 @@ class App {
   }
 
   config() {
-    setupDatabaseBlog({
-      host: '172.20.0.2',
-      username: 'root',
-      password: '123456',
-      database: 'bloging',
-      dialect: 'postgres',
-      setup: false,
-    });
+    setupDatabaseBlog(config.db);
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(express.json());
     this.app.use(cors());

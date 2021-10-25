@@ -1,11 +1,11 @@
 import setupSequelize from './lib/db';
 import setupPost from './lib/post';
 import setupPostModel from './models/post';
-import { DatabaseConfig } from './types';
+import { SetupDatabase } from './types';
 
-const setupDatabase = async (config: DatabaseConfig) => {
+const setupDatabase: SetupDatabase = async (config) => {
   const sequelize = setupSequelize(config);
-  const PostModel = setupPostModel(config);
+  const postModel = setupPostModel(config);
 
   await sequelize.authenticate();
 
@@ -13,7 +13,7 @@ const setupDatabase = async (config: DatabaseConfig) => {
     await sequelize.sync({ force: true });
   }
 
-  const Post = setupPost(PostModel);
+  const Post = setupPost(postModel);
 
   return { Post };
 };
