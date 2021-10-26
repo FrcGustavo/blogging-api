@@ -1,8 +1,8 @@
 import { PostEntityContract, PostItem, PostsList } from './types';
 import { setupDatabaseBlog } from '../../../databases';
 
-const POST = {
-  uid: '',
+const POST: PostItem = {
+  uuid: '',
   title: '',
   isPublic: false,
 };
@@ -23,12 +23,26 @@ export class PostEntity implements PostEntityContract {
     return listPosts;
   }
 
-  async findOne() {
-    return POSTS[0];
+  async findOne(uuid: string) {
+    const { Post } = await setupDatabaseBlog();
+    const foundPost = await Post.findPost(uuid);
+
+    if (!foundPost) {
+      return POST;
+    }
+
+    const post: PostItem = {
+      uuid: foundPost.uuid,
+      title: foundPost.title,
+      isPublic: foundPost.isPublic,
+    };
+
+    return post;
   }
 
   async create(post: PostItem) {
     // const { Post } = await setupDatabaseBlog()
+    // await Post.createPost({ title: 'ESTE ES MI PRIMER POST' })
     POSTS.push(post);
     return POSTS[POSTS.length - 1];
   }

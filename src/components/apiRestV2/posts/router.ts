@@ -11,7 +11,7 @@ export class PostsRouter implements PostsRouterContract {
       .get(this.controller.getAllPosts)
       .post(this.controller.createPost);
     this.router
-      .route('/posts/:uid')
+      .route('/posts/:uuid')
       .get(this.controller.getOnePost)
       .put(this.controller.updatePost)
       .delete(this.controller.deletePost);

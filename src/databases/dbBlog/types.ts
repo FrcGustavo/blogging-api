@@ -20,6 +20,8 @@ export type SetupPostModel = (config: DatabaseConfig) => PostModel;
 
 export type PostLib = {
   findPosts: () => Promise<PostInstance[]>;
+  createPost: (post: { title: string; isPublic?: boolean }) => Promise<string>;
+  findPost: (uuid: string) => Promise<PostInstance | null>;
 };
 
 export type SetupPost = (postModel: PostModel) => PostLib;
@@ -27,4 +29,5 @@ export type SetupPost = (postModel: PostModel) => PostLib;
 export type Services = {
   Post: PostLib;
 };
+
 export type SetupDatabase = (config: DatabaseConfig) => Promise<Services>;
