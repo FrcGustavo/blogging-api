@@ -3,6 +3,7 @@ import {
   PostEntityContract,
   QueryPostsList,
   PostItem,
+  UpdatePostItem,
 } from './types';
 
 export class PostsService implements PostsServiceContract {
@@ -33,8 +34,17 @@ export class PostsService implements PostsServiceContract {
     return createdPost;
   }
 
-  async updatePost(uuid: string) {
-    const isUpdated = await this.entity.update(uuid);
+  async updatePost(uuid: string, { title, isPublic }: UpdatePostItem) {
+    const post = { title, isPublic };
+    if (typeof title === 'undefined') {
+      delete post.title;
+    }
+
+    if (typeof isPublic === 'undefined') {
+      delete post.isPublic;
+    }
+
+    const isUpdated = await this.entity.update(uuid, post);
     return { isUpdated };
   }
 

@@ -51,8 +51,12 @@ export class PostsController implements PostsControllerContract {
 
   async updatePost(req: Request, res: Response, next: NextFunction) {
     const { uuid } = req.params;
+    const { title, isPublic } = req.body;
     try {
-      const updatedPost = await this.service.updatePost(uuid);
+      const updatedPost = await this.service.updatePost(uuid, {
+        title,
+        isPublic,
+      });
       success({ res, data: updatedPost });
     } catch (error) {
       next(error);

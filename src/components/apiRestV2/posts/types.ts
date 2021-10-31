@@ -6,6 +6,11 @@ export type PostItem = {
   isPublic: boolean;
 };
 
+export type UpdatePostItem = {
+  title?: string;
+  isPublic?: boolean;
+};
+
 export type PostsList = Array<PostItem>;
 
 export type QueryPostsList = {
@@ -47,7 +52,10 @@ export interface PostsServiceContract {
   getAllPosts: (query: QueryPostsList) => Promise<PostsList>;
   getOnePost: (uuid: string) => Promise<PostItem>;
   createPost: (post: PostItem) => Promise<PostItem>;
-  updatePost: (uuid: string) => Promise<{ isUpdated: boolean }>;
+  updatePost: (
+    uuid: string,
+    post: UpdatePostItem
+  ) => Promise<{ isUpdated: boolean }>;
   deletePost: (uuid: string) => Promise<{ isDeleted: boolean }>;
 }
 
@@ -60,6 +68,6 @@ export interface PostEntityContract {
   findAll: (options: OptionsFindAllPostEntity) => Promise<PostsList>;
   findOne: (uuid: string) => Promise<PostItem>;
   create: (post: PostItem) => Promise<PostItem>;
-  update: (uuid: string) => Promise<boolean>;
+  update: (uuid: string, post: UpdatePostItem) => Promise<boolean>;
   delete: (uuid: string) => Promise<boolean>;
 }

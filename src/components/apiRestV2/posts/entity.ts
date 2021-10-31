@@ -1,4 +1,9 @@
-import { PostEntityContract, PostItem, PostsList } from './types';
+import {
+  PostEntityContract,
+  PostItem,
+  PostsList,
+  UpdatePostItem,
+} from './types';
 import { setupDatabaseBlog } from '../../../databases';
 
 const POST: PostItem = {
@@ -47,8 +52,10 @@ export class PostEntity implements PostEntityContract {
     return POSTS[POSTS.length - 1];
   }
 
-  async update() {
-    return true;
+  async update(uuid: string, data: UpdatePostItem) {
+    const { Post } = await setupDatabaseBlog();
+    const updatedPost = Post.updatePost(uuid, data);
+    return updatedPost;
   }
 
   async delete() {

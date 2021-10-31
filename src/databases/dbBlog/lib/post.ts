@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { SetupPost } from '../types';
+import { SetupPost, PostUpgradeAttributes } from '../types';
 
 const setupPost: SetupPost = (postModel) => {
   const findPosts = async () => {
@@ -28,10 +28,16 @@ const setupPost: SetupPost = (postModel) => {
     return post;
   };
 
+  const updatePost = async (uuid: string, data: PostUpgradeAttributes) => {
+    const post = await postModel.update(data, { where: { uuid } });
+    return Boolean(post[0]);
+  };
+
   return {
     findPosts,
     createPost,
     findPost,
+    updatePost,
   };
 };
 
