@@ -30,9 +30,9 @@ export class PostsController implements PostsControllerContract {
   }
 
   async createPost(req: Request, res: Response, next: NextFunction) {
-    const { body } = req;
+    const { title, isPublic } = req.body;
     try {
-      const createdPost = await this.service.createPost(body);
+      const createdPost = await this.service.createPost({ title, isPublic });
       success({ res, data: createdPost });
     } catch (error) {
       next(error);

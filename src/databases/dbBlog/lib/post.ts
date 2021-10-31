@@ -1,5 +1,9 @@
 import { v4 } from 'uuid';
-import { SetupPost, PostUpgradeAttributes } from '../types';
+import {
+  SetupPost,
+  PostUpgradeAttributes,
+  PostCreationAttributes,
+} from '../types';
 
 const setupPost: SetupPost = (postModel) => {
   const findPosts = async () => {
@@ -7,17 +11,11 @@ const setupPost: SetupPost = (postModel) => {
     return posts;
   };
 
-  const createPost = async ({
-    title,
-    isPublic = false,
-  }: {
-    title: string;
-    isPublic?: boolean;
-  }) => {
+  const createPost = async (data: PostCreationAttributes) => {
     const createdPost = await postModel.create({
       uuid: v4(),
-      title,
-      isPublic,
+      title: data.title,
+      isPublic: data.isPublic,
     });
 
     return createdPost.uuid;

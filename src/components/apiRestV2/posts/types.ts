@@ -6,6 +6,11 @@ export type PostItem = {
   isPublic: boolean;
 };
 
+export type CreatePostItem = {
+  title: string;
+  isPublic: boolean;
+};
+
 export type UpdatePostItem = {
   title?: string;
   isPublic?: boolean;
@@ -51,7 +56,7 @@ export interface PostsControllerContract {
 export interface PostsServiceContract {
   getAllPosts: (query: QueryPostsList) => Promise<PostsList>;
   getOnePost: (uuid: string) => Promise<PostItem>;
-  createPost: (post: PostItem) => Promise<PostItem>;
+  createPost: (post: Partial<CreatePostItem>) => Promise<string>;
   updatePost: (
     uuid: string,
     post: UpdatePostItem
@@ -67,7 +72,7 @@ export type OptionsFindAllPostEntity = {
 export interface PostEntityContract {
   findAll: (options: OptionsFindAllPostEntity) => Promise<PostsList>;
   findOne: (uuid: string) => Promise<PostItem>;
-  create: (post: PostItem) => Promise<PostItem>;
+  create: (post: CreatePostItem) => Promise<string>;
   update: (uuid: string, post: UpdatePostItem) => Promise<boolean>;
   delete: (uuid: string) => Promise<boolean>;
 }

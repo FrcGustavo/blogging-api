@@ -23,7 +23,7 @@ export type SetupPostModel = (config: DatabaseConfig) => PostModel;
 
 export type PostLib = {
   findPosts: () => Promise<PostInstance[]>;
-  createPost: (post: { title: string; isPublic?: boolean }) => Promise<string>;
+  createPost: (post: PostCreationAttributes) => Promise<string>;
   findPost: (uuid: string) => Promise<PostInstance | null>;
   updatePost: (uuid: string, data: PostUpgradeAttributes) => Promise<boolean>;
 };

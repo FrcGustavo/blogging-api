@@ -3,16 +3,9 @@ import {
   PostItem,
   PostsList,
   UpdatePostItem,
+  CreatePostItem,
 } from './types';
 import { setupDatabaseBlog } from '../../../databases';
-
-const POST: PostItem = {
-  uuid: '',
-  title: '',
-  isPublic: false,
-};
-
-const POSTS = new Array(24).fill(POST);
 
 export class PostEntity implements PostEntityContract {
   async findAll() {
@@ -33,7 +26,7 @@ export class PostEntity implements PostEntityContract {
     const foundPost = await Post.findPost(uuid);
 
     if (!foundPost) {
-      return POST;
+      throw new Error('Post not found');
     }
 
     const post: PostItem = {
@@ -45,11 +38,10 @@ export class PostEntity implements PostEntityContract {
     return post;
   }
 
-  async create(post: PostItem) {
-    // const { Post } = await setupDatabaseBlog()
-    // await Post.createPost({ title: 'ESTE ES MI PRIMER POST' })
-    POSTS.push(post);
-    return POSTS[POSTS.length - 1];
+  async create(post: CreatePostItem) {
+    const { Post } = await setupDatabaseBlog();
+    const createdPost = await Post.createPost(post);
+    return createdPost;
   }
 
   async update(uuid: string, data: UpdatePostItem) {
