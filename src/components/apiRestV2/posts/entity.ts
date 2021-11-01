@@ -50,7 +50,9 @@ export class PostEntity implements PostEntityContract {
     return updatedPost;
   }
 
-  async delete() {
-    return false;
+  async delete(uuid: string) {
+    const { Post } = await setupDatabaseBlog();
+    const deletedPost = Post.deletePost(uuid);
+    return deletedPost;
   }
 }

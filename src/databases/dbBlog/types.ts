@@ -26,6 +26,7 @@ export type PostLib = {
   createPost: (post: PostCreationAttributes) => Promise<string>;
   findPost: (uuid: string) => Promise<PostInstance | null>;
   updatePost: (uuid: string, data: PostUpgradeAttributes) => Promise<boolean>;
+  deletePost: (uuid: string) => Promise<boolean>;
 };
 
 export type SetupPost = (postModel: PostModel) => PostLib;

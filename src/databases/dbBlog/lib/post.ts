@@ -31,11 +31,17 @@ const setupPost: SetupPost = (postModel) => {
     return Boolean(post[0]);
   };
 
+  const deletePost = async (uuid: string) => {
+    const post = await postModel.destroy({ where: { uuid } });
+    return Boolean(post);
+  };
+
   return {
     findPosts,
     createPost,
     findPost,
     updatePost,
+    deletePost,
   };
 };
 

@@ -33,7 +33,7 @@ export class PostsController implements PostsControllerContract {
     const { title, isPublic } = req.body;
     try {
       const createdPost = await this.service.createPost({ title, isPublic });
-      success({ res, data: createdPost });
+      success({ res, status: 201, data: createdPost });
     } catch (error) {
       next(error);
     }
@@ -43,7 +43,7 @@ export class PostsController implements PostsControllerContract {
     const { uuid } = req.params;
     try {
       const retrievedPost = await this.service.getOnePost(uuid);
-      success({ res, status: 201, data: retrievedPost });
+      success({ res, data: retrievedPost });
     } catch (error) {
       next(error);
     }
