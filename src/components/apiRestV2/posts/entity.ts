@@ -1,13 +1,11 @@
-import { PostEntityContract, PostItem, PostsList } from './types';
+import {
+  PostEntityContract,
+  PostItem,
+  PostsList,
+  UpdatePostItem,
+  CreatePostItem,
+} from './types';
 import { setupDatabaseBlog } from '../../../databases';
-
-const POST = {
-  uid: '',
-  title: '',
-  isPublic: false,
-};
-
-const POSTS = new Array(24).fill(POST);
 
 export class PostEntity implements PostEntityContract {
   async findAll() {
@@ -23,21 +21,38 @@ export class PostEntity implements PostEntityContract {
     return listPosts;
   }
 
-  async findOne() {
-    return POSTS[0];
+  async findOne(uuid: string) {
+    const { Post } = await setupDatabaseBlog();
+    const foundPost = await Post.findPost(uuid);
+
+    if (!foundPost) {
+      throw new Error('Post not found');
+    }
+
+    const post: PostItem = {
+      uuid: foundPost.uuid,
+      title: foundPost.title,
+      isPublic: foundPost.isPublic,
+    };
+
+    return post;
   }
 
-  async create(post: PostItem) {
-    // const { Post } = await setupDatabaseBlog()
-    POSTS.push(post);
-    return POSTS[POSTS.length - 1];
+  async create(post: CreatePostItem) {
+    const { Post } = await setupDatabaseBlog();
+    const createdPost = await Post.createPost(post);
+    return createdPost;
   }
 
-  async update() {
-    return true;
+  async update(uuid: string, data: UpdatePostItem) {
+    const { Post } = await setupDatabaseBlog();
+    const updatedPost = Post.updatePost(uuid, data);
+    return updatedPost;
   }
 
-  async delete() {
-    return false;
+  async delete(uuid: string) {
+    const { Post } = await setupDatabaseBlog();
+    const deletedPost = Post.deletePost(uuid);
+    return deletedPost;
   }
 }

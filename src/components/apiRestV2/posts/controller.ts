@@ -30,10 +30,10 @@ export class PostsController implements PostsControllerContract {
   }
 
   async createPost(req: Request, res: Response, next: NextFunction) {
-    const { body } = req;
+    const { title, isPublic } = req.body;
     try {
-      const createdPost = await this.service.createPost(body);
-      success({ res, data: createdPost });
+      const createdPost = await this.service.createPost({ title, isPublic });
+      success({ res, status: 201, data: createdPost });
     } catch (error) {
       next(error);
     }
@@ -43,7 +43,7 @@ export class PostsController implements PostsControllerContract {
     const { uuid } = req.params;
     try {
       const retrievedPost = await this.service.getOnePost(uuid);
-      success({ res, status: 201, data: retrievedPost });
+      success({ res, data: retrievedPost });
     } catch (error) {
       next(error);
     }
@@ -51,8 +51,12 @@ export class PostsController implements PostsControllerContract {
 
   async updatePost(req: Request, res: Response, next: NextFunction) {
     const { uuid } = req.params;
+    const { title, isPublic } = req.body;
     try {
-      const updatedPost = await this.service.updatePost(uuid);
+      const updatedPost = await this.service.updatePost(uuid, {
+        title,
+        isPublic,
+      });
       success({ res, data: updatedPost });
     } catch (error) {
       next(error);

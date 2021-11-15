@@ -2,7 +2,8 @@ import {
   PostsServiceContract,
   PostEntityContract,
   QueryPostsList,
-  PostItem,
+  UpdatePostItem,
+  CreatePostItem,
 } from './types';
 
 export class PostsService implements PostsServiceContract {
@@ -28,13 +29,37 @@ export class PostsService implements PostsServiceContract {
     return post;
   }
 
-  async createPost(post: PostItem) {
+  async createPost({ title, isPublic }: Partial<CreatePostItem>) {
+    const post: CreatePostItem = {
+      title: '',
+      isPublic: false,
+    };
+
+    if (!(isPublic === undefined)) {
+      post.isPublic = isPublic;
+    }
+
+    if (!title) {
+      throw new Error('the title is requred');
+    }
+
+    post.title = title;
+
     const createdPost = await this.entity.create(post);
     return createdPost;
   }
 
-  async updatePost(uuid: string) {
-    const isUpdated = await this.entity.update(uuid);
+  async updatePost(uuid: string, { title, isPublic }: UpdatePostItem) {
+    const post = { title, isPublic };
+    if (typeof title === 'undefined') {
+      delete post.title;
+    }
+
+    if (typeof isPublic === 'undefined') {
+      delete post.isPublic;
+    }
+
+    const isUpdated = await this.entity.update(uuid, post);
     return { isUpdated };
   }
 
