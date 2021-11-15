@@ -1,5 +1,10 @@
 import { PostsService } from '../../../../src/components/apiRestV2/posts/service';
-import { PostEntityContract, OptionsFindAllPostEntity, CreatePostItem, UpdatePostItem } from '../../../../src/components/apiRestV2/posts/types';
+import {
+  PostEntityContract,
+  OptionsFindAllPostEntity,
+  CreatePostItem,
+  UpdatePostItem,
+} from '../../../../src/components/apiRestV2/posts/types';
 
 class MockPostService implements PostEntityContract {
   async findAll(options: OptionsFindAllPostEntity) {
@@ -30,30 +35,28 @@ class MockPostService implements PostEntityContract {
     };
   }
 
-  async create (post: CreatePostItem) {
+  async create(post: CreatePostItem) {
     if (post) {
-      return 'post'
+      return 'post';
     }
 
-    return ''
+    return '';
   }
 
-  async update (uuid: string, post: UpdatePostItem) {
+  async update(uuid: string, post: UpdatePostItem) {
     if (uuid && post) {
-
-      return true
+      return true;
     }
 
-    return false
+    return false;
   }
 
-  async delete (uuid: string) {
+  async delete(uuid: string) {
     if (uuid === 'p') {
-   
-      return true
+      return true;
     }
 
-    return false
+    return false;
   }
 }
 
