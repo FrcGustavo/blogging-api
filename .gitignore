@@ -5,3 +5,4 @@ coverage
 /dist
 /uploads
 package-lock.json
+.*.env

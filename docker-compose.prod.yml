@@ -4,11 +4,7 @@ services:
   db:
     image: 'postgres'
     env_file:
-      - ./.env
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ./.db.env
     volumes:
       - type: volume
         source: dbdata
@@ -16,11 +12,9 @@ services:
     ports:
       - '5432:5432'
   api:
-    build:
-      context: ./
-      dockerfile: dockerfile
+    image: frcgustavo/blogging-api:0.0.0
     env_file:
-     - ./.env
+     - ./.api.env
     depends_on:
       - db
     ports:
