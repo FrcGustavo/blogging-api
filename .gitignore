@@ -5,4 +5,4 @@ coverage
 /dist
 /uploads
 package-lock.json
-yarn.lock
+.*.env
