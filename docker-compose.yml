@@ -4,11 +4,7 @@ services:
   db:
     image: 'postgres'
     env_file:
-      - ./.env
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ./.db.env
     volumes:
       - type: volume
         source: dbdata
@@ -18,18 +14,13 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     env_file:
-      - ./.env
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - ./.pgadmin.env
     ports:
       - 5050:80
   api:
-    build:
-      context: ./
-      dockerfile: dockerfile
+    image: frcgustavo/blogging-api:0.0.0
     env_file:
-     - ./.env
+     - ./.api.env
     depends_on:
       - db
     volumes:
@@ -37,6 +28,6 @@ services:
       - /usr/src/node_modules
     ports:
       - 5000:5000
-    command: yarn run dev
+    command: yarn run dev  
 volumes:
   dbdata:
