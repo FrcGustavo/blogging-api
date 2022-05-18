@@ -1,9 +1,12 @@
-import app from './index';
-import connectMongo from './databases/mongoose';
 import config from './config';
-import { info } from './utils/debug';
+import ROUTER from './router';
+import App from './app';
 
-app.listen(config.srv.port, async () => {
-	await connectMongo();
-	info(`Server is runing http:localhost:${config.srv.port}`);
+const app = new App().getIntance();
+const server = app;
+
+ROUTER(app);
+
+server.listen(config.srv.port, () => {
+  console.log('Server is running');
 });

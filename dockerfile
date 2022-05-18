@@ -1,13 +1,15 @@
-FROM node:14
+FROM node:14.18.1-alpine3.14
 
-COPY ["package.json", "package-lock.json", "/usr/src/"]
+COPY ["package.json", "yarn.lock", "/usr/src/"]
 
 WORKDIR /usr/src
 
-RUN npm install
+RUN yarn
 
 COPY [".", "/usr/src/"]
 
 EXPOSE 5000
 
-CMD ["npm", "run", "start"]
+RUN yarn build
+
+CMD ["yarn", "run", "start"]
