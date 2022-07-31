@@ -8,22 +8,30 @@ It is the api that handles the information of a blog
 Before the start, your must config enviroment variables
 
 #### Intructions:
-- Copy the file '.env.example'
-- Change the name '.env.example' to '.env'
-- open file and complete the variables
+- Create the next files with enviroments variables
 
-Example
+.api.env
 ```
-// Enviroment
-NODE_ENV=
+POSTGRES_DIALECT=
+POSTGRES_HOST=
+POSTGRES_USERNAME=
+POSTGRES_PASSWORD=
+POSTGRES_DATABASE=
+POSTGRES_SETUP=
 PORT=
-LOG_PREFIX=
+```
 
-// MongoDB
-DB_HOST=
-DB_USER=
-DB_PASSWORD=
-DB_NAME=
+.db.env
+```
+POSTGRES_USER=
+POSTGRES_DB=
+POSTGRES_PASSWORD=
+```
+
+.pgadmin.env
+```
+PGADMIN_DEFAULT_EMAIL=
+PGADMIN_DEFAULT_PASSWORD=
 ```
 
 ## Start

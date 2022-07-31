@@ -1,4 +1,4 @@
-FROM node:14.18.1-alpine3.14
+FROM node:16-alpine3.15
 
 COPY ["package.json", "yarn.lock", "/usr/src/"]
 
