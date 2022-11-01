@@ -5,7 +5,7 @@ import {
   // UpdatePostItem,
   // CreatePostItem,
 } from './types';
-import { Polls } from "../models";
+import { Polls } from '../models';
 // import { setupDatabaseBlog } from '../../../databases';
 
 export class PollEntity implements PollEntityContract {
@@ -16,7 +16,9 @@ export class PollEntity implements PollEntityContract {
     const listPolls: PollsList = polls.map(({ id, title }) => ({
       uuid: id,
       title,
+      questions: [],
     }));
+
     return listPolls;
   }
 
@@ -29,7 +31,7 @@ export class PollEntity implements PollEntityContract {
     }
     const poll: PollItem = {
       uuid: foundPoll.id,
-      title: foundPoll.name,
+      title: foundPoll.title,
       questions: [],
       // isPublic: foundPost.isPublic,
     };

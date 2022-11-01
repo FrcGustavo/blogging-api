@@ -19,9 +19,8 @@ services:
       - 5050:80
   mongodb:
     image : mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=
-      - MONGO_INITDB_ROOT_PASSWORD=
+    env_file:
+     - ./.mongo.env
     volumes:
       - type: volume
         source: mongodbdata
@@ -32,8 +31,6 @@ services:
     build:
       context: ./
       dockerfile: dockerfile
-    # image: 
-    #   file: ./dockerfile
     env_file:
      - ./.api.env
     depends_on:

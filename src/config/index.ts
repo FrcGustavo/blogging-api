@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { DatabaseConfig } from '../databases/dbBlog/types';
+import { DatabaseConfig as MongoDatabaseConfig } from '../databases/mongodb/index';
 
 dotenv.config();
 
@@ -19,7 +20,11 @@ const dialect =
     | 'mariadb'
     | 'mssql') || 'mysql';
 
-const config: { srv: ServerConfig; db: DatabaseConfig } = {
+const config: {
+  srv: ServerConfig;
+  db: DatabaseConfig;
+  mongo: MongoDatabaseConfig;
+} = {
   srv: {
     mode: process.env.NODE_ENV || 'development',
     port: process.env.PORT || '3000',
@@ -34,6 +39,12 @@ const config: { srv: ServerConfig; db: DatabaseConfig } = {
     database: process.env.POSTGRES_DATABASE || '',
     dialect,
     setup: process.env.POSTGRES_SETUP === 'true' || false,
+  },
+  mongo: {
+    url: process.env.MONGO_HOST || '',
+    username: process.env.MONGO_USERNAME || '',
+    password: process.env.MONGO_PASSWORD || '',
+    database: process.env.MONGO_DATABASE || '',
   },
 };
 

@@ -1,17 +1,31 @@
 import mongoose from 'mongoose';
 
-const setupMongoDataBase = async () => {
+export type DatabaseConfig = {
+  url: string;
+  username: string;
+  password: string;
+  database: string;
+};
+
+type SetupMongoDatabase = (config: DatabaseConfig) => Promise<void>;
+
+const setupMongoDataBase: SetupMongoDatabase = async ({
+  url,
+  username,
+  password,
+  database,
+}) => {
   try {
-    await mongoose.connect('mongodb://172.18.0.2:27017', {
+    await mongoose.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      user: '',
-      pass: '',
-      dbName: '',
+      user: username,
+      pass: password,
+      dbName: database,
     });
-    console.log('Success');
+    // console.log('Success');
   } catch (err) {
-    console.log('ERROR', err);
+    // console.log('ERROR', err);
   }
 };
 

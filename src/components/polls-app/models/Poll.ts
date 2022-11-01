@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
 
-const PollSchema = new mongoose.Schema({
-  name: String,
+interface IPoll {
+  title: string;
+}
+
+const PollSchema = new mongoose.Schema<IPoll>({
+  title: String,
 });
 
-export const Polls = mongoose.model('polls', PollSchema);
+export const Polls = mongoose.model<IPoll>('polls', PollSchema);
