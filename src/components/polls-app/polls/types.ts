@@ -72,14 +72,14 @@ export interface PollsServiceContract {
   deletePoll: (uuid: string) => Promise<{ isDeleted: boolean }>;
 }
 
-// export type OptionsFindAllPostEntity = {
-//   limit: number;
-//   offset: number;
-// };
+export type OptionsFindAllPollEntity = {
+  limit: number;
+  offset: number;
+};
 
-export interface PostEntityContract {
-  //   findAll: (options: OptionsFindAllPostEntity) => Promise<PostsList>;
-  //   findOne: (uuid: string) => Promise<PostItem>;
+export interface PollEntityContract {
+  findAll: (options: OptionsFindAllPollEntity) => Promise<PollsList>;
+  findOne: (uuid: string) => Promise<PollItem>;
   //   create: (post: CreatePostItem) => Promise<string>;
   //   update: (uuid: string, post: UpdatePostItem) => Promise<boolean>;
   //   delete: (uuid: string) => Promise<boolean>;

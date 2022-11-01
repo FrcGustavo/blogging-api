@@ -3,27 +3,32 @@ import {
   PollsList,
   PollsServiceContract,
   QueryPollsList,
-  // PostEntityContract,
+  PollEntityContract,
   UpdatePollItem,
   CreatePollItem,
 } from './types';
+// import { Polls } from "./../models"
 
 export class PollsService implements PollsServiceContract {
   private polls: PollsList = [];
 
-  // constructor(private entity: PostEntityContract) {}
+  constructor(private entity: PollEntityContract) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   async getAllPolls(query: QueryPollsList) {
-    return this.polls;
+    const polls = await this.entity.findAll({
+      limit: Number(query.limit) || 24,
+      offset: Number(query.page) || 1,
+    });
+
+    return polls;
   }
 
   async getOnePoll(uuid: string) {
-    const poll = this.polls.find((currentPoll) => currentPoll.uuid === uuid);
+    const poll = await this.entity.findOne(uuid);
 
-    if (!poll) {
-      throw new Error('the polls is not found');
-    }
+    // if (!poll) {
+    //   throw new Error('the polls is not found');
+    // }
 
     return poll;
   }
