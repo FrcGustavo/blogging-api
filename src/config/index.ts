@@ -10,6 +10,13 @@ type ServerConfig = {
   logPrefix: string;
   secretSession: string;
   secretJWT: string;
+  logger: string;
+};
+
+type Config = {
+  srv: ServerConfig;
+  db: DatabaseConfig;
+  mongo: MongoDatabaseConfig;
 };
 
 const dialect =
@@ -20,17 +27,16 @@ const dialect =
     | 'mariadb'
     | 'mssql') || 'mysql';
 
-const config: {
-  srv: ServerConfig;
-  db: DatabaseConfig;
-  mongo: MongoDatabaseConfig;
-} = {
+const MODE = process.env.NODE_ENV || 'development';
+
+const config: Config = {
   srv: {
-    mode: process.env.NODE_ENV || 'development',
+    mode: MODE,
     port: process.env.PORT || '3000',
     logPrefix: process.env.LOG_PREFIX || 'app',
     secretSession: process.env.SECRET_SESSION || 'my_secret-key',
     secretJWT: process.env.SECRET_JTW || 'my_secret-key',
+    logger: MODE === 'development' ? 'dev' : 'combined',
   },
   db: {
     host: process.env.POSTGRES_HOST || '',

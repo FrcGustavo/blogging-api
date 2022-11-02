@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { mongo } from '../../utils/debbug';
 
 export type DatabaseConfig = {
   url: string;
@@ -23,9 +24,9 @@ const setupMongoDataBase: SetupMongoDatabase = async ({
       pass: password,
       dbName: database,
     });
-    // console.log('Success');
+    mongo('Connection is success');
   } catch (err) {
-    // console.log('ERROR', err);
+    mongo(err);
   }
 };
 
