@@ -4,9 +4,12 @@ export type Question = {
   uuid: string;
   question: string;
   typeQuestion: string;
-  answers: [];
+  answers: {
+    uuid: string;
+    answer: string;
+  }[];
 };
-export type Questions = Questions[];
+export type Questions = Question[];
 
 export type PollItem = {
   uuid: string;
@@ -14,9 +17,18 @@ export type PollItem = {
   questions: Questions;
 };
 
+export type CreateQuestion = {
+  question: string;
+  typeQuestion: string;
+  answers: {
+    answer: string;
+  }[];
+};
+export type CreateQuestions = CreateQuestion[];
+
 export type CreatePollItem = {
   title: string;
-  questions: Questions;
+  questions: CreateQuestion;
 };
 
 export type UpdatePollItem = {
@@ -64,7 +76,7 @@ export interface PollsControllerContract {
 export interface PollsServiceContract {
   getAllPolls: (query: QueryPollsList) => Promise<PollsList>;
   getOnePoll: (uuid: string) => Promise<PollItem>;
-  createPoll: (poll: Partial<CreatePollItem>) => Promise<string>;
+  createPoll: (poll: Partial<CreatePollItem>) => Promise<PollItem>;
   updatePoll: (
     uuid: string,
     post: UpdatePollItem
@@ -80,7 +92,7 @@ export type OptionsFindAllPollEntity = {
 export interface PollEntityContract {
   findAll: (options: OptionsFindAllPollEntity) => Promise<PollsList>;
   findOne: (uuid: string) => Promise<PollItem>;
-  //   create: (post: CreatePostItem) => Promise<string>;
+  create: (poll: CreatePollItem) => Promise<PollItem>;
   //   update: (uuid: string, post: UpdatePostItem) => Promise<boolean>;
   //   delete: (uuid: string) => Promise<boolean>;
 }

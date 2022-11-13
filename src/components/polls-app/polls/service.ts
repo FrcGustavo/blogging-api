@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import {
   PollsList,
   PollsServiceContract,
@@ -26,10 +25,6 @@ export class PollsService implements PollsServiceContract {
   async getOnePoll(uuid: string) {
     const poll = await this.entity.findOne(uuid);
 
-    // if (!poll) {
-    //   throw new Error('the polls is not found');
-    // }
-
     return poll;
   }
 
@@ -42,11 +37,9 @@ export class PollsService implements PollsServiceContract {
       throw new Error('the questions is requred');
     }
 
-    const createdPoll = { uuid: v4(), title, questions };
+    const createdPoll = this.entity.create({ title, questions });
 
-    this.polls.push(createdPoll);
-
-    return createdPoll.uuid;
+    return createdPoll;
   }
 
   async updatePoll(uuid: string, { title, questions }: UpdatePollItem) {
