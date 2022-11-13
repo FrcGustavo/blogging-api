@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { DatabaseConfig } from '../databases/dbBlog/types';
+import { DatabaseConfig as MongoDatabaseConfig } from '../databases/mongodb/index';
 
 dotenv.config();
 
@@ -9,6 +10,13 @@ type ServerConfig = {
   logPrefix: string;
   secretSession: string;
   secretJWT: string;
+  logger: string;
+};
+
+type Config = {
+  srv: ServerConfig;
+  db: DatabaseConfig;
+  mongo: MongoDatabaseConfig;
 };
 
 const dialect =
@@ -19,13 +27,16 @@ const dialect =
     | 'mariadb'
     | 'mssql') || 'mysql';
 
-const config: { srv: ServerConfig; db: DatabaseConfig } = {
+const MODE = process.env.NODE_ENV || 'development';
+
+const config: Config = {
   srv: {
-    mode: process.env.NODE_ENV || 'development',
+    mode: MODE,
     port: process.env.PORT || '3000',
     logPrefix: process.env.LOG_PREFIX || 'app',
     secretSession: process.env.SECRET_SESSION || 'my_secret-key',
     secretJWT: process.env.SECRET_JTW || 'my_secret-key',
+    logger: MODE === 'development' ? 'dev' : 'combined',
   },
   db: {
     host: process.env.POSTGRES_HOST || '',
@@ -34,6 +45,12 @@ const config: { srv: ServerConfig; db: DatabaseConfig } = {
     database: process.env.POSTGRES_DATABASE || '',
     dialect,
     setup: process.env.POSTGRES_SETUP === 'true' || false,
+  },
+  mongo: {
+    url: process.env.MONGO_HOST || '',
+    username: process.env.MONGO_USERNAME || '',
+    password: process.env.MONGO_PASSWORD || '',
+    database: process.env.MONGO_DATABASE || '',
   },
 };
 

@@ -1,41 +1,79 @@
+/* eslint-disable no-underscore-dangle */
 import {
-  PostEntityContract,
-  // PostItem,
-  // PostsList,
+  PollEntityContract,
+  PollItem,
+  PollsList,
   // UpdatePostItem,
-  // CreatePostItem,
+  CreatePollItem,
 } from './types';
-// import { setupDatabaseBlog } from '../../../databases';
+import { Polls } from '../models';
 
-export class PostEntity implements PostEntityContract {
-  // async findAll() {
-  //   const { Post } = await setupDatabaseBlog();
-  //   const posts = await Post.findPosts();
-  //   const listPosts: PostsList = posts.map(({ uuid, title, isPublic }) => ({
-  //     uuid,
-  //     title,
-  //     isPublic,
-  //   }));
-  //   return listPosts;
-  // }
-  // async findOne(uuid: string) {
-  //   const { Post } = await setupDatabaseBlog();
-  //   const foundPost = await Post.findPost(uuid);
-  //   if (!foundPost) {
-  //     throw new Error('Post not found');
-  //   }
-  //   const post: PostItem = {
-  //     uuid: foundPost.uuid,
-  //     title: foundPost.title,
-  //     isPublic: foundPost.isPublic,
-  //   };
-  //   return post;
-  // }
-  // async create(post: CreatePostItem) {
-  //   const { Post } = await setupDatabaseBlog();
-  //   const createdPost = await Post.createPost(post);
-  //   return createdPost;
-  // }
+export class PollEntity implements PollEntityContract {
+  async findAll() {
+    const polls = await Polls.find();
+    const listPolls: PollsList = polls.map(({ id, title, questions }) => ({
+      uuid: id,
+      title,
+      questions: questions.map((currentQuestion) => ({
+        uuid: currentQuestion._id as unknown as string,
+        question: currentQuestion.question,
+        typeQuestion: currentQuestion.typeQuestion,
+        answers: currentQuestion.answers.map((currentAnswer) => ({
+          uuid: currentAnswer._id as unknown as string,
+          answer: currentAnswer.answer,
+        })),
+      })),
+    }));
+
+    return listPolls;
+  }
+
+  async findOne(uuid: string) {
+    const foundPoll = await Polls.findById(uuid);
+
+    if (!foundPoll) {
+      throw new Error('Post not found');
+    }
+
+    const poll: PollItem = {
+      uuid: foundPoll.id,
+      title: foundPoll.title,
+      questions: foundPoll.questions.map((currentQuestion) => ({
+        uuid: currentQuestion._id as unknown as string,
+        question: currentQuestion.question,
+        typeQuestion: currentQuestion.typeQuestion,
+        answers: currentQuestion.answers.map((currentAnswer) => ({
+          uuid: currentAnswer._id as unknown as string,
+          answer: currentAnswer.answer,
+        })),
+      })),
+    };
+
+    return poll;
+  }
+
+  async create(poll: CreatePollItem) {
+    const createdPoll = await Polls.create(poll);
+
+    if (!createdPoll.id) {
+      throw new Error('cant create a poll');
+    }
+
+    return {
+      uuid: createdPoll.id as string,
+      title: createdPoll.title,
+      questions: createdPoll.questions.map((currentQuestion) => ({
+        uuid: currentQuestion._id as unknown as string,
+        question: currentQuestion.question,
+        typeQuestion: currentQuestion.typeQuestion,
+        answers: currentQuestion.answers.map((currentAnswer) => ({
+          uuid: currentAnswer._id as unknown as string,
+          answer: currentAnswer.answer,
+        })),
+      })),
+    };
+  }
+
   // async update(uuid: string, data: UpdatePostItem) {
   //   const { Post } = await setupDatabaseBlog();
   //   const updatedPost = Post.updatePost(uuid, data);

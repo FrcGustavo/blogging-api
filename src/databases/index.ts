@@ -1,6 +1,8 @@
 import setupSequelize from './dbBlog';
 import { DatabaseConfig, PostLib, Services } from './dbBlog/types';
 
+export { default as setupMongoDataBase } from './mongodb';
+
 let services: Services;
 let Post: PostLib;
 

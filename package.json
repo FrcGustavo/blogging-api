@@ -10,9 +10,9 @@
   "author": "Francisco Gustavo <hidalgofco520@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' ./src/server.ts",
+    "dev": "DEBUG=app:* nodemon --watch './**/*.ts' --exec 'ts-node' ./src/server.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "node ./dist/src/server",
+    "start": "DEBUG=app:* node ./dist/src/server",
     "format": "prettier --write ./src --write ./__tests__",
     "lint": "eslint --ext .ts ./src --ext .ts ./__tests__",
     "lint:fix": "yarn run lint --fix",
