@@ -30,7 +30,7 @@ services:
   api:
     build:
       context: ./
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     env_file:
      - ./.api.env
     depends_on:

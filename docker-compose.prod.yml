@@ -11,8 +11,18 @@ services:
         target: /var/lib/postgresql/data
     ports:
       - '5432:5432'
+  mongodb:
+    image : mongo
+    env_file:
+     - ./.mongo.env
+    volumes:
+      - type: volume
+        source: mongodbdata
+        target: /data/db
+    ports:
+      - 27017:27017
   api:
-    image: frcgustavo/blogging-api:0.0.0
+    image: frcgustavo/blogging-api:0.1.0
     env_file:
      - ./.api.env
     depends_on:
@@ -21,3 +31,4 @@ services:
       - 5000:5000
 volumes:
   dbdata:
+  mongodbdata:
