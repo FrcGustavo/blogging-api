@@ -6,7 +6,6 @@ import {
   UpdatePollItem,
   CreatePollItem,
 } from './types';
-// import { Polls } from "./../models"
 
 export class PollsService implements PollsServiceContract {
   private polls: PollsList = [];
@@ -52,25 +51,9 @@ export class PollsService implements PollsServiceContract {
       delete poll.questions;
     }
 
-    // const isUpdated
-    this.polls = this.polls.map((currentPoll) => {
-      if (currentPoll.uuid === uuid) {
-        const newPoll = { ...currentPoll };
+    const updatedPoll = await this.entity.update(uuid, poll);
 
-        if (poll.title) {
-          newPoll.title = poll.title;
-        }
-
-        if (poll.questions) {
-          newPoll.questions = poll.questions;
-        }
-
-        return newPoll;
-      }
-
-      return currentPoll;
-    });
-    return { isUpdated: true };
+    return updatedPoll;
   }
 
   async deletePoll(uuid: string) {
