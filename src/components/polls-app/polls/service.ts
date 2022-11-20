@@ -1,5 +1,4 @@
 import {
-  PollsList,
   PollsServiceContract,
   QueryPollsList,
   PollEntityContract,
@@ -8,8 +7,6 @@ import {
 } from './types';
 
 export class PollsService implements PollsServiceContract {
-  private polls: PollsList = [];
-
   constructor(private entity: PollEntityContract) {}
 
   async getAllPolls(query: QueryPollsList) {
