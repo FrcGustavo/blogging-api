@@ -74,8 +74,8 @@ export class PollsService implements PollsServiceContract {
   }
 
   async deletePoll(uuid: string) {
-    // const isDeleted =
-    this.polls = this.polls.filter((currentPoll) => currentPoll.uuid !== uuid);
+    await this.entity.delete(uuid);
+
     return { isDeleted: true };
   }
 }

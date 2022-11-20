@@ -79,9 +79,10 @@ export class PollEntity implements PollEntityContract {
   //   const updatedPost = Post.updatePost(uuid, data);
   //   return updatedPost;
   // }
-  // async delete(uuid: string) {
-  //   const { Post } = await setupDatabaseBlog();
-  //   const deletedPost = Post.deletePost(uuid);
-  //   return deletedPost;
-  // }
+
+  async delete(uuid: string) {
+    await Polls.findByIdAndRemove(uuid);
+
+    return true;
+  }
 }

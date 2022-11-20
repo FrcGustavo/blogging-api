@@ -94,5 +94,5 @@ export interface PollEntityContract {
   findOne: (uuid: string) => Promise<PollItem>;
   create: (poll: CreatePollItem) => Promise<PollItem>;
   //   update: (uuid: string, post: UpdatePostItem) => Promise<boolean>;
-  //   delete: (uuid: string) => Promise<boolean>;
+  delete: (uuid: string) => Promise<boolean>;
 }
