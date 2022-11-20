@@ -1,9 +1,10 @@
 /* eslint-disable no-underscore-dangle */
+import { Types } from 'mongoose';
 import {
   PollEntityContract,
   PollItem,
   PollsList,
-  // UpdatePostItem,
+  UpdatePollItem,
   CreatePollItem,
 } from './types';
 import { Polls } from '../models';
@@ -74,14 +75,58 @@ export class PollEntity implements PollEntityContract {
     };
   }
 
-  // async update(uuid: string, data: UpdatePostItem) {
-  //   const { Post } = await setupDatabaseBlog();
-  //   const updatedPost = Post.updatePost(uuid, data);
-  //   return updatedPost;
-  // }
-  // async delete(uuid: string) {
-  //   const { Post } = await setupDatabaseBlog();
-  //   const deletedPost = Post.deletePost(uuid);
-  //   return deletedPost;
-  // }
+  async update(uuid: string, poll: UpdatePollItem) {
+    const UUIDv4 = new RegExp(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+    );
+    const questions = poll.questions?.map(
+      ({ uuid: questionUUID, question, typeQuestion, answers }) => ({
+        _id: UUIDv4.test(questionUUID)
+          ? new Types.ObjectId()
+          : Types.ObjectId(questionUUID),
+        question,
+        typeQuestion,
+        answers: answers.map(({ uuid: answerUUID, answer }) => ({
+          _id: UUIDv4.test(answerUUID)
+            ? new Types.ObjectId()
+            : Types.ObjectId(answerUUID),
+          answer,
+        })),
+      })
+    );
+
+    await Polls.findByIdAndUpdate(
+      uuid,
+      { title: poll.title, questions },
+      { useFindAndModify: false }
+    );
+
+    const updatedPoll = await Polls.findById(uuid);
+
+    if (!updatedPoll) {
+      throw new Error('poll not found');
+    }
+
+    const pollItem: PollItem = {
+      uuid: updatedPoll._id,
+      title: updatedPoll.title,
+      questions: updatedPoll.questions.map((question) => ({
+        uuid: question._id.toString(),
+        question: question.question,
+        typeQuestion: question.typeQuestion,
+        answers: question.answers.map((answer) => ({
+          uuid: answer._id.toString(),
+          answer: answer.answer,
+        })),
+      })),
+    };
+
+    return pollItem;
+  }
+
+  async delete(uuid: string) {
+    await Polls.findByIdAndRemove(uuid);
+
+    return true;
+  }
 }

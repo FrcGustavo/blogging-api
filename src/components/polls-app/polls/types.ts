@@ -77,10 +77,7 @@ export interface PollsServiceContract {
   getAllPolls: (query: QueryPollsList) => Promise<PollsList>;
   getOnePoll: (uuid: string) => Promise<PollItem>;
   createPoll: (poll: Partial<CreatePollItem>) => Promise<PollItem>;
-  updatePoll: (
-    uuid: string,
-    post: UpdatePollItem
-  ) => Promise<{ isUpdated: boolean }>;
+  updatePoll: (uuid: string, post: UpdatePollItem) => Promise<PollItem>;
   deletePoll: (uuid: string) => Promise<{ isDeleted: boolean }>;
 }
 
@@ -93,6 +90,6 @@ export interface PollEntityContract {
   findAll: (options: OptionsFindAllPollEntity) => Promise<PollsList>;
   findOne: (uuid: string) => Promise<PollItem>;
   create: (poll: CreatePollItem) => Promise<PollItem>;
-  //   update: (uuid: string, post: UpdatePostItem) => Promise<boolean>;
-  //   delete: (uuid: string) => Promise<boolean>;
+  update: (uuid: string, poll: UpdatePollItem) => Promise<PollItem>;
+  delete: (uuid: string) => Promise<boolean>;
 }

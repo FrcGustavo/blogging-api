@@ -18,7 +18,7 @@ services:
     ports:
       - 5050:80
   mongodb:
-    image : mongo
+    image : mongo:6.0.3
     env_file:
      - ./.mongo.env
     volumes:
@@ -30,7 +30,7 @@ services:
   api:
     build:
       context: ./
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     env_file:
      - ./.api.env
     depends_on:
