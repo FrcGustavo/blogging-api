@@ -10,10 +10,9 @@ export class PollsService implements PollsServiceContract {
   constructor(private entity: PollEntityContract) {}
 
   async getAllPolls(query: QueryPollsList) {
-    const polls = await this.entity.findAll({
-      limit: Number(query.limit) || 24,
-      offset: Number(query.page) || 1,
-    });
+    const limit = Number(query.limit) || 24;
+    const offset = ((Number(query.page) || 1) - 1) * limit;
+    const polls = await this.entity.findAll({ limit, offset });
 
     return polls;
   }

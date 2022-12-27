@@ -6,12 +6,13 @@ import {
   PollsList,
   UpdatePollItem,
   CreatePollItem,
+  OptionsFindAllPollEntity,
 } from './types';
 import { Polls } from '../models';
 
 export class PollEntity implements PollEntityContract {
-  async findAll() {
-    const polls = await Polls.find();
+  async findAll({ limit, offset }: OptionsFindAllPollEntity) {
+    const polls = await Polls.find().skip(offset).limit(limit);
     const listPolls: PollsList = polls.map(({ id, title, questions }) => ({
       uuid: id,
       title,
