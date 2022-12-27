@@ -22,8 +22,8 @@ export class PollsController implements PollsControllerContract {
   ) {
     const { query } = req;
     try {
-      const listPolls = await this.service.getAllPolls(query);
-      success({ res, data: listPolls });
+      const data = await this.service.getAllPolls(query);
+      success({ res, data });
     } catch (error) {
       next(error);
     }

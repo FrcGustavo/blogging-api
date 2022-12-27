@@ -12,6 +12,7 @@ import { Polls } from '../models';
 
 export class PollEntity implements PollEntityContract {
   async findAll({ limit, offset }: OptionsFindAllPollEntity) {
+    const totalPolls = await Polls.countDocuments();
     const polls = await Polls.find().skip(offset).limit(limit);
     const listPolls: PollsList = polls.map(({ id, title, questions }) => ({
       uuid: id,
@@ -27,7 +28,10 @@ export class PollEntity implements PollEntityContract {
       })),
     }));
 
-    return listPolls;
+    return {
+      listPolls,
+      totalPolls,
+    };
   }
 
   async findOne(uuid: string) {

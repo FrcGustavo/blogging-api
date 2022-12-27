@@ -12,9 +12,12 @@ export class PollsService implements PollsServiceContract {
   async getAllPolls(query: QueryPollsList) {
     const limit = Number(query.limit) || 24;
     const offset = ((Number(query.page) || 1) - 1) * limit;
-    const polls = await this.entity.findAll({ limit, offset });
+    const { listPolls: polls, totalPolls: total } = await this.entity.findAll({
+      limit,
+      offset,
+    });
 
-    return polls;
+    return { polls, total };
   }
 
   async getOnePoll(uuid: string) {

@@ -74,7 +74,10 @@ export interface PollsControllerContract {
 }
 
 export interface PollsServiceContract {
-  getAllPolls: (query: QueryPollsList) => Promise<PollsList>;
+  getAllPolls: (query: QueryPollsList) => Promise<{
+    polls: PollsList;
+    total: number;
+  }>;
   getOnePoll: (uuid: string) => Promise<PollItem>;
   createPoll: (poll: Partial<CreatePollItem>) => Promise<PollItem>;
   updatePoll: (uuid: string, post: UpdatePollItem) => Promise<PollItem>;
@@ -87,7 +90,10 @@ export type OptionsFindAllPollEntity = {
 };
 
 export interface PollEntityContract {
-  findAll: (options: OptionsFindAllPollEntity) => Promise<PollsList>;
+  findAll: (options: OptionsFindAllPollEntity) => Promise<{
+    listPolls: PollsList;
+    totalPolls: number;
+  }>;
   findOne: (uuid: string) => Promise<PollItem>;
   create: (poll: CreatePollItem) => Promise<PollItem>;
   update: (uuid: string, poll: UpdatePollItem) => Promise<PollItem>;
